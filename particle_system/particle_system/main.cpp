@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "consts.h"
 #include "Window.h"
 
 int main(int argc, char * argv[])
@@ -8,7 +9,7 @@ int main(int argc, char * argv[])
     glewInit();
 
     CWindow window;
-    window.Show({1000, 800});
+    window.Show(WINDOW_SIZE);
     window.DoGameLoop();
 
 	return 0;

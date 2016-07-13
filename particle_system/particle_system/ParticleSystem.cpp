@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "consts.h"
 #include "ParticleSystem.h"
 
 namespace
@@ -69,20 +70,36 @@ void CParticleSystem::Advance(float dt)
 			float acceleration = (K / PARTICLE_WEIGHT) * fabs(m_particles[i]->GetElectricalCharge()) * fabs(m_particles[j]->GetElectricalCharge()) / pow(r, 2);
 			auto c = r;
 			auto a = posJ.x - posI.x;
-			/// auto b = posJ.y - posI.y;
-			auto alpha = asin(a / c);
-			glm::vec2 accelerat = { fabs(acceleration) * sin(alpha), fabs(acceleration) * cos(alpha) };
+			auto b = posJ.y - posI.y;
+			auto alpha = asin(b / c); 
+			glm::vec2 accelerat = { 0, 0 };
+			if (a >= 0 && b >= 0)
+			{
+				accelerat = { -fabs(acceleration) * sin(M_PI / 2 - alpha), -fabs(acceleration) * cos(M_PI / 2 - alpha) };
+			}
+			else if (a >= 0 && b <= 0)
+			{
+				accelerat = { fabs(acceleration) * sin(alpha), fabs(acceleration) * cos(alpha) };
+			}
+			else if (a <= 0 && b >= 0)
+			{
+				accelerat = { -fabs(acceleration) * sin(alpha - M_PI / 2), -fabs(acceleration) * cos(alpha - M_PI / 2) };
+			}
+			else if (a <= 0 && b <= 0)
+			{
+				accelerat = { fabs(acceleration) * sin(alpha + M_PI / 2), fabs(acceleration) * cos(alpha + M_PI / 2) };
+			}
 			if (Sign(m_particles[i]->GetElectricalCharge()) == Sign(m_particles[j]->GetElectricalCharge()))
 			{
 				accelerat *= -1;
 			}
-			m_particles[i]->SetAcceleration(m_particles[i]->GetAcceleration() + accelerat);
+			m_particles[j]->SetAcceleration(m_particles[j]->GetAcceleration() + accelerat);
 		}
 	}
 
 	auto newEnd = std::remove_if(m_particles.begin(), m_particles.end(), [](const auto &pParticle) {
 		auto position = pParticle->GetPosition();
-		return !(position.x >= 0 && position.x <= 1000 && position.y >= 0 && position.y <= 800);
+		return !(position.x >= 0 && position.x <= WINDOW_SIZE.x && position.y >= 0 && position.y <= WINDOW_SIZE.y); 
 	});
 	m_particles.erase(newEnd, m_particles.end());
 
