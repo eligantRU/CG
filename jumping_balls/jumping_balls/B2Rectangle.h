@@ -50,6 +50,11 @@ public:
 		return CPhysicalObject::GetData();
 	}
 
+	void ApplyImpulse(glm::vec2 direction) override
+	{
+		m_body->ApplyLinearImpulseToCenter(b2Vec2(direction.x, direction.y), true);
+	}
+
 private:
 	b2PolygonShape m_shape;
 	b2BodyDef m_bdef;

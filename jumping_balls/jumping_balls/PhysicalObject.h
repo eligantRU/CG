@@ -23,7 +23,9 @@ public:
 	virtual void Draw() const = 0;
 
 	void SetData(unsigned);
-	unsigned GetData() const;
+	unsigned GetData() const;	
+	
+	virtual void ApplyImpulse(glm::vec2 direction) = 0;
 
 private:
 	glm::vec2 m_position;

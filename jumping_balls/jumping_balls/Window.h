@@ -19,6 +19,6 @@ protected:
 private:
     void SetupView(const glm::ivec2 & size);
 
-    float m_time = 0.f;
+    float m_time = 0;
 	std::shared_ptr<CWorld> m_world;
 };

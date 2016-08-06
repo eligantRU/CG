@@ -23,8 +23,6 @@ CPhysicalWorld::CPhysicalWorld(glm::vec2 gravity)
 	m_objects.push_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 2 * WINDOW_SIZE.x / 5, 3 * WINDOW_SIZE.y / 5 }, { 40, 80 }, 1, M_PI / 4));
 	m_objects.push_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { WINDOW_SIZE.x / 5, WINDOW_SIZE.y / 4 }, { 60, 100 }, 1, 3 * M_PI / 4));
 	m_objects.push_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 4 * WINDOW_SIZE.x / 5, WINDOW_SIZE.y / 6 }, { 60, 60 }, 1, M_PI / 30));
-	m_objects.push_back(m_factory->CreateCircle(b2BodyType::b2_dynamicBody, { 180, 1 }, 20, 1, 0));
-	m_objects.push_back(m_factory->CreateCircle(b2BodyType::b2_dynamicBody, { 700, 10 }, 20, 1, 0));
 }
 
 void CPhysicalWorld::Draw() const
@@ -41,7 +39,14 @@ void CPhysicalWorld::Draw() const
 		m_objects[i]->SetPosition({ pos.x, pos.y });
 		m_objects[i]->Draw();
 	}
-}	
+}
+
+void CPhysicalWorld::Fire(glm::vec2 direction)
+{
+	m_objects.push_back(m_factory->CreateCircle(b2BodyType::b2_dynamicBody, GUN_POSITION, 5, 0.1f, 0));
+	m_objects[m_objects.size() - 1]->ApplyImpulse(direction - GUN_POSITION);
+}
+
 	// TODO: inline functions(methods)
 	// TODO: self class/method
 	// TODO: super class/method

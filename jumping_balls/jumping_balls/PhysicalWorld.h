@@ -11,7 +11,7 @@ public:
 	CPhysicalWorld(glm::vec2 gravity);
 	~CPhysicalWorld() = default;
 	void Draw() const;
-	// void Add(); // TODO: does it need to be a private?
+	void Fire(glm::vec2 direction) override;
 
 private:
 	std::shared_ptr<b2World> m_world;

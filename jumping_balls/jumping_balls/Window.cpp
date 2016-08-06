@@ -8,8 +8,6 @@ glm::vec2 GetMousePosition(const SDL_MouseButtonEvent & event)
 {
 	return { event.x, event.y };
 }
-
-const glm::vec2 GRAVITY = { 0, 2.f };
 }
 
 CWindow::CWindow()
@@ -47,7 +45,7 @@ void CWindow::OnDrop(const SDL_MouseButtonEvent & event)
 {
 	if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
-		// TODO
+		m_world->Fire(GetMousePosition(event));
 	}
 }
 
