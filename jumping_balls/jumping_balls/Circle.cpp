@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Circle.h"
+#include "consts.h"
 
 namespace
 {
@@ -12,6 +13,7 @@ void FillEllipse(float xCenter, float yCenter, float rx, float ry, int pointCoun
 	glPushMatrix();
 
 	glBegin(GL_TRIANGLE_FAN);
+	glColor3f(BALL_COLOUR.x, BALL_COLOUR.y, BALL_COLOUR.z);
 	glVertex2f(xCenter, yCenter);
 	for (float angle = 0; angle <= float(2 * M_PI); angle += step)
 	{
@@ -20,6 +22,7 @@ void FillEllipse(float xCenter, float yCenter, float rx, float ry, int pointCoun
 		const float dy = ry * sinf(a);
 		glVertex2f(xCenter + dx, yCenter + dy);
 	}
+	glColor3f(DEFAULT_COLOUR.x, DEFAULT_COLOUR.y, DEFAULT_COLOUR.z);
 	glEnd();
 
 	glPopMatrix();

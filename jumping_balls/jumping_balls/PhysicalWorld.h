@@ -10,8 +10,8 @@ class CPhysicalWorld : public CWorld
 public:
 	CPhysicalWorld(glm::vec2 gravity);
 	~CPhysicalWorld() = default;
-	void Draw() const;
-	void Fire(glm::vec2 direction) override;
+	void Draw();
+	void Fire(glm::vec2 direction) override; // TODO: Why the world can fire?
 
 private:
 	std::shared_ptr<b2World> m_world;

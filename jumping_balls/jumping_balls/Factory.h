@@ -8,27 +8,13 @@
 class CFactory
 {
 public:
-	CFactory(std::shared_ptr<b2World> world)
-		:m_world(world)
-	{
+	CFactory(std::shared_ptr<b2World> world);
 
-	}
+	~CFactory();
 
-	~CFactory() = default;
-
-	auto CreateRectangle(b2BodyType bodyType, glm::vec2 position, glm::vec2 size, float weight, float angle)
-	{
-		auto pObj = std::make_unique<Cb2Rectangle>(m_world, bodyType, position, size, weight, angle);
-		pObj->SetData(m_counter++);
-		return pObj;
-	}; 
+	std::unique_ptr<Cb2Rectangle> CreateRectangle(b2BodyType bodyType, glm::vec2 position, glm::vec2 size, float weight, float angle);
 	
-	auto CreateCircle(b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle)
-	{
-		auto pObj = std::make_unique<Cb2Circle>(m_world, bodyType, position, radius, weight, angle);
-		pObj->SetData(m_counter++);
-		return pObj;
-	};
+	std::unique_ptr<Cb2Circle> CreateCircle(b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle);
 
 private:
 	std::shared_ptr<b2World> m_world;

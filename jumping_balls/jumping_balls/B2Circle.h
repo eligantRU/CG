@@ -2,64 +2,23 @@
 
 #include "stdafx.h"
 #include "Circle.h"
+#include "b2Object.h"
 
-class Cb2Circle : public CCircle
+class Cb2Circle : public CCircle, public Cb2Object
 {
 public:
-	Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle)
-		:m_world(world)
-	{
-		Cb2Circle::SetPosition(position);
-		Cb2Circle::SetWeight(weight);
-		CCircle::SetRadius(radius);
+	Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle);
+	~Cb2Circle();
 
-		m_shape.m_radius = radius;
+	void SetPosition(glm::vec2 position) override;
 
-		m_bdef.type = bodyType; 
-		m_bdef.angle = angle;
-		m_bdef.position.Set(position.x, position.y);
+	void SetSize(float size);
 
-		m_body = m_world->CreateBody(&m_bdef);
-		m_body->SetBullet(false);
+	void SetData(unsigned id);
 
-		m_fixture.density = weight;
-		m_fixture.restitution = 0.8f;
-		m_fixture.friction = 0;
-		m_fixture.shape = &m_shape;
-        m_body->CreateFixture(&m_fixture);
-	}
+	unsigned GetData() const;
 
-	~Cb2Circle() = default;
-
-	void SetPosition(glm::vec2 position)
-	{
-		CCircle::SetPosition(position); 
-		m_bdef.position.Set(position.x, position.y);
-	}
-
-	void SetSize(float size)
-	{
-		CCircle::SetSize({ size, size });
-		CCircle::SetRadius(size);
-		m_shape.m_radius = size;
-	}
-
-
-	void SetData(unsigned id)
-	{
-		CPhysicalObject::SetData(id);
-		m_body->SetUserData((void*)id);
-	}
-
-	unsigned GetData() const
-	{
-		return CPhysicalObject::GetData();
-	}
-
-	void ApplyImpulse(glm::vec2 direction) override
-	{
-		m_body->ApplyLinearImpulseToCenter(b2Vec2(direction.x, direction.y), false);
-	}
+	void ApplyImpulse(glm::vec2 direction) override;
 
 private:
 	b2CircleShape m_shape;

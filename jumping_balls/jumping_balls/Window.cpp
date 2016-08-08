@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Window.h"
 #include "PhysicalWorld.h"
+#include "consts.h"
 
 namespace
 {
@@ -13,7 +14,7 @@ glm::vec2 GetMousePosition(const SDL_MouseButtonEvent & event)
 CWindow::CWindow()
 	:m_world(new CPhysicalWorld(GRAVITY))
 {
-	SetBackgroundColor({ 0.f, 0.f, 0.f, 1.f });
+	SetBackgroundColor(BACKGROUND_COLOUR);
 }
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
