@@ -12,8 +12,8 @@ namespace
 
 		glPushMatrix();
 
-		glTranslatef(xCenter, yCenter, 0);
-		glRotatef(angle, 0, 0, 1);
+		glMultMatrixf(glm::value_ptr(glm::translate(glm::mat4(), { xCenter, yCenter, 0 })));
+		glMultMatrixf(glm::value_ptr(glm::rotate(glm::mat4(), glm::radians(angle), { 0, 0, 1 })));
 
 		glBegin(GL_QUADS);
 		glColor3f(BARRIER_COLOUR.x, BARRIER_COLOUR.y, BARRIER_COLOUR.z);

@@ -1,8 +1,3 @@
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
-
 #pragma once
 
 #include "targetver.h"
@@ -30,6 +25,7 @@
 #include <GL/gl.h>
 #include <glut.h>
 
+#define GLM_FORCE_RADIANS
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
 #include <glm/fwd.hpp>
@@ -47,5 +43,3 @@
 #include <Box2D/Box2D.h>
 
 #pragma warning (pop)
-
-// TODO: reference additional headers your program requires here
