@@ -4,6 +4,7 @@
 
 namespace
 {
+
 const float K = 90'000'000.f;
 const float PARTICLE_WEIGHT = 900'000'000.f;
 
@@ -11,7 +12,67 @@ int Sign(float num)
 {
 	return (num > 0) - (num < 0);
 }
+
+glm::vec2 CalculateAccelerationByAngle(float acceleration, float dx, float dy, float angle)
+{
+	glm::vec2 accelerat = { 0, 0 };
+	if (dx >= 0 && dy >= 0)
+	{
+		accelerat = { -fabs(acceleration) * sin(M_PI / 2 - angle), -fabs(acceleration) * cos(M_PI / 2 - angle) };
+	}
+	else if (dx >= 0 && dy <= 0)
+	{
+		accelerat = { fabs(acceleration) * sin(angle), fabs(acceleration) * cos(angle) };
+	}
+	else if (dx <= 0 && dy >= 0)
+	{
+		accelerat = { -fabs(acceleration) * sin(angle - M_PI / 2), -fabs(acceleration) * cos(angle - M_PI / 2) };
+	}
+	else if (dx <= 0 && dy <= 0)
+	{
+		accelerat = { fabs(acceleration) * sin(angle + M_PI / 2), fabs(acceleration) * cos(angle + M_PI / 2) };
+	}
+
+	return accelerat;
 }
+
+glm::vec2 CalculateAccelerationByCharge(glm::vec2 accelerat, float charge1, float charge2)
+{
+	if (Sign(charge1) == Sign(charge2))
+	{
+		accelerat *= -1;
+	}
+
+	return accelerat;
+}
+
+glm::vec2 CalculateAcceleration(glm::vec2 pos1, glm::vec2 pos2, float charge1, float charge2)
+{
+	auto posI = pos1;
+	auto posJ = pos2;
+	float r = sqrt(pow(posI.x - posJ.x, 2) + pow(posI.y - posJ.y, 2));
+	r = r ? r : 0.000001f;
+	float acceleration = (K / PARTICLE_WEIGHT) * fabs(charge1) * fabs(charge2) / pow(r, 2);
+	auto a = posJ.x - posI.x;
+	auto b = posJ.y - posI.y;
+	auto alpha = asin(b / r);
+	glm::vec2 accelerat = CalculateAccelerationByAngle(acceleration, a, b, alpha);
+	accelerat = CalculateAccelerationByCharge(accelerat, charge1, charge2);
+
+	return accelerat;
+}
+
+}
+
+CParticle::CParticle()
+{
+	SetElectricalCharge(0);
+	SetPosition({ 0, 0 });
+	SetVelocity({ 0, 0 });
+	SetAcceleration({ 0, 0 });
+}
+
+CParticle::~CParticle() = default;
 
 void CParticle::SetVelocity(const glm::vec2 & velocity)
 {
@@ -22,6 +83,10 @@ glm::vec2 CParticle::GetVelocity() const
 {
 	return m_velocity;
 }
+
+CParticleEmitter::CParticleEmitter() = default;
+
+CParticleEmitter::~CParticleEmitter() = default;
 
 std::unique_ptr<CParticle> CParticleEmitter::Emit(float charge, glm::vec2 position)
 {
@@ -63,37 +128,10 @@ void CParticleSystem::Advance(float dt)
 			{
 				continue;
 			}
-			auto posI = m_particles[i]->GetPosition();
-			auto posJ = m_particles[j]->GetPosition();
-			float r = sqrt(pow(posI.x - posJ.x, 2) + pow(posI.y - posJ.y, 2));
-			r = r ? r : 0.000001f;
-			float acceleration = (K / PARTICLE_WEIGHT) * fabs(m_particles[i]->GetElectricalCharge()) * fabs(m_particles[j]->GetElectricalCharge()) / pow(r, 2);
-			auto c = r;
-			auto a = posJ.x - posI.x;
-			auto b = posJ.y - posI.y;
-			auto alpha = asin(b / c); 
-			glm::vec2 accelerat = { 0, 0 };
-			if (a >= 0 && b >= 0)
-			{
-				accelerat = { -fabs(acceleration) * sin(M_PI / 2 - alpha), -fabs(acceleration) * cos(M_PI / 2 - alpha) };
-			}
-			else if (a >= 0 && b <= 0)
-			{
-				accelerat = { fabs(acceleration) * sin(alpha), fabs(acceleration) * cos(alpha) };
-			}
-			else if (a <= 0 && b >= 0)
-			{
-				accelerat = { -fabs(acceleration) * sin(alpha - M_PI / 2), -fabs(acceleration) * cos(alpha - M_PI / 2) };
-			}
-			else if (a <= 0 && b <= 0)
-			{
-				accelerat = { fabs(acceleration) * sin(alpha + M_PI / 2), fabs(acceleration) * cos(alpha + M_PI / 2) };
-			}
-			if (Sign(m_particles[i]->GetElectricalCharge()) == Sign(m_particles[j]->GetElectricalCharge()))
-			{
-				accelerat *= -1;
-			}
-			m_particles[j]->SetAcceleration(m_particles[j]->GetAcceleration() + accelerat);
+
+			auto acceleration = CalculateAcceleration(m_particles[i]->GetPosition(), m_particles[j]->GetPosition(), 
+													  m_particles[i]->GetElectricalCharge(), m_particles[j]->GetElectricalCharge());
+			m_particles[j]->SetAcceleration(m_particles[j]->GetAcceleration() + acceleration);
 		}
 	}
 

@@ -6,6 +6,8 @@
 class CParticle : public CMovableElectricalParticle
 {
 public:
+	CParticle();
+	~CParticle();
 	void SetVelocity(const glm::vec2 & velocity);
 	glm::vec2 GetVelocity() const;
 	
@@ -16,7 +18,8 @@ private:
 class CParticleEmitter
 {
 public:
-	CParticleEmitter() = default;
+	CParticleEmitter();
+	~CParticleEmitter();
 
 	std::unique_ptr<CParticle> Emit(float charge, glm::vec2 position);
 
