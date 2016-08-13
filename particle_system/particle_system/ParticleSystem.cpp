@@ -5,6 +5,10 @@
 namespace
 {
 
+
+const glm::vec3 RED_COLOUR = { 1.f, 0.f, 0.f };
+const glm::vec3 BLUE_COLOUR = { 0.f, 0.f, 1.f };
+
 const float K = 90'000'000.f;
 const float PARTICLE_WEIGHT = 900'000'000.f;
 
@@ -51,7 +55,7 @@ glm::vec2 CalculateAcceleration(glm::vec2 pos1, glm::vec2 pos2, float charge1, f
 	auto posI = pos1;
 	auto posJ = pos2;
 	float r = sqrt(pow(posI.x - posJ.x, 2) + pow(posI.y - posJ.y, 2));
-	r = r ? r : 0.000001f;
+	r = r ? r : 0.000'000'001f;
 	float acceleration = (K / PARTICLE_WEIGHT) * fabs(charge1) * fabs(charge2) / pow(r, 2);
 	auto a = posJ.x - posI.x;
 	auto b = posJ.y - posI.y;
@@ -90,9 +94,6 @@ CParticleEmitter::~CParticleEmitter() = default;
 
 std::unique_ptr<CParticle> CParticleEmitter::Emit(float charge, glm::vec2 position)
 {
-	const glm::vec3 RED = { 1.f, 0.f, 0.f };
-	const glm::vec3 BLUE = { 0.f, 0.f, 1.f };
-
 	auto pParticle = std::make_unique<CParticle>();
 
 	pParticle->SetElectricalCharge(charge);
@@ -101,11 +102,11 @@ std::unique_ptr<CParticle> CParticleEmitter::Emit(float charge, glm::vec2 positi
 	pParticle->SetAcceleration({ 0, 0 });
 	if (charge < 0)
 	{
-		pParticle->SetColor(BLUE);
+		pParticle->SetColor(BLUE_COLOUR);
 	}
 	else
 	{
-		pParticle->SetColor(RED);
+		pParticle->SetColor(RED_COLOUR);
 	}
 	return pParticle;
 }

@@ -3,6 +3,8 @@
 
 namespace
 {
+const glm::vec4 BACKGROUND_COLOUR = { 0, 0, 0, 1 };
+
 const float POSITIVE_PARTICLE_ELECTRICAL_CHARGE = 1.f;
 const float NEGATIVE_PARTICLE_ELECTRICAL_CHARGE = -1.f;
 
@@ -16,7 +18,7 @@ CWindow::CWindow()
 {
 	auto pEmitter = std::make_unique<CParticleEmitter>();
 	m_system.SetEmitter(std::move(pEmitter));
-    SetBackgroundColor({0.f, 0.0f, 0.0f, 1.f});
+    SetBackgroundColor(BACKGROUND_COLOUR);
 }
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
