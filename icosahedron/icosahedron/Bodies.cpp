@@ -4,23 +4,9 @@
 namespace
 {
 
-const glm::vec4 BLACK = { 0, 0, 0, 1 };
-const glm::vec3 YELLOW = { 1.f, 1.f, 0.f };
-const glm::vec3 ORANGE = { 1.f, 0.5f, 0.f };
-const glm::vec3 PINK = { 1.f, 0.3f, 0.3f };
-
 typedef glm::vec3 Vertex;
 
-const Vertex CUBE_VERTICIES[] = {
-    /*{-1, +1, -1},
-    {+1, +1, -1},
-    {+1, -1, -1},
-    {-1, -1, -1},
-    {-1, +1, +1},
-    {+1, +1, +1},
-    {+1, -1, +1},
-    {-1, -1, +1},*/
-
+const Vertex ICOSAHEDRON_VERTICIES[] = {
 	{ 0, 1, 0 },
 	{ 0.951f, 0.5f, -0.309f },
 	{ 0.587f, 0.5f, 0.809f },
@@ -43,7 +29,7 @@ struct STriangleFace
 	glm::vec3 vertexColor;
 };
 
-const STriangleFace CUBE_FACES[] = {
+const STriangleFace ICOSAHEDRON_FACES[] = {
 	{ 0, 2, 1, { 0.25f, 0.25f, 0.25f } },
 	{ 0, 3, 2, { 0, 0, 1 } },
 	{ 0, 5, 4, { 0, 1, 0 } },
@@ -87,11 +73,11 @@ void CIcosahedron::Draw() const
 {
     glBegin(GL_TRIANGLES);
 
-    for (const STriangleFace &face : CUBE_FACES)
+    for (const STriangleFace &face : ICOSAHEDRON_FACES)
     {
-        const Vertex &v1 = CUBE_VERTICIES[face.vertexIndex1];
-        const Vertex &v2 = CUBE_VERTICIES[face.vertexIndex2];
-        const Vertex &v3 = CUBE_VERTICIES[face.vertexIndex3];
+        const Vertex &v1 = ICOSAHEDRON_VERTICIES[face.vertexIndex1];
+        const Vertex &v2 = ICOSAHEDRON_VERTICIES[face.vertexIndex2];
+        const Vertex &v3 = ICOSAHEDRON_VERTICIES[face.vertexIndex3];
         glm::vec3 normal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
 		
 		glColor3fv(glm::value_ptr(glm::vec3(face.vertexColor)));
