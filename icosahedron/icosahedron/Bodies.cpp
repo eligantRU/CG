@@ -80,7 +80,7 @@ void CIcosahedron::Draw() const
         const Vertex &v3 = ICOSAHEDRON_VERTICIES[face.vertexIndex3];
         glm::vec3 normal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
 		
-		glColor3fv(glm::value_ptr(glm::vec3(face.vertexColor)));
+		glColor3fv(glm::value_ptr(face.vertexColor));
         glNormal3fv(glm::value_ptr(normal));
         glVertex3fv(glm::value_ptr(v1));
         glVertex3fv(glm::value_ptr(v2));
