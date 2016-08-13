@@ -25,25 +25,25 @@ CPhysicalWorld::CPhysicalWorld(glm::vec2 gravity)
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 4 * WINDOW_SIZE.x / 5, WINDOW_SIZE.y / 6 }, { 60, 60 }, 1, float(M_PI / 30)));
 }
 
-void CPhysicalWorld::Draw()
+void CPhysicalWorld::Advance(float dt)
 {
+	(void)dt;
 	m_world->Step(1.f / 60.f, 8, 3);
 
-	for (b2Body * it = m_world->GetBodyList(); it != 0; it = it->GetNext())
+	for (auto it = m_world->GetBodyList(); it != 0; it = it->GetNext())
 	{
-		b2Vec2 pos = it->GetPosition();
-		float angle = it->GetAngle();
+		auto pos = it->GetPosition();
+		auto angle = it->GetAngle();
 
-		auto bla = unsigned(it->GetUserData());
-		auto blabla = std::find_if(m_objects.begin(), m_objects.end(), [bla](auto &p) {
-			return (p->GetData() == bla);
+		auto objectData = unsigned(it->GetUserData());
+		auto objIter = std::find_if(m_objects.begin(), m_objects.end(), [objectData](auto &pObject) {
+			return (pObject->GetData() == objectData);
 		});
-		if (blabla >= m_objects.begin() && blabla < m_objects.end())
+		if (objIter >= m_objects.begin() && objIter < m_objects.end())
 		{
-			auto i = std::distance(m_objects.begin(), blabla);
+			auto i = std::distance(m_objects.begin(), objIter);
 			m_objects[i]->SetRotation(angle);
 			m_objects[i]->SetPosition({ pos.x, pos.y });
-			m_objects[i]->Draw();
 		}
 		else
 		{
@@ -51,11 +51,19 @@ void CPhysicalWorld::Draw()
 		}
 	}
 
-	auto newEnd = std::remove_if(m_objects.begin(), m_objects.end(), [](auto &pCircle) {
-		glm::vec2 position = pCircle->GetPosition();
-		return !(position.x >= 0 && position.x <= WINDOW_SIZE.x && position.y >= 0 && position.y <= WINDOW_SIZE.y);
+	auto newEnd = std::remove_if(m_objects.begin(), m_objects.end(), [](auto &pObject) {
+		auto pos = pObject->GetPosition();
+		return !(pos.x >= 0 && pos.x <= WINDOW_SIZE.x && pos.y >= 0 && pos.y <= WINDOW_SIZE.y);
 	});
 	m_objects.erase(newEnd, m_objects.end());
+}
+
+void CPhysicalWorld::Draw() const
+{
+	for (const auto &pOpbject : m_objects)
+	{
+		pOpbject->Draw();
+	}
 }
 
 void CPhysicalWorld::Fire(glm::vec2 direction)

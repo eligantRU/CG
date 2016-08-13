@@ -20,6 +20,7 @@ CWindow::CWindow()
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_time += deltaSeconds;
+	m_world->Advance(deltaSeconds);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 & size)
