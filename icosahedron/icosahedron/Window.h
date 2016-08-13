@@ -24,7 +24,7 @@ protected:
 private:
     void SetupView(const glm::ivec2 &size);
 
-    CIdentityCube m_staticCube;
+	CIcosahedron m_icosahedron;
     CCamera m_camera;
     CDirectedLightSource m_sunlight;
 };

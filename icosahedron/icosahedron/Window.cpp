@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "Window.h"
+#include "consts.h"
 
 namespace
 {
-const glm::vec4 BLACK = {0, 0, 0, 1};
-const glm::vec3 YELLOW = {1.f, 1.f, 0.f};
-const glm::vec3 ORANGE = {1.f, 0.5f, 0.f};
-const glm::vec3 PINK = {1.f, 0.3f, 0.3f};
 const glm::vec4 WHITE_RGBA = {1, 1, 1, 1};
 const glm::vec3 SUNLIGHT_DIRECTION = {-1.f, 0.2f, 0.7f};
 const float CAMERA_INITIAL_ROTATION = 0;
@@ -30,14 +27,7 @@ CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
     ,m_sunlight(GL_LIGHT0)
 {
-    SetBackgroundColor(BLACK);
-
-    m_staticCube.SetFaceColor(CubeFace::Top, YELLOW);
-    m_staticCube.SetFaceColor(CubeFace::Bottom, YELLOW);
-    m_staticCube.SetFaceColor(CubeFace::Left, ORANGE);
-    m_staticCube.SetFaceColor(CubeFace::Right, ORANGE);
-    m_staticCube.SetFaceColor(CubeFace::Front, PINK);
-    m_staticCube.SetFaceColor(CubeFace::Back, PINK);
+    SetBackgroundColor(BACKGROUND_COLOUR);
 
     m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
     m_sunlight.SetDiffuse(WHITE_RGBA);
@@ -56,7 +46,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
-    m_staticCube.Update(deltaSeconds);
+	m_icosahedron.Update(deltaSeconds);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 & size)
@@ -65,7 +55,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 & size)
     m_sunlight.Setup();
 
     glPushMatrix();
-    m_staticCube.Draw();
+	m_icosahedron.Draw();
     glPopMatrix();
 }
 
