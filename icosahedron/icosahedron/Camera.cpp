@@ -91,9 +91,9 @@ glm::mat4 CCamera::GetViewTransform() const
     glm::vec3 direction = { -1, 0, 0.5f };
     direction = glm::rotateZ(glm::normalize(direction), m_rotationRadians);
 
-    const glm::vec3 eye = direction * m_distance;
+	const glm::vec3 eye = direction * m_distance;
     const glm::vec3 center = { 0, 0, 0 };
-    const glm::vec3 up = { 0, 0, 1 };
+	const glm::vec3 up = { 0, 0, 1 };
 
     return glm::lookAt(eye, center, up);
 }
