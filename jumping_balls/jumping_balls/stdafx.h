@@ -2,6 +2,8 @@
 
 #include "targetver.h"
 
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <stdio.h>
 #include <tchar.h>
 #include <iostream>
@@ -12,8 +14,6 @@
 #include <cctype>
 #include <chrono>
 #include <type_traits>
-#define _USE_MATH_DEFINES
-#include <cmath>
 
 #pragma warning (push, 3)
 
