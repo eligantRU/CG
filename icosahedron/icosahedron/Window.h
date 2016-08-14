@@ -18,8 +18,6 @@ protected:
     void OnDrawWindow(const glm::ivec2 & size) override;
 
     // IInputEventAcceptor interface
-    void OnKeyDown(const SDL_KeyboardEvent &) override;
-    void OnKeyUp(const SDL_KeyboardEvent &) override;
 	void OnScroll(const int &) override;
 	void OnDragBegin(const glm::vec2 & pos) override;
 	void OnDragMotion(const glm::vec2 & pos) override;

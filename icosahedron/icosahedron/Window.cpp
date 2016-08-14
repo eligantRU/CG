@@ -97,16 +97,6 @@ void CWindow::SetupView(const glm::ivec2 & size)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void CWindow::OnKeyDown(const SDL_KeyboardEvent & event)
-{
-
-}
-
-void CWindow::OnKeyUp(const SDL_KeyboardEvent & event)
-{
-
-}
-
 void CWindow::OnScroll(const int & zoom)
 {
 	m_camera.OnScale(zoom);
