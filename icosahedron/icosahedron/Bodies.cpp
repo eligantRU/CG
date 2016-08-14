@@ -55,11 +55,32 @@ const STriangleFace ICOSAHEDRON_FACES[] = {
 	{ 5, 1, 10, { 0.75f, 0.5f, 0.75f } }
 };
 
+float CalculateDistance(glm::vec3 pos1, glm::vec3 pos2)
+{
+	return sqrt(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2));
+}
+
 }
 
 CIcosahedron::CIcosahedron()
 {
-
+	float R = CalculateDistance(ICOSAHEDRON_VERTICIES[0], ICOSAHEDRON_VERTICIES[11]) / 2;
+	float a = 4 * R / sqrt(2 * (5 + sqrt(5)));
+	float eps = 0.123719f;
+	
+	for (unsigned i = 0; i < 12; ++i)
+	{
+		auto v1 = ICOSAHEDRON_VERTICIES[i];
+		for (unsigned j = 0; j < 12; ++j)
+		{
+			auto v2 = ICOSAHEDRON_VERTICIES[j];
+			if (i == j)
+			{
+				continue;
+			}
+			m_edges.emplace_back(std::pair<unsigned, unsigned>(i, j));
+		}
+	}
 }
 
 CIcosahedron::~CIcosahedron() = default;
@@ -71,7 +92,18 @@ void CIcosahedron::Update(float deltaTime)
 
 void CIcosahedron::Draw() const
 {
-    glBegin(GL_TRIANGLES);
+	glLineWidth(5.f);
+	glColor3f(0, 0, 0);
+	for (const auto edge : m_edges)
+	{
+		const Vertex &v1 = ICOSAHEDRON_VERTICIES[edge.first];
+		const Vertex &v2 = ICOSAHEDRON_VERTICIES[edge.second];
+
+		glBegin(GL_LINE_STRIP);
+		glVertex3fv(glm::value_ptr(v1));
+		glVertex3fv(glm::value_ptr(v2));
+		glEnd();
+	}
 
     for (const STriangleFace &face : ICOSAHEDRON_FACES)
     {
@@ -81,10 +113,11 @@ void CIcosahedron::Draw() const
         glm::vec3 normal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
 		
 		glColor3fv(glm::value_ptr(face.vertexColor));
+		glBegin(GL_TRIANGLES);
         glNormal3fv(glm::value_ptr(normal));
         glVertex3fv(glm::value_ptr(v1));
         glVertex3fv(glm::value_ptr(v2));
         glVertex3fv(glm::value_ptr(v3));
+		glEnd();
     }
-    glEnd();
 }

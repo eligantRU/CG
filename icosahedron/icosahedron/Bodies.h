@@ -11,4 +11,5 @@ public:
     void Draw() const;
 
 private:
+	std::vector<std::pair<unsigned, unsigned>> m_edges;
 };
