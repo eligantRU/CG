@@ -30,7 +30,7 @@ void SetupOpenGLState()
 }
 
 CWindow::CWindow()
-    :m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
+    :m_camera(CAMERA_INITIAL_DISTANCE)
     ,m_sunlight(GL_LIGHT0)
 {
     SetBackgroundColor(BACKGROUND_COLOUR);

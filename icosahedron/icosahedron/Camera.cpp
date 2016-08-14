@@ -54,23 +54,20 @@ float GetLinearMoveSpeed(std::set<unsigned> & keysPressed)
 
 }
 
-CCamera::CCamera(float rotationRadians, float distance)
-    :m_rotationRadians(rotationRadians)
-    ,m_distance(distance)
+CCamera::CCamera(float distance)
+    :m_distance(distance)
 	,m_angle(0, 0)
 {
 
 }
 
 void CCamera::Update(float deltaSec)
-{ // TODO: use deltaSec!
-    m_rotationRadians += /*deltaSec * */ GetRotationSpeedRadians(m_keysPressed);
-    m_distance += /*deltaSec * */ GetLinearMoveSpeed(m_keysPressed);
+{
     m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
 }
 
 bool CCamera::OnScale(const int & zoom)
-{ // TODO: use deltaSec!
+{ 
 	if (zoom > 0)
 	{
 		m_distance += -MOUSE_LINEAR_MOVE_SPEED;
@@ -102,11 +99,6 @@ glm::vec3 CCamera::GetPosition() const
 	direction = glm::rotateZ(glm::normalize(direction), glm::radians(float(m_angle.second)));
 
 	return direction * m_distance;
-}
-
-void CCamera::OnRotate()
-{
-	m_rotationRadians += ROTATION_SPEED_RADIANS;
 }
 
 void CCamera::SetRotationFlag(bool flag)

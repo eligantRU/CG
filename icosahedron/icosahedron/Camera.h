@@ -5,11 +5,10 @@
 class CCamera : private boost::noncopyable
 {
 public:
-    explicit CCamera(float rotationRadians, float distance);
+    explicit CCamera(float distance);
 
     void Update(float deltaSec);
 	bool OnScale(const int & zoom);
-	void OnRotate();
 
 	glm::vec3 GetPosition() const;
 
@@ -23,7 +22,6 @@ public:
 	std::pair<int, int> GetAngle() const;
 
 private:
-    float m_rotationRadians = 0;
     float m_distance = 1;
     std::set<unsigned> m_keysPressed;
 	bool m_doesRotate = false;
