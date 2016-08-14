@@ -51,12 +51,13 @@ float GetLinearMoveSpeed(std::set<unsigned> & keysPressed)
     }
     return 0;
 }
-}
 
+}
 
 CCamera::CCamera(float rotationRadians, float distance)
     :m_rotationRadians(rotationRadians)
     ,m_distance(distance)
+	,m_angle(0, 0)
 {
 
 }
@@ -66,26 +67,6 @@ void CCamera::Update(float deltaSec)
     m_rotationRadians += /*deltaSec * */ GetRotationSpeedRadians(m_keysPressed);
     m_distance += /*deltaSec * */ GetLinearMoveSpeed(m_keysPressed);
     m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
-}
-
-bool CCamera::OnKeyDown(const SDL_KeyboardEvent & event)
-{
-    if (ShouldTrackKeyPressed(event.keysym))
-    {
-        m_keysPressed.insert(unsigned(event.keysym.sym));
-        return true;
-    }
-    return false;
-}
-
-bool CCamera::OnKeyUp(const SDL_KeyboardEvent & event)
-{
-    if (ShouldTrackKeyPressed(event.keysym))
-    {
-        m_keysPressed.erase(unsigned(event.keysym.sym));
-        return true;
-    }
-    return false;
 }
 
 bool CCamera::OnScale(const int & zoom)
@@ -106,19 +87,19 @@ bool CCamera::OnScale(const int & zoom)
 glm::mat4 CCamera::GetViewTransform() const
 {
 	glm::vec3 direction = { 1, 0, 0 };
-    direction = glm::rotateZ(glm::normalize(direction), m_rotationRadians);
-
+	
 	const glm::vec3 eye = direction * m_distance;
     const glm::vec3 center = { 0, 0, 0 };
 	const glm::vec3 up = { 0, 0, 1 };
 
-    return glm::lookAt(eye, center, up);
+    return glm::lookAt(eye, center, up) * glm::rotate(glm::mat4(), glm::radians(float(m_angle.first)), { 0, 1, 0 })
+										* glm::rotate(glm::mat4(), glm::radians(float(m_angle.second)), { 0, 0, -1 });
 }
 
 glm::vec3 CCamera::GetPosition() const
 {
 	glm::vec3 direction = { 1, 0, 0 };
-	direction = glm::rotateZ(glm::normalize(direction), m_rotationRadians);
+	direction = glm::rotateZ(glm::normalize(direction), glm::radians(float(m_angle.second)));
 
 	return direction * m_distance;
 }
@@ -126,4 +107,30 @@ glm::vec3 CCamera::GetPosition() const
 void CCamera::OnRotate()
 {
 	m_rotationRadians += ROTATION_SPEED_RADIANS;
+}
+
+void CCamera::SetRotationFlag(bool flag)
+{
+	m_doesRotate = flag;
+}
+
+bool CCamera::GetRotationFlag() const
+{
+	return m_doesRotate;
+}
+
+void CCamera::SetAngle(int alpha, int beta)
+{
+	m_angle.first = alpha;
+	m_angle.second = beta;
+}
+
+void CCamera::SetAngle(std::pair<int, int> angle)
+{
+	m_angle = angle;
+}
+
+std::pair<int, int> CCamera::GetAngle() const
+{
+	return m_angle;
 }

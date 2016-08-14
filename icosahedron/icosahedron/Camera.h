@@ -8,8 +8,6 @@ public:
     explicit CCamera(float rotationRadians, float distance);
 
     void Update(float deltaSec);
-    bool OnKeyDown(const SDL_KeyboardEvent & event);
-    bool OnKeyUp(const SDL_KeyboardEvent & event);
 	bool OnScale(const int & zoom);
 	void OnRotate();
 
@@ -17,8 +15,17 @@ public:
 
     glm::mat4 GetViewTransform() const;
 
+	void SetRotationFlag(bool flag);
+	bool GetRotationFlag() const;
+
+	void SetAngle(int, int);
+	void SetAngle(std::pair<int, int>);
+	std::pair<int, int> GetAngle() const;
+
 private:
     float m_rotationRadians = 0;
     float m_distance = 1;
     std::set<unsigned> m_keysPressed;
+	bool m_doesRotate = false;
+	std::pair<int, int> m_angle;
 };

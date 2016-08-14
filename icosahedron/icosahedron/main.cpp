@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "consts.h"
 
-int main(int, char *[])
+int main(int, char * [])
 {
     glewInit();
 

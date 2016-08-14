@@ -31,5 +31,4 @@ private:
 	CIcosahedron m_icosahedron;
     CCamera m_camera;
 	CPositionLightSource m_sunlight;
-	bool m_doesRotate = false;
 };
