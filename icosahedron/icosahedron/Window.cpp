@@ -4,6 +4,7 @@
 
 namespace
 {
+
 const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
 const glm::vec3 SUNLIGHT_DIRECTION = { -1.f, 0.2f, 0.7f };
 const float CAMERA_INITIAL_ROTATION = 0;
@@ -21,7 +22,11 @@ void SetupOpenGLState()
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 }
+
 }
+
+int alpha = 0;
+int beta = 0;
 
 CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
@@ -57,6 +62,9 @@ void CWindow::OnDrawWindow(const glm::ivec2 & size)
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glRotated(alpha, 0, 1, 0);
+	glRotated(beta, 0, 0, 1);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
@@ -100,4 +108,34 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent & event)
 void CWindow::OnScroll(const int & zoom)
 {
 	m_camera.OnScale(zoom);
+}
+
+void CWindow::OnDragBegin(const glm::vec2 & pos)
+{
+	m_doesRotate = true;
+}
+
+void CWindow::OnDragMotion(const glm::vec2 & pos)
+{
+	if (!m_doesRotate)
+	{
+		return;
+	}
+
+	static int x0 = -12345;
+	static int y0 = -12345;
+
+	if (x0 != -12345 && y0 != -12345)
+	{
+		alpha += pos.y - y0;
+		beta += pos.x - x0;
+	}
+
+	x0 = pos.x;
+	y0 = pos.y;
+}
+
+void CWindow::OnDragEnd(const glm::vec2 & pos)
+{
+	m_doesRotate = false;
 }

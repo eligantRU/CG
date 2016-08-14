@@ -122,3 +122,8 @@ glm::vec3 CCamera::GetPosition() const
 
 	return direction * m_distance;
 }
+
+void CCamera::OnRotate()
+{
+	m_rotationRadians += ROTATION_SPEED_RADIANS;
+}

@@ -11,6 +11,7 @@ public:
     bool OnKeyDown(const SDL_KeyboardEvent & event);
     bool OnKeyUp(const SDL_KeyboardEvent & event);
 	bool OnScale(const int & zoom);
+	void OnRotate();
 
 	glm::vec3 GetPosition() const;
 
