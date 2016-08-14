@@ -5,10 +5,11 @@ namespace
 {
 const float ROTATION_SPEED_RADIANS = 0.001f;
 const float LINEAR_MOVE_SPEED = 0.003f;
+const float MOUSE_LINEAR_MOVE_SPEED = 0.25f;
 const float MIN_DISTANCE = 1.5f;
 const float MAX_DISTANCE = 30.f;
 
-bool ShouldTrackKeyPressed(const SDL_Keysym &key)
+bool ShouldTrackKeyPressed(const SDL_Keysym & key)
 {
     switch (key.sym)
     {
@@ -67,7 +68,7 @@ void CCamera::Update(float deltaSec)
     m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
 }
 
-bool CCamera::OnKeyDown(const SDL_KeyboardEvent &event)
+bool CCamera::OnKeyDown(const SDL_KeyboardEvent & event)
 {
     if (ShouldTrackKeyPressed(event.keysym))
     {
@@ -85,6 +86,21 @@ bool CCamera::OnKeyUp(const SDL_KeyboardEvent & event)
         return true;
     }
     return false;
+}
+
+bool CCamera::OnScale(const int & zoom)
+{ // TODO: use deltaSec!
+	if (zoom > 0)
+	{
+		m_distance += -MOUSE_LINEAR_MOVE_SPEED;
+		return true;
+	}
+	else if (zoom < 0)
+	{
+		m_distance += MOUSE_LINEAR_MOVE_SPEED;
+		return true;
+	}
+	return false;
 }
 
 glm::mat4 CCamera::GetViewTransform() const

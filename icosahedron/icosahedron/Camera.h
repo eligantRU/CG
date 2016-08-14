@@ -8,8 +8,9 @@ public:
     explicit CCamera(float rotationRadians, float distance);
 
     void Update(float deltaSec);
-    bool OnKeyDown(const SDL_KeyboardEvent &event);
-    bool OnKeyUp(const SDL_KeyboardEvent &event);
+    bool OnKeyDown(const SDL_KeyboardEvent & event);
+    bool OnKeyUp(const SDL_KeyboardEvent & event);
+	bool OnScale(const int & zoom);
 
     glm::mat4 GetViewTransform() const;
 

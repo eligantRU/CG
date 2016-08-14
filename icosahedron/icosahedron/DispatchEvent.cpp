@@ -14,7 +14,7 @@ glm::vec2 GetMousePosition(const SDL_MouseMotionEvent & event)
 }
 }
 
-void sdl::DispatchEvent(const SDL_Event & event, IInputEventAcceptor &acceptor)
+void sdl::DispatchEvent(const SDL_Event & event, IInputEventAcceptor & acceptor)
 {
     switch (event.type)
     {
@@ -33,5 +33,8 @@ void sdl::DispatchEvent(const SDL_Event & event, IInputEventAcceptor &acceptor)
     case SDL_MOUSEMOTION:
         acceptor.OnDragMotion(GetMousePosition(event.motion));
         break;
+	case SDL_MOUSEWHEEL:
+		acceptor.OnScroll(event.wheel.y);
+		break;
     }
 }

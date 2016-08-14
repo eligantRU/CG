@@ -84,3 +84,8 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent & event)
 {
     m_camera.OnKeyUp(event);
 }
+
+void CWindow::OnScroll(const int & zoom)
+{
+	m_camera.OnScale(zoom);
+}

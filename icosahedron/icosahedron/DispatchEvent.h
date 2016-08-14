@@ -16,20 +16,21 @@ class IInputEventAcceptor
 public:
     virtual ~IInputEventAcceptor() = default;
 
-    virtual void OnDragBegin(const glm::vec2 &pos) { (void)pos; }
-    virtual void OnDragMotion(const glm::vec2 &pos) { (void)pos; }
-    virtual void OnDragEnd(const glm::vec2 &pos) { (void)pos; }
+    virtual void OnDragBegin(const glm::vec2 & pos) { (void)pos; }
+    virtual void OnDragMotion(const glm::vec2 & pos) { (void)pos; }
+    virtual void OnDragEnd(const glm::vec2 & pos) { (void)pos; }
     virtual void OnKeyDown(const SDL_KeyboardEvent &) {}
     virtual void OnKeyUp(const SDL_KeyboardEvent &) {}
+	virtual void OnScroll(const int &) {};
 };
 
 // Окно, совершающее диспетчеризацию событий SDL
 class CAbstractInputControlWindow
-        : public CAbstractWindow
-        , public IInputEventAcceptor
+        :public CAbstractWindow
+        ,public IInputEventAcceptor
 {
 protected:
-    void OnWindowEvent(const SDL_Event &event) final
+    void OnWindowEvent(const SDL_Event & event) final
     {
         sdl::DispatchEvent(event, *this);
     }
