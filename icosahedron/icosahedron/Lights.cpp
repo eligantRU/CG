@@ -87,7 +87,7 @@ glm::vec3 CPositionLightSource::GetPosition() const
     return { m_position.x, m_position.y, m_position.z };
 }
 
-void CPositionLightSource::SetPosition(const glm::vec3 &value)
+void CPositionLightSource::SetPosition(const glm::vec3 & value)
 {
     m_position.x = value.x;
     m_position.y = value.y;

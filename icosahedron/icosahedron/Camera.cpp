@@ -114,3 +114,11 @@ glm::mat4 CCamera::GetViewTransform() const
 
     return glm::lookAt(eye, center, up);
 }
+
+glm::vec3 CCamera::GetPosition() const
+{
+	glm::vec3 direction = { 1, 0, 0 };
+	direction = glm::rotateZ(glm::normalize(direction), m_rotationRadians);
+
+	return direction * m_distance;
+}

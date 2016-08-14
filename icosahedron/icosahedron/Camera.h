@@ -12,6 +12,8 @@ public:
     bool OnKeyUp(const SDL_KeyboardEvent & event);
 	bool OnScale(const int & zoom);
 
+	glm::vec3 GetPosition() const;
+
     glm::mat4 GetViewTransform() const;
 
 private:

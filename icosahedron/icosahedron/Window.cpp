@@ -29,12 +29,10 @@ CWindow::CWindow()
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
 
-    m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
+	m_sunlight.SetPosition({ 2, 0 , 0 });
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
-    // Из-за интерполяции освещения по Гуро
-    // смысл Specular компоненты для куба теряется.
-    // m_sunlight.SetSpecular(WHITE_LIGHT);
+    m_sunlight.SetSpecular(WHITE_RGBA);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -46,6 +44,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
+	m_sunlight.SetPosition(m_camera.GetPosition());
 	m_icosahedron.Update(deltaSeconds);
 }
 

@@ -27,5 +27,5 @@ private:
 
 	CIcosahedron m_icosahedron;
     CCamera m_camera;
-    CDirectedLightSource m_sunlight;
+	CPositionLightSource m_sunlight;
 };
