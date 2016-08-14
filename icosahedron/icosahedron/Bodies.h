@@ -9,6 +9,7 @@ public:
 	~CIcosahedron();
     void Update(float deltaTime);
     void Draw() const;
+	void DrawEdges() const;
 
 private:
 };

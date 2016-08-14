@@ -53,8 +53,21 @@ void CWindow::OnDrawWindow(const glm::ivec2 & size)
     SetupView(size);
     m_sunlight.Setup();
 
-    glPushMatrix();
+	glPushMatrix();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+	m_icosahedron.DrawEdges();
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	m_icosahedron.Draw(); 
+	glCullFace(GL_BACK);
 	m_icosahedron.Draw();
+
     glPopMatrix();
 }
 
