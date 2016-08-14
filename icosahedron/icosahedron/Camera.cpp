@@ -3,8 +3,8 @@
 
 namespace
 {
-const float ROTATION_SPEED_RADIANS = 1.f;
-const float LINEAR_MOVE_SPEED = 5.f;
+const float ROTATION_SPEED_RADIANS = 0.001f;
+const float LINEAR_MOVE_SPEED = 0.003f;
 const float MIN_DISTANCE = 1.5f;
 const float MAX_DISTANCE = 30.f;
 
@@ -57,12 +57,13 @@ CCamera::CCamera(float rotationRadians, float distance)
     :m_rotationRadians(rotationRadians)
     ,m_distance(distance)
 {
+
 }
 
 void CCamera::Update(float deltaSec)
-{
-    m_rotationRadians += deltaSec * GetRotationSpeedRadians(m_keysPressed);
-    m_distance += deltaSec * GetLinearMoveSpeed(m_keysPressed);
+{ // TODO: use deltaSec!
+    m_rotationRadians += /*deltaSec * */ GetRotationSpeedRadians(m_keysPressed);
+    m_distance += /*deltaSec * */ GetLinearMoveSpeed(m_keysPressed);
     m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
 }
 
@@ -88,7 +89,7 @@ bool CCamera::OnKeyUp(const SDL_KeyboardEvent & event)
 
 glm::mat4 CCamera::GetViewTransform() const
 {
-    glm::vec3 direction = { -1, 0, 0.5f };
+	glm::vec3 direction = { 1, 0, 0 };
     direction = glm::rotateZ(glm::normalize(direction), m_rotationRadians);
 
 	const glm::vec3 eye = direction * m_distance;
