@@ -26,9 +26,10 @@ protected:
 	void OnDragEnd(const glm::vec2 & pos) override;
 
 private:
-    void SetupView(const glm::ivec2 &size);
+    void SetupView(const glm::ivec2 & size);
 
 	CIcosahedron m_icosahedron;
     CCamera m_camera;
 	CPositionLightSource m_sunlight;
+	CPositionLightSource m_happylight;
 };

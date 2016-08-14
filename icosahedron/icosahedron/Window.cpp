@@ -32,6 +32,7 @@ void SetupOpenGLState()
 CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_DISTANCE)
     ,m_sunlight(GL_LIGHT0)
+	,m_happylight(GL_LIGHT1)
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
 
@@ -39,6 +40,11 @@ CWindow::CWindow()
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
     m_sunlight.SetSpecular(WHITE_RGBA);
+
+	m_happylight.SetPosition({ 2, 0 , 0 });
+	m_happylight.SetDiffuse(WHITE_RGBA);
+	m_happylight.SetAmbient(0.1f * WHITE_RGBA);
+	m_happylight.SetSpecular(WHITE_RGBA);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -50,7 +56,9 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
-	m_sunlight.SetPosition(m_camera.GetPosition());
+	// m_sunlight.SetPosition(m_camera.GetPosition()); // TODO: future
+	m_sunlight.SetPosition({ 0, 2, 0 });
+	m_happylight.SetPosition({ 0, -2, 0 });
 	m_icosahedron.Update(deltaSeconds);
 }
 
@@ -58,6 +66,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 & size)
 {
     SetupView(size);
     m_sunlight.Setup();
+	m_happylight.Setup();
 
 	glPushMatrix();
 
