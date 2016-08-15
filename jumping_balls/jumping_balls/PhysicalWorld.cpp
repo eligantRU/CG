@@ -15,6 +15,7 @@ CPhysicalWorld::CPhysicalWorld(glm::vec2 gravity)
 
 	m_factory = std::make_unique<CFactory>(m_world);
 	m_objects.reserve(50);
+	// TODO: extract method
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 0, 0 }, { WINDOW_SIZE.x, 10 }, 1, 0));
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 0, 0 }, { 10, WINDOW_SIZE.y }, 1, 0));
     m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { WINDOW_SIZE.x, 0 }, { 10, WINDOW_SIZE.y }, 1, 0));
@@ -35,6 +36,7 @@ void CPhysicalWorld::Advance(float dt)
 		auto pos = it->GetPosition();
 		auto angle = it->GetAngle();
 
+		// TODO: keep pointer to your class object in UserData property
 		auto objectData = unsigned(it->GetUserData());
 		auto objIter = std::find_if(m_objects.begin(), m_objects.end(), [objectData](auto &pObject) {
 			return (pObject->GetData() == objectData);
@@ -66,8 +68,10 @@ void CPhysicalWorld::Draw() const
 	}
 }
 
+// TODO: add gun, fire from gun
 void CPhysicalWorld::Fire(glm::vec2 direction)
 {
+	// TODO: define constants
 	m_objects.push_back(m_factory->CreateCircle(b2BodyType::b2_dynamicBody, GUN_POSITION, 5, 0.1f, 0));
-	m_objects[m_objects.size() - 1]->ApplyImpulse(direction - GUN_POSITION);
+	m_objects.back()->ApplyImpulse(direction - GUN_POSITION);
 }
