@@ -5,10 +5,10 @@
 namespace
 {
 
-
 const glm::vec3 RED_COLOUR = { 1.f, 0.f, 0.f };
 const glm::vec3 BLUE_COLOUR = { 0.f, 0.f, 1.f };
 
+// TODO: modify constants
 const float K = 90'000'000.f;
 const float PARTICLE_WEIGHT = 900'000'000.f;
 
@@ -17,53 +17,20 @@ int Sign(float num)
 	return (num > 0) - (num < 0);
 }
 
-glm::vec2 CalculateAccelerationByAngle(float acceleration, float dx, float dy, float angle)
+glm::vec2 CalculateAcceleration(glm::vec2 pos1, glm::vec2 pos2, float charge1, float charge2, float minDistance)
 {
-	glm::vec2 accelerat = { 0, 0 };
-	if (dx >= 0 && dy >= 0)
+	const float distance = glm::length(pos1 - pos2);
+
+	if (distance <= minDistance)
 	{
-		accelerat = { -fabs(acceleration) * sin(M_PI / 2 - angle), -fabs(acceleration) * cos(M_PI / 2 - angle) };
-	}
-	else if (dx >= 0 && dy <= 0)
-	{
-		accelerat = { fabs(acceleration) * sin(angle), fabs(acceleration) * cos(angle) };
-	}
-	else if (dx <= 0 && dy >= 0)
-	{
-		accelerat = { -fabs(acceleration) * sin(angle - M_PI / 2), -fabs(acceleration) * cos(angle - M_PI / 2) };
-	}
-	else if (dx <= 0 && dy <= 0)
-	{
-		accelerat = { fabs(acceleration) * sin(angle + M_PI / 2), fabs(acceleration) * cos(angle + M_PI / 2) };
+		return glm::vec2();
 	}
 
-	return accelerat;
-}
+	const float accelerationValue = (K / PARTICLE_WEIGHT) * fabs(charge1) * fabs(charge2) / pow(distance, 2);
+	const float multiplier = (Sign(charge1) == Sign(charge2)) ? -1.f : 1.f;
+	const glm::vec2 acceleration = multiplier * accelerationValue * -glm::normalize(pos2 - pos1);
 
-glm::vec2 CalculateAccelerationByCharge(glm::vec2 accelerat, float charge1, float charge2)
-{
-	if (Sign(charge1) == Sign(charge2))
-	{
-		accelerat *= -1;
-	}
-
-	return accelerat;
-}
-
-glm::vec2 CalculateAcceleration(glm::vec2 pos1, glm::vec2 pos2, float charge1, float charge2)
-{
-	auto posI = pos1;
-	auto posJ = pos2;
-	float r = sqrt(pow(posI.x - posJ.x, 2) + pow(posI.y - posJ.y, 2));
-	r = r ? r : 0.000'000'001f;
-	float acceleration = (K / PARTICLE_WEIGHT) * fabs(charge1) * fabs(charge2) / pow(r, 2);
-	auto a = posJ.x - posI.x;
-	auto b = posJ.y - posI.y;
-	auto alpha = asin(b / r);
-	glm::vec2 accelerat = CalculateAccelerationByAngle(acceleration, a, b, alpha);
-	accelerat = CalculateAccelerationByCharge(accelerat, charge1, charge2);
-
-	return accelerat;
+	return acceleration;
 }
 
 }
@@ -131,22 +98,24 @@ void CParticleSystem::Advance(float dt)
 			}
 
 			auto acceleration = CalculateAcceleration(m_particles[i]->GetPosition(), m_particles[j]->GetPosition(), 
-													  m_particles[i]->GetElectricalCharge(), m_particles[j]->GetElectricalCharge());
+													  m_particles[i]->GetElectricalCharge(), m_particles[j]->GetElectricalCharge(),
+													  m_particles[i]->GetRadius() + m_particles[j]->GetRadius());
 			m_particles[j]->SetAcceleration(m_particles[j]->GetAcceleration() + acceleration);
 		}
 	}
 
-	auto newEnd = std::remove_if(m_particles.begin(), m_particles.end(), [](const auto &pParticle) {
-		auto position = pParticle->GetPosition();
-		return !(position.x >= 0 && position.x <= WINDOW_SIZE.x && position.y >= 0 && position.y <= WINDOW_SIZE.y); 
-	});
-	m_particles.erase(newEnd, m_particles.end());
-
 	for (const auto &pParticle : m_particles)
 	{
 		pParticle->SetVelocity(pParticle->GetVelocity() + dt * pParticle->GetAcceleration());
-		pParticle->SetPosition(pParticle->GetPosition() + pParticle->GetVelocity());
+		pParticle->SetPosition(pParticle->GetPosition() + dt * pParticle->GetVelocity());
 	}
+
+	auto newEnd = std::remove_if(m_particles.begin(), m_particles.end(), [](const auto &pParticle) {
+		auto position = pParticle->GetPosition();
+		// TODO: improve particle direction - take into account particle radius
+		return !(position.x >= 0 && position.x <= WINDOW_SIZE.x && position.y >= 0 && position.y <= WINDOW_SIZE.y);
+	});
+	m_particles.erase(newEnd, m_particles.end());
 }
 
 void CParticleSystem::Draw()

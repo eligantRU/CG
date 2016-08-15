@@ -50,6 +50,11 @@ const glm::vec2 & CElectricalParticle::GetPosition() const
 	return m_position;
 }
 
+float CElectricalParticle::GetRadius() const
+{
+	return PARTICLE_RADUIS;
+}
+
 void CElectricalParticle::Draw() const
 {
 	if (!m_displayList)

@@ -19,6 +19,8 @@ public:
 	void SetPosition(const glm::vec2 &);
 	const glm::vec2 & GetPosition() const;
 
+	float GetRadius() const;
+
 	virtual bool HitTest(const glm::vec2 & point) const;
 
 private:
