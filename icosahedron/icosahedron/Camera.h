@@ -17,13 +17,10 @@ public:
 	void SetRotationFlag(bool flag);
 	bool GetRotationFlag() const;
 
-	void SetAngle(int, int);
-	void SetAngle(std::pair<int, int>);
-	std::pair<int, int> GetAngle() const;
+	void Rotate(const glm::vec2);
 
 private:
     float m_distance = 1;
-    std::set<unsigned> m_keysPressed;
 	bool m_doesRotate = false;
-	std::pair<int, int> m_angle;
+	glm::vec2 m_angle;
 };

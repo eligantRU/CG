@@ -42,8 +42,8 @@ glm::mat4 CCamera::GetViewTransform() const
 	
 	glm::vec3 eye = direction * m_distance;
 	glm::mat4 rotMatrix(1);
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.first)), glm::vec3(1, 0, 0)); // TODO: Ask Shambir & fix the bug
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.second)), glm::vec3(0, 0, -1));
+	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0)); // TODO: Ask Shambir & fix the bug
+	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
 	eye = glm::vec3(rotMatrix * glm::vec4(eye, 0.0));
     const glm::vec3 center = { 0, 0, 0 };
 	const glm::vec3 up = { 0, 0, 1 };
@@ -57,8 +57,8 @@ glm::vec3 CCamera::GetPosition() const
 
 	glm::vec3 eye = direction * m_distance;
 	glm::mat4 rotMatrix(1);
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.first)), glm::vec3(1, 0, 0));
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.second)), glm::vec3(0, 0, -1));
+	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0));
+	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
 	eye = glm::vec3(rotMatrix * glm::vec4(eye, 0.0));
 
 	return eye;
@@ -74,18 +74,8 @@ bool CCamera::GetRotationFlag() const
 	return m_doesRotate;
 }
 
-void CCamera::SetAngle(int alpha, int beta)
+void CCamera::Rotate(const glm::vec2 angle)
 {
-	m_angle.first = alpha;
-	m_angle.second = beta;
-}
-
-void CCamera::SetAngle(std::pair<int, int> angle)
-{
-	m_angle = angle;
-}
-
-std::pair<int, int> CCamera::GetAngle() const
-{
-	return m_angle;
+	m_angle.x += angle.y;
+	m_angle.y += angle.x;
 }

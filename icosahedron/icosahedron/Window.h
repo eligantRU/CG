@@ -29,4 +29,5 @@ private:
 	CIcosahedron m_icosahedron;
     CCamera m_camera;
 	CPositionLightSource m_sunlight;
+	glm::vec2 m_dragPosition;
 };

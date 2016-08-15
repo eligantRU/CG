@@ -60,15 +60,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 & size)
     m_sunlight.Setup();
 
 	glPushMatrix();
-
-	m_icosahedron.DrawEdges();
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
-	m_icosahedron.Draw(); 
-	glCullFace(GL_BACK);
 	m_icosahedron.Draw();
-
     glPopMatrix();
 }
 
@@ -102,19 +94,13 @@ void CWindow::OnDragMotion(const glm::vec2 & pos)
 {
 	if (m_camera.GetRotationFlag())
 	{
-		static int x = 0;
-		static int y = 0;
-
-		if (x && y)
+		auto lastPos = m_dragPosition;
+		if (lastPos.x && lastPos.y)
 		{
-			int alpha = pos.y - y;
-			int beta = pos.x - x;
-			const auto angle = m_camera.GetAngle();
-			m_camera.SetAngle(std::pair<int, int>(angle.first + alpha, angle.second + beta));
+			m_camera.Rotate(pos - lastPos);
 		}
 
-		x = pos.x;
-		y = pos.y;
+		m_dragPosition = pos;
 	}
 }
 

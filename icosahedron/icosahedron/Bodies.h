@@ -8,8 +8,9 @@ public:
 	CIcosahedron();
 	~CIcosahedron();
     void Update(float deltaTime);
-    void Draw() const;
-	void DrawEdges() const;
+	void Draw() const;
 
 private:
+	void DrawFaces() const;
+	void DrawEdges() const;
 };

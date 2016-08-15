@@ -63,8 +63,8 @@ float CalculateDistance(glm::vec3 pos1, glm::vec3 pos2)
 void DrawSegment(const glm::vec3 point1, const glm::vec3 point2)
 {
 	glBegin(GL_LINE_STRIP);
-	glVertex3d(point1.x, point1.y, point1.z);
-	glVertex3d(point2.x, point2.y, point2.z);
+	glVertex3f(point1.x, point1.y, point1.z);
+	glVertex3f(point2.x, point2.y, point2.z);
 	glEnd();
 }
 
@@ -79,7 +79,7 @@ void CIcosahedron::Update(float deltaTime)
     (void)deltaTime;
 }
 
-void CIcosahedron::Draw() const
+void CIcosahedron::DrawFaces() const
 {
     for (const STriangleFace &face : ICOSAHEDRON_FACES)
     {
@@ -112,4 +112,13 @@ void CIcosahedron::DrawEdges() const
 		DrawSegment(v2, v3);
 		DrawSegment(v1, v3);
 	}
+}
+
+void CIcosahedron::Draw() const
+{
+	DrawEdges();
+	glCullFace(GL_FRONT);
+	DrawFaces();
+	glCullFace(GL_BACK);
+	DrawFaces();
 }
