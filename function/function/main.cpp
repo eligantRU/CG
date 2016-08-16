@@ -2,12 +2,8 @@
 #include "Window.h"
 #include "consts.h"
 
-int main(int argc, char * argv[])
+int main(int, char * [])
 {
-	(void)argc;
-	(void)argv;
-    glewInit();
-
     CWindow window;
     window.Show(WINDOW_SIZE);
     window.DoGameLoop();
