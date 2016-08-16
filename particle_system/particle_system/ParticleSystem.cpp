@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "consts.h"
 #include "ParticleSystem.h"
+#include "consts.h"
 
 namespace
 {
@@ -8,9 +8,8 @@ namespace
 const glm::vec3 RED_COLOUR = { 1.f, 0.f, 0.f };
 const glm::vec3 BLUE_COLOUR = { 0.f, 0.f, 1.f };
 
-// TODO: modify constants
-const float K = 90'000'000.f;
-const float PARTICLE_WEIGHT = 900'000'000.f;
+const float K = 500.f;
+const float PARTICLE_WEIGHT = 1.f;
 
 int Sign(float num)
 {
@@ -112,8 +111,8 @@ void CParticleSystem::Advance(float dt)
 
 	auto newEnd = std::remove_if(m_particles.begin(), m_particles.end(), [](const auto &pParticle) {
 		auto position = pParticle->GetPosition();
-		// TODO: improve particle direction - take into account particle radius
-		return !(position.x >= 0 && position.x <= WINDOW_SIZE.x && position.y >= 0 && position.y <= WINDOW_SIZE.y);
+		return !(position.x + PARTICLE_RADUIS >= 0 && position.x - PARTICLE_RADUIS <= WINDOW_SIZE.x &&
+			     position.y + PARTICLE_RADUIS >= 0 && position.y - PARTICLE_RADUIS <= WINDOW_SIZE.y);
 	});
 	m_particles.erase(newEnd, m_particles.end());
 }

@@ -3,6 +3,7 @@
 
 namespace
 {
+
 const glm::vec4 BACKGROUND_COLOUR = { 0, 0, 0, 1 };
 
 const float POSITIVE_PARTICLE_ELECTRICAL_CHARGE = 1.f;
@@ -12,6 +13,7 @@ glm::vec2 GetMousePosition(const SDL_MouseButtonEvent & event)
 {
 	return { event.x, event.y };
 }
+
 }
 
 CWindow::CWindow()

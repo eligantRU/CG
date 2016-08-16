@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ElectricalParticle.h"
+#include "consts.h"
 
 namespace
 {
-const float PARTICLE_RADUIS = 5.f;
 
 void FillEllipse(float xCenter, float yCenter, float rx, float ry, glm::vec3 color, int pointCount = 360)
 {
