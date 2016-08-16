@@ -23,6 +23,6 @@ public:
 private:
 	b2PolygonShape m_shape;
 	b2BodyDef m_bdef;
-	b2Body * m_body; // TODO: fix memory leak
+	b2Body * m_body;
 	std::shared_ptr<b2World> m_world;
 };

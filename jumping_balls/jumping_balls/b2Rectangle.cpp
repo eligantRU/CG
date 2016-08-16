@@ -19,7 +19,10 @@ Cb2Rectangle::Cb2Rectangle(std::shared_ptr<b2World> world, b2BodyType bodyType, 
 	m_body->SetBullet(false);
 }
 
-Cb2Rectangle::~Cb2Rectangle() = default;
+Cb2Rectangle::~Cb2Rectangle()
+{
+	m_body = nullptr;
+}
 
 void Cb2Rectangle::SetPosition(glm::vec2 position)
 {

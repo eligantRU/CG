@@ -26,7 +26,7 @@ Cb2Circle::Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::v
 
 Cb2Circle::~Cb2Circle()
 {
-
+	m_body = nullptr;
 }
 
 void Cb2Circle::SetPosition(glm::vec2 position)

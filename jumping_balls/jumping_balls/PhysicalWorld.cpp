@@ -15,10 +15,15 @@ CPhysicalWorld::CPhysicalWorld(glm::vec2 gravity)
 
 	m_factory = std::make_unique<CFactory>(m_world);
 	m_objects.reserve(50);
-	// TODO: extract method
+
+	SetupBarriers();
+}
+
+void CPhysicalWorld::SetupBarriers()
+{
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 0, 0 }, { WINDOW_SIZE.x, 10 }, 1, 0));
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 0, 0 }, { 10, WINDOW_SIZE.y }, 1, 0));
-    m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { WINDOW_SIZE.x, 0 }, { 10, WINDOW_SIZE.y }, 1, 0));
+	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { WINDOW_SIZE.x, 0 }, { 10, WINDOW_SIZE.y }, 1, 0));
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 0 , 3 * WINDOW_SIZE.y / 4 }, { 500, 20 }, 1, float(M_PI / 8)));
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { WINDOW_SIZE.x , WINDOW_SIZE.y / 2 }, { 500, 20 }, 1, float(-M_PI / 8)));
 	m_objects.emplace_back(m_factory->CreateRectangle(b2BodyType::b2_staticBody, { 2 * WINDOW_SIZE.x / 5, 3 * WINDOW_SIZE.y / 5 }, { 40, 80 }, 1, float(M_PI / 4)));

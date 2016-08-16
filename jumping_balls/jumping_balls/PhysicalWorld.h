@@ -15,6 +15,9 @@ public:
 	void Fire(glm::vec2 direction) override;
 
 private:
+
+	void SetupBarriers();
+
 	std::shared_ptr<b2World> m_world;
 	std::vector<std::unique_ptr<CPhysicalObject>> m_objects;
 	std::unique_ptr<CFactory> m_factory;
