@@ -50,11 +50,3 @@ void CWindow::OnDrop(const SDL_MouseButtonEvent & event)
 		m_world->Fire(GetMousePosition(event));
 	}
 }
-
-void CWindow::OnKeyDown(const SDL_KeyboardEvent & event)
-{
-	if (event.keysym.sym == SDLK_DELETE)
-	{
-		// TODO
-	}
-}
