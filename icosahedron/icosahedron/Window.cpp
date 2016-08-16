@@ -87,6 +87,7 @@ void CWindow::OnScroll(const int & zoom)
 
 void CWindow::OnDragBegin(const glm::vec2 & pos)
 {
+	(void)pos;
 	m_camera.SetRotationFlag(true);
 }
 
@@ -106,5 +107,6 @@ void CWindow::OnDragMotion(const glm::vec2 & pos)
 
 void CWindow::OnDragEnd(const glm::vec2 & pos)
 {
+	(void)pos;
 	m_camera.SetRotationFlag(false);
 }

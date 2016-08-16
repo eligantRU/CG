@@ -19,6 +19,8 @@
 #include <stdint.h>
 #include <set>
 
+#pragma warning (push, 3)
+
 #include <SDL.h>
 #include <SDL_events.h>
 #include <SDL_video.h>
@@ -42,3 +44,5 @@
 #include <boost/algorithm/string/join.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/classification.hpp>
+
+#pragma warning (pop)
