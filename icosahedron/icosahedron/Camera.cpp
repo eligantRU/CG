@@ -18,6 +18,7 @@ CCamera::CCamera(float distance)
 
 void CCamera::Update(float deltaSec)
 {
+	(void)deltaSec;
     m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
 }
 
@@ -42,9 +43,9 @@ glm::mat4 CCamera::GetViewTransform() const
 	
 	glm::vec3 eye = direction * m_distance;
 	glm::mat4 rotMatrix(1);
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0)); // TODO: Ask Shambir & fix the bug
+	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0));
 	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
-	eye = glm::vec3(rotMatrix * glm::vec4(eye, 0.0));
+	eye = glm::vec3(rotMatrix * glm::vec4(eye, 1));
     const glm::vec3 center = { 0, 0, 0 };
 	const glm::vec3 up = { 0, 0, 1 };
 
@@ -59,7 +60,7 @@ glm::vec3 CCamera::GetPosition() const
 	glm::mat4 rotMatrix(1);
 	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0));
 	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
-	eye = glm::vec3(rotMatrix * glm::vec4(eye, 0.0));
+	eye = glm::vec3(rotMatrix * glm::vec4(eye, 1));
 
 	return eye;
 }

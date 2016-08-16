@@ -35,7 +35,7 @@ CWindow::CWindow()
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
 
-	m_sunlight.SetPosition({ 2, 0 , 0 });
+	m_sunlight.SetPosition({ 0, 0 , 0 });
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
     m_sunlight.SetSpecular(WHITE_RGBA);
@@ -70,7 +70,7 @@ void CWindow::SetupView(const glm::ivec2 & size)
 
     glLoadMatrixf(glm::value_ptr(m_camera.GetViewTransform()));
 
-    const float fieldOfView = glm::radians(70.f);
+    const float fieldOfView = glm::radians(60.f);
     const float aspect = float(size.x) / float(size.y);
     const float zNear = 0.01f;
     const float zFar = 100.f;

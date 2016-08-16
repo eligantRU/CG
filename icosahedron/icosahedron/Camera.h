@@ -12,7 +12,7 @@ public:
 
 	glm::vec3 GetPosition() const;
 
-    glm::mat4 GetViewTransform() const;
+	glm::mat4 GetViewTransform() const;
 
 	void SetRotationFlag(bool flag);
 	bool GetRotationFlag() const;
