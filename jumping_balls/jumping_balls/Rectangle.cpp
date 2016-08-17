@@ -15,12 +15,14 @@ namespace
 		glMultMatrixf(glm::value_ptr(glm::translate(glm::mat4(), { xCenter, yCenter, 0 })));
 		glMultMatrixf(glm::value_ptr(glm::rotate(glm::mat4(), glm::radians(angle), { 0, 0, 1 })));
 
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		glColor3f(BARRIER_COLOUR.x, BARRIER_COLOUR.y, BARRIER_COLOUR.z);
 		glVertex2f(-dx, -dy);
 		glVertex2f(+dx, -dy);
 		glVertex2f(+dx, +dy);
+		glVertex2f(+dx, +dy);
 		glVertex2f(-dx, +dy);
+		glVertex2f(-dx, -dy);
 		glColor3f(DEFAULT_COLOUR.x, DEFAULT_COLOUR.y, DEFAULT_COLOUR.z);
 		glEnd();
 
