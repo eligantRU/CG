@@ -32,7 +32,7 @@ public:
 	CParticleSystem();
 	~CParticleSystem();
 
-	void Draw();
+	void Draw() const;
     void Advance(float dt);
 	void AddParticle(float charge, glm::vec2 position);
 	void Clear();
