@@ -4,6 +4,10 @@
 namespace
 {
 
+const glm::vec3 EDGE_COLOUR = { 0, 0, 0 };
+
+const float EDGE_WIDTH = 3.f;
+
 typedef glm::vec3 Vertex;
 
 const Vertex ICOSAHEDRON_VERTICIES[] = {
@@ -55,11 +59,6 @@ const STriangleFace ICOSAHEDRON_FACES[] = {
 	{ 5, 1, 10, { 0.75f, 0.5f, 0.75f, 0.5f } }
 };
 
-float CalculateDistance(glm::vec3 pos1, glm::vec3 pos2)
-{
-	return sqrt(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2));
-}
-
 void DrawSegment(const glm::vec3 point1, const glm::vec3 point2)
 {
 	glBegin(GL_LINE_STRIP);
@@ -106,8 +105,8 @@ void CIcosahedron::DrawEdges() const
 		const Vertex &v2 = ICOSAHEDRON_VERTICIES[face.vertexIndex2];
 		const Vertex &v3 = ICOSAHEDRON_VERTICIES[face.vertexIndex3];
 
-		glLineWidth(3.f);
-		glColor3f(0, 0, 0);
+		glLineWidth(EDGE_WIDTH);
+		glColor3f(EDGE_COLOUR.x, EDGE_COLOUR.y, EDGE_COLOUR.z);
 		DrawSegment(v1, v2);
 		DrawSegment(v2, v3);
 		DrawSegment(v1, v3);
@@ -117,8 +116,8 @@ void CIcosahedron::DrawEdges() const
 void CIcosahedron::Draw() const
 {
 	DrawEdges();
-	glCullFace(GL_FRONT);
+	glFrontFace(GL_CW);
 	DrawFaces();
-	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
 	DrawFaces();
 }
