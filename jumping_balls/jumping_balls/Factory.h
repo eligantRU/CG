@@ -12,9 +12,9 @@ public:
 
 	~CFactory();
 
-	std::unique_ptr<Cb2Rectangle> CreateRectangle(b2BodyType bodyType, glm::vec2 position, glm::vec2 size, float weight, float angle);
+	std::unique_ptr<Cb2Rectangle> CreateRectangle(b2BodyType bodyType, glm::vec2 position, glm::vec2 size, float density, float angle);
 	
-	std::unique_ptr<Cb2Circle> CreateCircle(b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle);
+	std::unique_ptr<Cb2Circle> CreateCircle(b2BodyType bodyType, glm::vec2 position, float radius, float density, float angle);
 
 private:
 	std::shared_ptr<b2World> m_world;

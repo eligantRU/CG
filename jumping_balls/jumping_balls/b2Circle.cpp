@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "B2Circle.h"
 
-Cb2Circle::Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle)
+Cb2Circle::Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, float radius, float density, float angle)
 	:m_world(world)
 {
-	Cb2Circle::SetPosition(position);
-	Cb2Circle::SetWeight(weight);
-	CCircle::SetRadius(radius);
+	SetPosition(position);
+	SetDensity(density);
+	SetRadius(radius);
 
 	m_shape.m_radius = radius;
 
@@ -17,7 +17,7 @@ Cb2Circle::Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::v
 	m_body = m_world->CreateBody(&m_bdef);
 	m_body->SetBullet(false);
 
-	m_fixture.density = weight;
+	m_fixture.density = density;
 	m_fixture.restitution = 0.8f;
 	m_fixture.friction = 0;
 	m_fixture.shape = &m_shape;

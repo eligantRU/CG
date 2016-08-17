@@ -7,7 +7,7 @@
 class Cb2Circle : public CCircle, public Cb2Object
 {
 public:
-	Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, float radius, float weight, float angle);
+	Cb2Circle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, float radius, float density, float angle);
 	~Cb2Circle();
 
 	void SetPosition(glm::vec2 position) override;
@@ -24,6 +24,6 @@ private:
 	b2CircleShape m_shape;
 	b2FixtureDef m_fixture;
 	b2BodyDef m_bdef;
-	b2Body * m_body;
+	b2Body * m_body = nullptr;
 	std::shared_ptr<b2World> m_world;
 };

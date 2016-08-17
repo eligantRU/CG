@@ -4,9 +4,9 @@
 Cb2Rectangle::Cb2Rectangle(std::shared_ptr<b2World> world, b2BodyType bodyType, glm::vec2 position, glm::vec2 size, float weight, float angle)
 	:m_world(world)
 {
-	CRectangle::SetPosition(position);
-	CRectangle::SetSize(size);
-	CRectangle::SetWeight(weight);
+	SetPosition(position);
+	SetSize(size);
+	SetDensity(weight);
 
 	m_shape.SetAsBox(size.x, size.y);
 	m_bdef.type = bodyType;

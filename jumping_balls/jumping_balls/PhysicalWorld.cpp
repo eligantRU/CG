@@ -7,6 +7,19 @@
 #include "Factory.h"
 #include "consts.h"
 
+namespace
+{
+
+	const float BALL_RADIUS = 5.f;
+	
+	const float BALL_DENSITY = 0.1f;
+
+	const float DEFAULT_BALL_ANGLE = 0;
+
+	const auto DEFAULT_BALL_TYPE = b2BodyType::b2_dynamicBody;
+
+}
+
 CPhysicalWorld::CPhysicalWorld(glm::vec2 gravity)
 {
 	m_world = std::make_unique<b2World>(b2Vec2(gravity.x, gravity.y)); 
@@ -76,7 +89,6 @@ void CPhysicalWorld::Draw() const
 // TODO: add gun, fire from gun
 void CPhysicalWorld::Fire(glm::vec2 direction)
 {
-	// TODO: define constants
-	m_objects.push_back(m_factory->CreateCircle(b2BodyType::b2_dynamicBody, GUN_POSITION, 5, 0.1f, 0));
+	m_objects.push_back(m_factory->CreateCircle(DEFAULT_BALL_TYPE, GUN_POSITION, BALL_RADIUS, BALL_DENSITY, DEFAULT_BALL_ANGLE));
 	m_objects.back()->ApplyImpulse(direction - GUN_POSITION);
 }

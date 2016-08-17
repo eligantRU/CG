@@ -23,14 +23,14 @@ float CPhysicalObject::GetRotation() const
 	return m_angle;
 }
 
-void CPhysicalObject::SetWeight(float weight)
+void CPhysicalObject::SetDensity(float density)
 {
-	m_weight = weight;
+	m_density = density;
 }
 
-float CPhysicalObject::GetWeight() const
+float CPhysicalObject::GetDensity() const
 {
-	return m_weight;
+	return m_density;
 }
 
 void CPhysicalObject::SetSize(glm::vec2 size)

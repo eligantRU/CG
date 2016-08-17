@@ -14,8 +14,8 @@ public:
 	void SetRotation(float angle);
 	float GetRotation() const;
 
-	void SetWeight(float weight);
-	float GetWeight() const;
+	void SetDensity(float density);
+	float GetDensity() const;
 
 	void SetSize(glm::vec2 size);
 	glm::vec2 GetSize() const;
@@ -30,7 +30,7 @@ public:
 private:
 	glm::vec2 m_position;
 	float m_angle = 0;
-	float m_weight = 0;
+	float m_density = 0;
 	glm::vec2 m_size;
 	unsigned m_id = 0;
 };
