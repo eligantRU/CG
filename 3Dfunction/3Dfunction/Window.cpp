@@ -151,7 +151,7 @@ glm::vec3 GetKleinBottle(float u, float v)
 
 CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_DISTANCE)
-	,m_surface(GetMobiusStrip)
+	,m_surface(GetSinc)
     ,m_sunlight(GL_LIGHT0)
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
@@ -162,9 +162,9 @@ CWindow::CWindow()
 	m_material.SetShininess(MATERIAL_SHININESS);
 
 	// m_surface.Tesselate({ -1.5f, 1.5f }, { -M_PI * 1.1f, M_PI * 1.1f }, 0.01f); // for  the Catenoid
-	m_surface.Tesselate({ 0, 2 * M_PI * 1.05f }, { -1, 1 }, 0.01f); // for the Mobius Strip
+	// m_surface.Tesselate({ 0, 2 * M_PI * 1.05f }, { -1, 1 }, 0.01f); // for the Mobius Strip
 	// m_surface.Tesselate({ -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.01f); // for the Klein Bottle
-	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.1f); // for others
+	m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.1f); // for others
 
 	m_sunlight.SetPosition({ 10, 10 , 10 });
     m_sunlight.SetDiffuse(WHITE_RGBA);
@@ -181,7 +181,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
-	// m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
+	m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
 	m_surface.Update(deltaSeconds);
 }
 

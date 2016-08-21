@@ -37,6 +37,7 @@ private:
 class CSolidFunctionSurface final : public IBody
 {
 public:
+	CSolidFunctionSurface(const Function2D & fn);
     CSolidFunctionSurface(const Function3D & fn);
 
     void Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step);

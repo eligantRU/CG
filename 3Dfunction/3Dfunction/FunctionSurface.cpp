@@ -112,6 +112,13 @@ void CDottedFunctionSurface::Draw() const
     });
 }
 
+CSolidFunctionSurface::CSolidFunctionSurface(const Function2D & fn)
+{
+	m_fn = [=](float x, float z) {
+		return glm::vec3(x, fn(x,z), z);
+	};
+}
+
 CSolidFunctionSurface::CSolidFunctionSurface(const Function3D & fn)
 	:m_fn(fn)
 {
