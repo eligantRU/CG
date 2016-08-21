@@ -17,11 +17,10 @@ const float CAMERA_INITIAL_DISTANCE = 10.f;
 
 void SetupOpenGLState()
 {
+	glFrontFace(GL_CCW);
+
     glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW);
-    glCullFace(GL_BACK);
 
 	glShadeModel(GL_SMOOTH);
 
@@ -103,11 +102,56 @@ glm::vec3 GetSphere(float u, float v)
 		     sinf(longitude) * latitudeRadius };
 }
 
+glm::vec3 GetMobiusStrip(float u, float v)
+{
+	float x = (1 + v / 2 * cosf(u / 2)) * cosf(u);
+	float y = (1 + v / 2 * cosf(u / 2)) * sinf(u);
+	float z = v / 2 * sinf(u / 2);
+
+	return { x, y, z };
+}
+
+glm::vec3 GetKleinBottleByWiki(float u, float v)
+{
+	const float r = 5.f;
+
+	float x = (r + cosf(u / 2) * sinf(v) - sinf(u / 2) * sinf(2 * v)) * cosf(u);
+	float y = (r + cosf(u / 2) * sinf(v) - sinf(u / 2) * sinf(2 * v)) * sinf(u);
+	float z = sinf(u / 2) * sinf(v) + cosf(u / 2) * sinf(2 * v);
+
+	return { x, y, z };
+}
+
+glm::vec3 GetKleinBottle(float u, float v)
+{
+	const float r = 1.f;
+	const float eps = float(M_PI_2 + 0.1f); 
+
+	float x = 0;
+	float y = 0;
+	float z = 0;
+
+	if ((u >= 0 - eps) && (u < M_PI + eps))
+	{
+		x = 6 * cosf(u) * (1 + sinf(u)) + 4 * r * (1 - cosf(u) / 2) * cosf(u) * cosf(v);
+		y = 16 * sinf(u) + 4 * r * (1 - cosf(u) / 2) * sinf(u) * cosf(v);
+		z = 4 * r * (1 - cosf(u) / 2) * sinf(v);
+	}
+	else if ((u > M_PI - eps) && (u <= 2 * M_PI + eps))
+	{
+		x = 6 * cosf(u) * (1 + sinf(u)) - 4 * r * (1 - cosf(u) / 2) * cosf(v);
+		y = 16 * sinf(u);
+		z = 4 * r * (1 - cosf(u) / 2) * sinf(v);
+	}
+
+	return { x, y, z };
+}
+
 }
 
 CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_DISTANCE)
-	,m_surface(GetCatenoid)
+	,m_surface(GetMobiusStrip)
     ,m_sunlight(GL_LIGHT0)
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
@@ -117,10 +161,12 @@ CWindow::CWindow()
 	m_material.SetSpecular(FADED_WHITE_RGBA);
 	m_material.SetShininess(MATERIAL_SHININESS);
 
-	//m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.01f);
-	m_surface.Tesselate({ -1.5f, 1.5f }, { -M_PI * 1.1f, M_PI * 1.1f }, 0.05f); // for catenoid
+	// m_surface.Tesselate({ -1.5f, 1.5f }, { -M_PI * 1.1f, M_PI * 1.1f }, 0.01f); // for  the Catenoid
+	m_surface.Tesselate({ 0, 2 * M_PI * 1.05f }, { -1, 1 }, 0.01f); // for the Mobius Strip
+	// m_surface.Tesselate({ -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.01f); // for the Klein Bottle
+	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.1f); // for others
 
-	m_sunlight.SetPosition({ 0, 0 , 0 });
+	m_sunlight.SetPosition({ 10, 10 , 10 });
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
     m_sunlight.SetSpecular(WHITE_RGBA);
@@ -135,7 +181,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
-	m_sunlight.SetPosition(m_camera.GetPosition());
+	// m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
 	m_surface.Update(deltaSeconds);
 }
 
@@ -156,7 +202,7 @@ void CWindow::SetupView(const glm::ivec2 & size)
     const float fieldOfView = glm::radians(60.f);
     const float aspect = float(size.x) / float(size.y);
     const float zNear = 0.01f;
-    const float zFar = 100.f;
+    const float zFar = 1000.f;
     const glm::mat4 proj = glm::perspective(fieldOfView, aspect, zNear, zFar);
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(glm::value_ptr(proj));

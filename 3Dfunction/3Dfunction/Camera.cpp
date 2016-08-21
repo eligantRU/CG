@@ -3,9 +3,10 @@
 
 namespace
 {
+
 const float MOUSE_LINEAR_MOVE_SPEED = 0.25f;
-const float MIN_DISTANCE = 1.5f;
-const float MAX_DISTANCE = 1000000000000000000.f;
+const float MIN_DISTANCE = 2.5f;
+const float MAX_DISTANCE = 200.f;
 
 }
 
@@ -39,13 +40,7 @@ bool CCamera::OnScale(const int & zoom)
 
 glm::mat4 CCamera::GetViewTransform() const
 {
-	glm::vec3 direction = { 0, 1, 0 };
-	
-	glm::vec3 eye = direction * m_distance;
-	glm::mat4 rotMatrix(1);
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0));
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
-	eye = glm::vec3(rotMatrix * glm::vec4(eye, 1));
+	const auto eye = GetPosition();
     const glm::vec3 center = { 0, 0, 0 };
 	const glm::vec3 up = { 0, 0, 1 };
 
@@ -58,7 +53,7 @@ glm::vec3 CCamera::GetPosition() const
 
 	glm::vec3 eye = direction * m_distance;
 	glm::mat4 rotMatrix(1);
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0));
+	// rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0)); // on the fan :)
 	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
 	eye = glm::vec3(rotMatrix * glm::vec4(eye, 1));
 

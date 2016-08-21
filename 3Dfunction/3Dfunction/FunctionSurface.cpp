@@ -131,19 +131,19 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 
         for (unsigned ri = 0; ri < rowCount; ++ri)
         {
             const float z = rangeZ.x + step * float(ri);
-            m_vertices.push_back(SVertexP3N(GetPosition(m_fn, x, z)));
+
+			SVertexP3N vertex;
+			vertex.position = GetPosition(m_fn, x, z); 
+			vertex.normal = glm::normalize(vertex.position);
+			m_vertices.push_back(vertex);
         }
     }
-    CalculateNormals(m_vertices, m_fn, step);
     CalculateTriangleStripIndicies(m_indicies, columnCount, rowCount);
 }
 
 void CSolidFunctionSurface::Draw() const
 {
 	DrawFace();
-	glFrontFace(GL_CW);
-	DrawFace();
-	glFrontFace(GL_CCW);
 }
 
 void CSolidFunctionSurface::DrawFace() const
