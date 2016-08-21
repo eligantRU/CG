@@ -23,6 +23,7 @@ class CDottedFunctionSurface final : public IBody
 {
 public:
     CDottedFunctionSurface(const Function2D & fn);
+	CDottedFunctionSurface(const Function3D & fn);
 
     void Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step);
 
@@ -30,7 +31,7 @@ public:
     void Draw() const final;
 
 private:
-    Function2D m_fn;
+    Function3D m_fn;
     std::vector<SVertexP3N> m_vertices;
 };
 

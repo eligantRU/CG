@@ -6,26 +6,9 @@ namespace
 
 const float DOT_SIZE = 5.f;
 
-glm::vec3 GetPosition(const Function2D & fn, float x, float z)
-{
-    const float y = fn(x, z);
-    return { x, y, z };
-}
-
 glm::vec3 GetPosition(const Function3D & fn, float x, float y)
 {
 	return fn(x, y);
-}
-
-void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function2D & fn, float step)
-{
-    for (SVertexP3N &v : vertices)
-    {
-        const glm::vec3 &position = v.position;
-        glm::vec3 dir1 = GetPosition(fn, position.x, position.z + step) - position;
-        glm::vec3 dir2 = GetPosition(fn, position.x + step, position.z) - position;
-        v.normal = glm::normalize(glm::cross(dir1, dir2));
-    }
 }
 
 void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function3D & fn, float step)
@@ -39,7 +22,8 @@ void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function3D & fn,
 	}
 }
 
-template <class T> void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
+template <class T> 
+void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
 {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -85,7 +69,14 @@ void CalculateTriangleStripIndicies(std::vector<uint32_t> & indicies, unsigned c
 }
 
 CDottedFunctionSurface::CDottedFunctionSurface(const Function2D & fn)
-    :m_fn(fn)
+{
+	m_fn = [=](float x, float z) {
+		return glm::vec3(x, fn(x, z), z);
+	};
+}
+
+CDottedFunctionSurface::CDottedFunctionSurface(const Function3D & fn)
+	:m_fn(fn)
 {
 
 }
