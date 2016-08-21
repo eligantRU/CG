@@ -4,6 +4,7 @@
 #include "IBody.h"
 
 using Function2D = std::function<float(float, float)>;
+using Function3D = std::function<glm::vec3(float, float)>;
 
 struct SVertexP3N
 {
@@ -16,7 +17,7 @@ struct SVertexP3N
     {
 
     }
-};
+}; 
 
 class CDottedFunctionSurface final : public IBody
 {
@@ -36,15 +37,17 @@ private:
 class CSolidFunctionSurface final : public IBody
 {
 public:
-    CSolidFunctionSurface(const Function2D &fn);
+    CSolidFunctionSurface(const Function3D & fn);
 
-    void Tesselate(const glm::vec2 &rangeX, const glm::vec2 &rangeZ, float step);
+    void Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step);
 
     void Update(float) final {}
     void Draw() const final;
 
 private:
-    Function2D m_fn;
+	void DrawFace() const;
+
+	Function3D m_fn;
     std::vector<SVertexP3N> m_vertices;
     std::vector<uint32_t> m_indicies;
 };

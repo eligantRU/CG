@@ -12,6 +12,11 @@ glm::vec3 GetPosition(const Function2D & fn, float x, float z)
     return { x, y, z };
 }
 
+glm::vec3 GetPosition(const Function3D & fn, float x, float y)
+{
+	return fn(x, y);
+}
+
 void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function2D & fn, float step)
 {
     for (SVertexP3N &v : vertices)
@@ -21,6 +26,17 @@ void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function2D & fn,
         glm::vec3 dir2 = GetPosition(fn, position.x + step, position.z) - position;
         v.normal = glm::normalize(glm::cross(dir1, dir2));
     }
+}
+
+void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function3D & fn, float step)
+{
+	for (SVertexP3N &v : vertices)
+	{
+		const glm::vec3 &position = v.position;
+		glm::vec3 dir1 = GetPosition(fn, position.x, position.z + step) - position;
+		glm::vec3 dir2 = GetPosition(fn, position.x + step, position.z) - position;
+		v.normal = glm::normalize(glm::cross(dir1, dir2));
+	}
 }
 
 template <class T> void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
@@ -96,9 +112,10 @@ void CDottedFunctionSurface::Draw() const
     });
 }
 
-CSolidFunctionSurface::CSolidFunctionSurface(const Function2D & fn)
-    :m_fn(fn)
+CSolidFunctionSurface::CSolidFunctionSurface(const Function3D & fn)
+	:m_fn(fn)
 {
+
 }
 
 void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step)
@@ -123,7 +140,15 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 
 
 void CSolidFunctionSurface::Draw() const
 {
-    DoWithBindedArrays(m_vertices, [this] {
-        glDrawElements(GL_TRIANGLE_STRIP, GLsizei(m_indicies.size()), GL_UNSIGNED_INT, m_indicies.data());
-    });
+	DrawFace();
+	glFrontFace(GL_CW);
+	DrawFace();
+	glFrontFace(GL_CCW);
+}
+
+void CSolidFunctionSurface::DrawFace() const
+{
+	DoWithBindedArrays(m_vertices, [this] {
+		glDrawElements(GL_TRIANGLE_STRIP, GLsizei(m_indicies.size()), GL_UNSIGNED_INT, m_indicies.data());
+	});
 }
