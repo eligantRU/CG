@@ -6,33 +6,19 @@
 using Function2D = std::function<float(float, float)>;
 using Function3D = std::function<glm::vec3(float, float)>;
 
-struct SVertexP3N
+struct SVertexP3NT2
 {
-    glm::vec3 position;
-    glm::vec3 normal;
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 uv;
 
-    SVertexP3N() = default;
-    SVertexP3N(const glm::vec3 & position)
-        :position(position)
-    {
+	SVertexP3NT2() = default;
+	SVertexP3NT2(const glm::vec3 & position, const glm::vec2 & uv)
+		:position(position)
+		,uv(uv)
+	{
 
-    }
-}; 
-
-class CDottedFunctionSurface final : public IBody
-{
-public:
-    CDottedFunctionSurface(const Function2D & fn);
-	CDottedFunctionSurface(const Function3D & fn);
-
-    void Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step);
-
-    void Update(float) final {}
-    void Draw() const final;
-
-private:
-    Function3D m_fn;
-    std::vector<SVertexP3N> m_vertices;
+	}
 };
 
 class CSolidFunctionSurface final : public IBody
@@ -50,6 +36,6 @@ private:
 	void DrawFace() const;
 
 	Function3D m_fn;
-    std::vector<SVertexP3N> m_vertices;
+    std::vector<SVertexP3NT2> m_vertices;
     std::vector<uint32_t> m_indicies;
 };

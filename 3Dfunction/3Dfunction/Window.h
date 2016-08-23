@@ -22,6 +22,7 @@ protected:
 	void OnDragBegin(const glm::vec2 & pos) override;
 	void OnDragMotion(const glm::vec2 & pos) override;
 	void OnDragEnd(const glm::vec2 & pos) override;
+	void OnKeyUp(const SDL_KeyboardEvent & key) override;
 
 private:
     void SetupView(const glm::ivec2 & size);
@@ -29,6 +30,7 @@ private:
 	CPhongModelMaterial m_material;
 	CSolidFunctionSurface m_surface;
     CCamera m_camera;
-	CPositionLightSource m_sunlight;
+	CDirectedLightSource m_sunlight;
 	glm::vec2 m_dragPosition;
+	bool m_lineMode = false;
 };

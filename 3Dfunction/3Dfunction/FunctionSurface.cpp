@@ -6,29 +6,30 @@ namespace
 
 const float DOT_SIZE = 5.f;
 
-glm::vec3 GetPosition(const Function3D & fn, float x, float y)
+glm::vec3 GetPosition(const Function3D & fn, float u, float v)
 {
-	return fn(x, y);
+	return fn(u, v);
 }
 
-void CalculateNormals(std::vector<SVertexP3N> & vertices, const Function3D & fn, float step)
+void CalculateNormals(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step)
 {
-	for (SVertexP3N &v : vertices)
+	for (SVertexP3NT2 &v : vertices)
 	{
-		const glm::vec3 &position = v.position;
-		glm::vec3 dir1 = GetPosition(fn, position.x, position.z + step) - position;
-		glm::vec3 dir2 = GetPosition(fn, position.x + step, position.z) - position;
+		const glm::vec3 & position = v.position;
+		const auto & uv = v.uv;
+		glm::vec3 dir1 = GetPosition(fn, uv.x, uv.y + step) - position;
+		glm::vec3 dir2 = GetPosition(fn, uv.x + step, uv.y) - position;
 		v.normal = glm::normalize(glm::cross(dir1, dir2));
 	}
 }
 
 template <class T> 
-void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
+void DoWithBindedArrays(const std::vector<SVertexP3NT2> & vertices, T && callback)
 {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
-    const size_t stride = sizeof(SVertexP3N);
+    const size_t stride = sizeof(SVertexP3NT2);
     glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
     glVertexPointer(3, GL_FLOAT, stride, glm::value_ptr(vertices[0].position));
 
@@ -68,41 +69,6 @@ void CalculateTriangleStripIndicies(std::vector<uint32_t> & indicies, unsigned c
 
 }
 
-CDottedFunctionSurface::CDottedFunctionSurface(const Function2D & fn)
-{
-	m_fn = [=](float x, float z) {
-		return glm::vec3(x, fn(x, z), z);
-	};
-}
-
-CDottedFunctionSurface::CDottedFunctionSurface(const Function3D & fn)
-	:m_fn(fn)
-{
-
-}
-
-void CDottedFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step)
-{
-    m_vertices.clear();
-    
-    for (float x = rangeX.x; x < rangeX.y; x += step)
-    {
-        for (float z = rangeZ.x; z < rangeZ.y; z += step)
-        {
-            m_vertices.push_back(SVertexP3N(GetPosition(m_fn, x, z)));
-        }
-    }
-    CalculateNormals(m_vertices, m_fn, step);
-}
-
-void CDottedFunctionSurface::Draw() const
-{
-    glPointSize(DOT_SIZE);
-    DoWithBindedArrays(m_vertices, [this] {
-        glDrawArrays(GL_POINTS, 0, GLsizei(m_vertices.size()));
-    });
-}
-
 CSolidFunctionSurface::CSolidFunctionSurface(const Function2D & fn)
 {
 	m_fn = [=](float x, float z) {
@@ -125,17 +91,15 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 
 
     for (unsigned ci = 0; ci < columnCount; ++ci)
     {
-        const float x = rangeX.x + step * float(ci);
+        const float u = rangeX.x + step * float(ci);
         for (unsigned ri = 0; ri < rowCount; ++ri)
         {
-            const float z = rangeZ.x + step * float(ri);
+            const float v = rangeZ.x + step * float(ri);
 
-			SVertexP3N vertex;
-			vertex.position = GetPosition(m_fn, x, z); 
-			vertex.normal = glm::normalize(vertex.position);
-			m_vertices.push_back(vertex);
+			m_vertices.push_back(SVertexP3NT2(GetPosition(m_fn, u, v), { u, v }));
         }
     }
+    CalculateNormals(m_vertices, m_fn, step);
     CalculateTriangleStripIndicies(m_indicies, columnCount, rowCount);
 }
 

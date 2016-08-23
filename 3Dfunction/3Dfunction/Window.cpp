@@ -6,25 +6,39 @@ namespace
 {
 
 const glm::vec4 BLACK = { 0, 0, 0, 1 };
+const glm::vec3 ORANGE = { 1, 0.5f, 0 };
+const glm::vec4 ORANGE_RGBA = { 1, 0.5f, 0, 1 };
 const float MATERIAL_SHININESS = 30.f;
 const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
 const glm::vec4 FADED_WHITE_RGBA = { 0.3f, 0.3f, 0.3f, 1 };
 const glm::vec4 YELLOW_RGBA = { 1, 1, 0, 1 };
-const glm::vec4 PERPLE_RGBA = { 0.7686f, 0, 0.6706f, 1 };
+const glm::vec4 PERPLE_RGBA = { 0.7686f, 0, 0.6706f, 1 }; 
 const glm::vec3 SUNLIGHT_DIRECTION = { -1, 0.2f, 0.7f };
-const float CAMERA_INITIAL_ROTATION = 0;
 const float CAMERA_INITIAL_DISTANCE = 10.f;
 
 void SetupOpenGLState()
 {
 	glFrontFace(GL_CCW);
-
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 
 	glShadeModel(GL_SMOOTH);
 
     glEnable(GL_LIGHTING);
+}
+
+void SetupLineMode(bool flag)
+{
+	if (flag)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
 
 float GetSinc(float x, float y)
@@ -42,14 +56,14 @@ float GetMonkeySaddle(float x, float y)
 	return pow(x, 3) - 3 * x * pow(y, 2);
 }
 
-float GetHyperbolicParaboloid(float x, float y)
+float GetHyperbolicuvaboloid(float x, float y)
 {
 	const float a = 1.f;
 	const float b = 1.f;
 	return (pow(x, 2) / pow(a, 2) - pow(y, 2) / pow(b, 2)) / 2;
 }
 
-float GetEllipticalParaboloid(float x, float y)
+float GetEllipticaluvaboloid(float x, float y)
 {
 	const float a = 1.f;
 	const float b = 1.f;
@@ -156,20 +170,21 @@ CWindow::CWindow()
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
 
-	m_material.SetAmbient(PERPLE_RGBA);
-	m_material.SetDiffuse(PERPLE_RGBA);
-	m_material.SetSpecular(FADED_WHITE_RGBA);
+	m_material.SetAmbient(ORANGE_RGBA);
+	m_material.SetDiffuse(ORANGE_RGBA);
+	m_material.SetSpecular(BLACK);
 	m_material.SetShininess(MATERIAL_SHININESS);
-
+	
 	// m_surface.Tesselate({ -1.5f, 1.5f }, { -M_PI * 1.1f, M_PI * 1.1f }, 0.01f); // for  the Catenoid
-	m_surface.Tesselate({ 0, 2 * M_PI * 1.05f }, { -1, 1 }, 0.01f); // for the Mobius Strip
-	// m_surface.Tesselate({ -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.01f); // for the Klein Bottle
-	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.1f); // for others
+	m_surface.Tesselate({ 0, 2 * M_PI * 1.05f }, { -1, 1 }, 0.1f); // for the Mobius Strip
+	// m_surface.Tesselate({ -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f); // for the Klein Bottle
+	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.5f); // for others
 
-	m_sunlight.SetPosition({ 10, 10 , 10 });
+	//m_sunlight.SetPosition({ 10, 10 , 10 });
+	m_sunlight.SetDirection({ 0, 1, 0 });
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
-    m_sunlight.SetSpecular(WHITE_RGBA);
+	m_sunlight.SetSpecular(BLACK);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -181,8 +196,9 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
-	m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
+	//m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
 	m_surface.Update(deltaSeconds);
+	SetupLineMode(m_lineMode);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 & size)
@@ -202,7 +218,7 @@ void CWindow::SetupView(const glm::ivec2 & size)
     const float fieldOfView = glm::radians(60.f);
     const float aspect = float(size.x) / float(size.y);
     const float zNear = 0.01f;
-    const float zFar = 1000.f;
+    const float zFar = 100.f;
     const glm::mat4 proj = glm::perspective(fieldOfView, aspect, zNear, zFar);
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(glm::value_ptr(proj));
@@ -238,4 +254,12 @@ void CWindow::OnDragEnd(const glm::vec2 & pos)
 {
 	(void)pos;
 	m_camera.SetRotationFlag(false);
+}
+
+void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
+{
+	if (key.keysym.sym == SDLK_SPACE)
+	{
+		m_lineMode = !m_lineMode;
+	}
 }
