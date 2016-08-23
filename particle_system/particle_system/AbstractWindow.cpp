@@ -46,9 +46,11 @@ public:
                                          size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
         m_pGLContext.reset(SDL_GL_CreateContext(m_pWindow.get()));
-        InitGlewOnce();
+		SDL_GL_SetSwapInterval(0);
+		InitGlewOnce();
     }
 
     glm::ivec2 GetWindowSize() const

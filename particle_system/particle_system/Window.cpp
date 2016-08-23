@@ -25,7 +25,7 @@ CWindow::CWindow()
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
-    m_time += deltaSeconds;
+	//std::cerr << "deltaSeconds: " << deltaSeconds << std::endl;
 	m_system.Advance(deltaSeconds);
 }
 
