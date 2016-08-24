@@ -82,6 +82,11 @@ CSolidFunctionSurface::CSolidFunctionSurface(const Function3D & fn)
 
 }
 
+void CSolidFunctionSurface::operator=(const Function3D & fn)
+{
+	m_fn = fn;
+}
+
 void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step)
 {
     const unsigned columnCount = unsigned((rangeX.y - rangeX.x) / step);
@@ -106,6 +111,11 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 
 void CSolidFunctionSurface::Draw() const
 {
 	DrawFace();
+}
+
+void CSolidFunctionSurface::SetFunction(const Function3D & fn)
+{
+	m_fn = fn;
 }
 
 void CSolidFunctionSurface::DrawFace() const

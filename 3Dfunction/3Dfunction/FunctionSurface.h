@@ -32,6 +32,10 @@ public:
     void Update(float) final {}
     void Draw() const final;
 
+	void SetFunction(const Function3D & fn);
+
+	void operator=(const Function3D & fn);
+
 private:
 	void DrawFace() const;
 

@@ -19,8 +19,8 @@ const float CAMERA_INITIAL_DISTANCE = 10.f;
 void SetupOpenGLState()
 {
 	glFrontFace(GL_CW);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE); // NOTE
+	//glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 
@@ -29,7 +29,7 @@ void SetupOpenGLState()
     glEnable(GL_LIGHTING);
 }
 
-void SetupLineMode(bool flag)
+void SetupLineMode(const bool flag)
 {
 	if (flag)
 	{
@@ -163,6 +163,37 @@ glm::vec3 GetKleinBottle(float u, float v)
 
 }
 
+SFunctionInfo::SFunctionInfo(const Function3D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step)
+	:m_fn(fn)
+	,m_rangeX(rangeX)
+	,m_rangeY(rangeY)
+	,m_step(step)
+{
+
+}
+
+SFunctionInfo::~SFunctionInfo() = default;
+
+Function3D SFunctionInfo::GetFunction() const
+{
+	return m_fn;
+}
+
+glm::vec2 SFunctionInfo::GetRangeX() const
+{
+	return m_rangeX;
+}
+
+glm::vec2 SFunctionInfo::GetRangeY() const
+{
+	return m_rangeY;
+}
+
+float SFunctionInfo::GetStep() const
+{
+	return m_step;
+}
+
 CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_DISTANCE)
 	,m_surface(GetMobiusStrip)
@@ -176,15 +207,22 @@ CWindow::CWindow()
 	m_material.SetShininess(MATERIAL_SHININESS);
 	
 	// m_surface.Tesselate({ -1.5f, 1.5f }, { -M_PI * 1.1f, M_PI * 1.1f }, 0.01f); // for  the Catenoid
-	m_surface.Tesselate({ 0, 2 * M_PI * 1.05f }, { -1, 1 }, 0.1f); // for the Mobius Strip
+	m_surface.Tesselate({ 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f); // for the Mobius Strip
 	// m_surface.Tesselate({ -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f); // for the Klein Bottle
-	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.5f); // for others
+	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.1f); // for others
 
 	//m_sunlight.SetPosition({ 10, 10 , 10 });
 	m_sunlight.SetDirection({ 0, 1, 0 });
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK);
+
+	m_bla.reserve(5);
+	m_bla.push_back(SFunctionInfo(GetTorus, { -10, 10 }, { -10, 10 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -10, 10 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));   
+	m_bla.push_back(SFunctionInfo(GetKleinBottle, { -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f));
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -197,6 +235,7 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
 	//m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
+
 	m_surface.Update(deltaSeconds);
 	SetupLineMode(m_lineMode);
 }
@@ -261,5 +300,17 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
 	if (key.keysym.sym == SDLK_SPACE)
 	{
 		m_lineMode = !m_lineMode;
+	}
+	if (key.keysym.sym == SDLK_RIGHT)
+	{
+		std::rotate(m_bla.begin(), m_bla.begin() + 1, m_bla.end());
+		m_surface.SetFunction(m_bla[0].GetFunction());
+		m_surface.Tesselate(m_bla[0].GetRangeX(), m_bla[0].GetRangeY(), m_bla[0].GetStep());
+	}
+	if (key.keysym.sym == SDLK_LEFT)
+	{
+		std::rotate(m_bla.rbegin(), m_bla.rbegin() + 1, m_bla.rend());
+		m_surface.SetFunction(m_bla[0].GetFunction());
+		m_surface.Tesselate(m_bla[0].GetRangeX(), m_bla[0].GetRangeY(), m_bla[0].GetStep());
 	}
 }
