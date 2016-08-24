@@ -113,17 +113,6 @@ glm::vec3 GetMobiusStrip(float u, float v)
 	return { x, y, z };
 }
 
-glm::vec3 GetKleinBottleByWiki(float u, float v)
-{
-	const float r = 5.f;
-
-	float x = (r + cosf(u / 2) * sinf(v) - sinf(u / 2) * sinf(2 * v)) * cosf(u);
-	float y = (r + cosf(u / 2) * sinf(v) - sinf(u / 2) * sinf(2 * v)) * sinf(u);
-	float z = sinf(u / 2) * sinf(v) + cosf(u / 2) * sinf(2 * v);
-
-	return { x, y, z };
-}
-
 glm::vec3 GetKleinBottle(float u, float v)
 {
 	const float r = 1.f;
@@ -209,14 +198,11 @@ CWindow::CWindow()
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK_RGBA);
 
-	m_surface.Tesselate({ 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f); // only for the Mobius Strip
-
-	m_bla.reserve(9);
+	m_bla.reserve(8);
 	m_bla.push_back(SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f)); 
-	m_bla.push_back(SFunctionInfo(GetKleinBottleByWiki, { 0, 7 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f));

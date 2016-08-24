@@ -44,18 +44,18 @@ glm::mat4 CCamera::GetViewTransform() const
     const glm::vec3 center = { 0, 0, 0 };
 	const glm::vec3 up = { 0, 0, 1 };
 
-	return glm::lookAt(eye, center, up);
+	return glm::lookAt(eye, center, up) * glm::rotate(glm::mat4(), glm::radians(float(m_angle.x)), glm::vec3(0, 1, 0))
+										* glm::rotate(glm::mat4(), glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
 }
 
 glm::vec3 CCamera::GetPosition() const
 {
-	glm::vec3 direction = { 0, 1, 0 };
+	glm::vec3 direction = { 1, 0, 0 };
 
 	glm::vec3 eye = direction * m_distance;
-	glm::mat4 rotMatrix(1);
-	// rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.x)), glm::vec3(1, 0, 0)); // on the fan :)
-	rotMatrix = glm::rotate(rotMatrix, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
-	eye = glm::vec3(rotMatrix * glm::vec4(eye, 1));
+
+	// eye = glm::rotate(eye, glm::radians(float(m_angle.x)), glm::vec3(0, 1, 0));
+	// eye = glm::rotate(eye, glm::radians(float(m_angle.y)), glm::vec3(0, 0, -1));
 
 	return eye;
 }
