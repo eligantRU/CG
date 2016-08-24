@@ -11,7 +11,18 @@ glm::vec3 GetPosition(const Function3D & fn, float u, float v)
 	return fn(u, v);
 }
 
-void CalculateNormals(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step)
+void CalculateNormalsByXY(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step)
+{
+	for (SVertexP3NT2 &v : vertices)
+	{
+		const glm::vec3 &position = v.position;
+		glm::vec3 dir1 = GetPosition(fn, position.x, position.z + step) - position;
+		glm::vec3 dir2 = GetPosition(fn, position.x + step, position.z) - position;
+		v.normal = glm::normalize(glm::cross(dir1, dir2));
+	}
+}
+
+void CalculateNormalsByUV(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step)
 {
 	for (SVertexP3NT2 &v : vertices)
 	{
@@ -20,6 +31,23 @@ void CalculateNormals(std::vector<SVertexP3NT2> & vertices, const Function3D & f
 		glm::vec3 dir1 = GetPosition(fn, uv.x, uv.y + step) - position;
 		glm::vec3 dir2 = GetPosition(fn, uv.x + step, uv.y) - position;
 		v.normal = glm::normalize(glm::cross(dir1, dir2));
+	}
+}
+
+void CalculateNormals(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step, const CSolidFunctionSurface::FunctionType type)
+{
+	switch (type)
+	{
+	case CSolidFunctionSurface::FunctionType::Function2D:
+		CalculateNormalsByXY(vertices, fn, step);
+		break;
+	case CSolidFunctionSurface::FunctionType::Function3D:
+		CalculateNormalsByUV(vertices, fn, step);
+		break;
+	case CSolidFunctionSurface::FunctionType::Undefined:
+	default:
+		std::cerr << "Unexpected function type" << std::endl;
+		assert(0);
 	}
 }
 
@@ -74,12 +102,14 @@ CSolidFunctionSurface::CSolidFunctionSurface(const Function2D & fn)
 	m_fn = [=](float x, float z) {
 		return glm::vec3(x, fn(x,z), z);
 	};
+
+	m_functionType = FunctionType::Function2D;
 }
 
 CSolidFunctionSurface::CSolidFunctionSurface(const Function3D & fn)
 	:m_fn(fn)
 {
-
+	m_functionType = FunctionType::Function3D;
 }
 
 void CSolidFunctionSurface::operator=(const Function3D & fn)
@@ -104,7 +134,7 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 
 			m_vertices.push_back(SVertexP3NT2(GetPosition(m_fn, u, v), { u, v }));
         }
     }
-    CalculateNormals(m_vertices, m_fn, step);
+    CalculateNormals(m_vertices, m_fn, step, m_functionType);
     CalculateTriangleStripIndicies(m_indicies, columnCount, rowCount);
 }
 

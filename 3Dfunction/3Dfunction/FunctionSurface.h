@@ -36,10 +36,19 @@ public:
 
 	void operator=(const Function3D & fn);
 
+	enum class FunctionType
+	{
+		Undefined = 0,
+		Function2D,
+		Function3D
+	};
+
 private:
+
 	void DrawFace() const;
 
 	Function3D m_fn;
     std::vector<SVertexP3NT2> m_vertices;
     std::vector<uint32_t> m_indicies;
+	FunctionType m_functionType = FunctionType::Undefined;
 };
