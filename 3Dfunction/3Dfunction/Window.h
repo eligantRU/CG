@@ -9,6 +9,7 @@
 struct SFunctionInfo
 {
 public:
+	SFunctionInfo(const Function2D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step = 0.01f);
 	SFunctionInfo(const Function3D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step = 0.01f);
 	~SFunctionInfo();
 

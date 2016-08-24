@@ -8,6 +8,8 @@ namespace
 const glm::vec4 BLACK = { 0, 0, 0, 1 };
 const glm::vec3 ORANGE = { 1, 0.5f, 0 };
 const glm::vec4 ORANGE_RGBA = { 1, 0.5f, 0, 1 };
+const glm::vec3 ORANGE_2 = { 1, 0.6275f, 0 };
+const glm::vec4 ORANGE_RGBA_2 = { 1, 0.6275f, 0, 1 };
 const float MATERIAL_SHININESS = 30.f;
 const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
 const glm::vec4 FADED_WHITE_RGBA = { 0.3f, 0.3f, 0.3f, 1 };
@@ -18,9 +20,9 @@ const float CAMERA_INITIAL_DISTANCE = 10.f;
 
 void SetupOpenGLState()
 {
-	glFrontFace(GL_CW);
-	//glEnable(GL_CULL_FACE); // NOTE
-	//glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+	glEnable(GL_CULL_FACE); // NOTE
+	glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 
@@ -56,14 +58,14 @@ float GetMonkeySaddle(float x, float y)
 	return pow(x, 3) - 3 * x * pow(y, 2);
 }
 
-float GetHyperbolicuvaboloid(float x, float y)
+float GetHyperbolicParaboloid(float x, float y)
 {
 	const float a = 1.f;
 	const float b = 1.f;
 	return (pow(x, 2) / pow(a, 2) - pow(y, 2) / pow(b, 2)) / 2;
 }
 
-float GetEllipticaluvaboloid(float x, float y)
+float GetEllipticalParaboloid(float x, float y)
 {
 	const float a = 1.f;
 	const float b = 1.f;
@@ -163,6 +165,17 @@ glm::vec3 GetKleinBottle(float u, float v)
 
 }
 
+SFunctionInfo::SFunctionInfo(const Function2D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step)
+	:m_rangeX(rangeX)
+	,m_rangeY(rangeY)
+	,m_step(step)
+{
+	m_fn = [=](float x, float z) {
+		return glm::vec3(x, fn(x, z), z);
+	};
+
+}
+
 SFunctionInfo::SFunctionInfo(const Function3D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step)
 	:m_fn(fn)
 	,m_rangeX(rangeX)
@@ -201,15 +214,10 @@ CWindow::CWindow()
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
 
-	m_material.SetAmbient(ORANGE_RGBA);
-	m_material.SetDiffuse(ORANGE_RGBA);
+	m_material.SetAmbient(ORANGE_RGBA_2);
+	m_material.SetDiffuse(ORANGE_RGBA_2);
 	m_material.SetSpecular(BLACK);
 	m_material.SetShininess(MATERIAL_SHININESS);
-	
-	// m_surface.Tesselate({ -1.5f, 1.5f }, { -M_PI * 1.1f, M_PI * 1.1f }, 0.01f); // for  the Catenoid
-	m_surface.Tesselate({ 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f); // for the Mobius Strip
-	// m_surface.Tesselate({ -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f); // for the Klein Bottle
-	// m_surface.Tesselate({ -10, 10 }, { -10, 10 }, 0.1f); // for others
 
 	//m_sunlight.SetPosition({ 10, 10 , 10 });
 	m_sunlight.SetDirection({ 0, 1, 0 });
@@ -217,12 +225,21 @@ CWindow::CWindow()
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK);
 
-	m_bla.reserve(5);
-	m_bla.push_back(SFunctionInfo(GetTorus, { -10, 10 }, { -10, 10 }, 0.1f));
+	m_surface.Tesselate({ 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f); // only for the Mobius Strip
+
+	m_bla.reserve(9);
+	m_bla.push_back(SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetKleinBottleByWiki, { -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -10, 10 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));   
 	m_bla.push_back(SFunctionInfo(GetKleinBottle, { -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f));
+
+	m_surface.SetFunction(m_bla[0].GetFunction());
+	m_surface.Tesselate(m_bla[0].GetRangeX(), m_bla[0].GetRangeY(), m_bla[0].GetStep());
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
