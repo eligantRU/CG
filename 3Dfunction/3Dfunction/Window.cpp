@@ -5,11 +5,9 @@
 namespace
 {
 
-const glm::vec4 BLACK = { 0, 0, 0, 1 };
-const glm::vec3 ORANGE = { 1, 0.5f, 0 };
-const glm::vec4 ORANGE_RGBA = { 1, 0.5f, 0, 1 };
-const glm::vec3 ORANGE_2 = { 1, 0.6275f, 0 };
-const glm::vec4 ORANGE_RGBA_2 = { 1, 0.6275f, 0, 1 };
+const glm::vec4 BLACK_RGBA = { 0, 0, 0, 1 };
+const glm::vec3 ORANGE = { 1, 0.6275f, 0 };
+const glm::vec4 ORANGE_RGBA = { 1, 0.6275f, 0, 1 };
 const float MATERIAL_SHININESS = 30.f;
 const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
 const glm::vec4 FADED_WHITE_RGBA = { 0.3f, 0.3f, 0.3f, 1 };
@@ -106,18 +104,6 @@ glm::vec3 GetCatenoid(float u, float v)
 	return { x, y, z };
 }
 
-glm::vec3 GetSphere(float u, float v)
-{
-	const float radius = 1.f;
-	const float latitude = float(M_PI) * (1.f - v);
-	const float longitude = float(2.0 * M_PI) * u;
-	const float latitudeRadius = radius * sinf(latitude);
-
-	return { cosf(longitude) * latitudeRadius,
-		     cosf(latitude) * radius,
-		     sinf(longitude) * latitudeRadius };
-}
-
 glm::vec3 GetMobiusStrip(float u, float v)
 {
 	float x = (1 + v / 2 * cosf(u / 2)) * cosf(u);
@@ -141,19 +127,18 @@ glm::vec3 GetKleinBottleByWiki(float u, float v)
 glm::vec3 GetKleinBottle(float u, float v)
 {
 	const float r = 1.f;
-	const float eps = float(M_PI_2 + 0.1f); 
 
 	float x = 0;
 	float y = 0;
 	float z = 0;
 
-	if ((u >= 0 - eps) && (u < M_PI + eps))
+	if ((u >= 0) && (u < M_PI * 1.025f))
 	{
 		x = 6 * cosf(u) * (1 + sinf(u)) + 4 * r * (1 - cosf(u) / 2) * cosf(u) * cosf(v);
 		y = 16 * sinf(u) + 4 * r * (1 - cosf(u) / 2) * sinf(u) * cosf(v);
 		z = 4 * r * (1 - cosf(u) / 2) * sinf(v);
 	}
-	else if ((u > M_PI - eps) && (u <= 2 * M_PI + eps))
+	else if ((u > M_PI * 1.025f) && (u <= 2 * M_PI * 1.025f))
 	{
 		x = 6 * cosf(u) * (1 + sinf(u)) - 4 * r * (1 - cosf(u) / 2) * cosf(v);
 		y = 16 * sinf(u);
@@ -214,16 +199,15 @@ CWindow::CWindow()
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
 
-	m_material.SetAmbient(ORANGE_RGBA_2);
-	m_material.SetDiffuse(ORANGE_RGBA_2);
-	m_material.SetSpecular(BLACK);
+	m_material.SetAmbient(ORANGE_RGBA);
+	m_material.SetDiffuse(ORANGE_RGBA);
+	m_material.SetSpecular(BLACK_RGBA);
 	m_material.SetShininess(MATERIAL_SHININESS);
 
-	//m_sunlight.SetPosition({ 10, 10 , 10 });
-	m_sunlight.SetDirection({ 0, 1, 0 });
+	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
     m_sunlight.SetDiffuse(WHITE_RGBA);
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
-	m_sunlight.SetSpecular(BLACK);
+	m_sunlight.SetSpecular(BLACK_RGBA);
 
 	m_surface.Tesselate({ 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f); // only for the Mobius Strip
 
@@ -231,11 +215,11 @@ CWindow::CWindow()
 	m_bla.push_back(SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetKleinBottleByWiki, { -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -10, 10 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));   
-	m_bla.push_back(SFunctionInfo(GetKleinBottle, { -5, 5 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f)); 
+	m_bla.push_back(SFunctionInfo(GetKleinBottleByWiki, { 0, 7 }, { 0, 2 * M_PI * 1.025f }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));
+	m_bla.push_back(SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f));
 	m_bla.push_back(SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f));
 
 	m_surface.SetFunction(m_bla[0].GetFunction());
@@ -251,7 +235,6 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
-	//m_sunlight.SetPosition(m_camera.GetPosition()); // on the fan :)
 
 	m_surface.Update(deltaSeconds);
 	SetupLineMode(m_lineMode);
