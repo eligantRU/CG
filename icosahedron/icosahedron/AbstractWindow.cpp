@@ -43,14 +43,21 @@ public:
 
     void Show(glm::ivec2 const & size)
     {
-        m_size = size;
-        m_pWindow.reset(SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                         size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
+		m_size = size;
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+		m_pWindow.reset(SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
 
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+		m_pGLContext.reset(SDL_GL_CreateContext(m_pWindow.get()));
+		if (!m_pGLContext)
+		{
+			const char *pError = SDL_GetError();
+			pError = pError ? pError : "<nullptr>";
+			std::cerr << "Failed to create context: " << pError << std::endl;
+			std::abort();
+		}
 
-        m_pGLContext.reset(SDL_GL_CreateContext(m_pWindow.get()));
-        InitGlewOnce();
+		InitGlewOnce();
     }
 
     glm::ivec2 GetWindowSize() const
