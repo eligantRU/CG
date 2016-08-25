@@ -9,20 +9,22 @@
 struct SFunctionInfo
 {
 public:
-	SFunctionInfo(const Function2D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step = 0.01f);
-	SFunctionInfo(const Function3D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step = 0.01f);
+	SFunctionInfo(const Function2D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step);
+	SFunctionInfo(const Function3D & fn, const glm::vec2 & rangeX, const glm::vec2 & rangeY, const float & step);
 	~SFunctionInfo();
 
 	Function3D GetFunction() const;
 	glm::vec2 GetRangeX() const;
 	glm::vec2 GetRangeY() const;
 	float GetStep() const;
+	FunctionType GetFunctionType() const;
 
 private:
 	Function3D m_fn;
 	glm::vec2 m_rangeX;
 	glm::vec2 m_rangeY;
 	float m_step;
+	FunctionType m_functionType;
 };
 
 class CWindow : public CAbstractInputControlWindow
@@ -52,5 +54,5 @@ private:
 	CDirectedLightSource m_sunlight;
 	glm::vec2 m_dragPosition;
 	bool m_lineMode = false;
-	std::vector<SFunctionInfo> m_bla;
+	std::vector<SFunctionInfo> m_functions;
 };

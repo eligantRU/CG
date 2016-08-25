@@ -143,6 +143,7 @@ SFunctionInfo::SFunctionInfo(const Function2D & fn, const glm::vec2 & rangeX, co
 	:m_rangeX(rangeX)
 	,m_rangeY(rangeY)
 	,m_step(step)
+	,m_functionType(FunctionType::Function2D)
 {
 	m_fn = [=](float x, float z) {
 		return glm::vec3(x, fn(x, z), z);
@@ -155,6 +156,7 @@ SFunctionInfo::SFunctionInfo(const Function3D & fn, const glm::vec2 & rangeX, co
 	,m_rangeX(rangeX)
 	,m_rangeY(rangeY)
 	,m_step(step)
+	,m_functionType(FunctionType::Function3D)
 {
 
 }
@@ -181,9 +183,13 @@ float SFunctionInfo::GetStep() const
 	return m_step;
 }
 
+FunctionType SFunctionInfo::GetFunctionType() const
+{
+	return m_functionType;
+}
+
 CWindow::CWindow()
     :m_camera(CAMERA_INITIAL_DISTANCE)
-	,m_surface(GetMobiusStrip)
     ,m_sunlight(GL_LIGHT0)
 {
     SetBackgroundColor(BACKGROUND_COLOUR);
@@ -198,18 +204,18 @@ CWindow::CWindow()
     m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK_RGBA);
 
-	m_bla.reserve(8);
-	m_bla.push_back(SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f)); 
-	m_bla.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f));
-	m_bla.push_back(SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f));
+	m_functions.reserve(8);
+	m_functions.push_back(SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f));
+	m_functions.push_back(SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
+	m_functions.push_back(SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
+	m_functions.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f)); 
+	m_functions.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f));
+	m_functions.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));
+	m_functions.push_back(SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f));
+	m_functions.push_back(SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f));
 
-	m_surface.SetFunction(m_bla[0].GetFunction());
-	m_surface.Tesselate(m_bla[0].GetRangeX(), m_bla[0].GetRangeY(), m_bla[0].GetStep());
+	m_surface.SetFunction(m_functions[0].GetFunction(), m_functions[0].GetFunctionType());
+	m_surface.Tesselate(m_functions[0].GetRangeX(), m_functions[0].GetRangeY(), m_functions[0].GetStep());
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -289,14 +295,14 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
 	}
 	if (key.keysym.sym == SDLK_RIGHT)
 	{
-		std::rotate(m_bla.begin(), m_bla.begin() + 1, m_bla.end());
-		m_surface.SetFunction(m_bla[0].GetFunction());
-		m_surface.Tesselate(m_bla[0].GetRangeX(), m_bla[0].GetRangeY(), m_bla[0].GetStep());
+		std::rotate(m_functions.begin(), m_functions.begin() + 1, m_functions.end());
+		m_surface.SetFunction(m_functions[0].GetFunction(), m_functions[0].GetFunctionType());
+		m_surface.Tesselate(m_functions[0].GetRangeX(), m_functions[0].GetRangeY(), m_functions[0].GetStep());
 	}
 	if (key.keysym.sym == SDLK_LEFT)
 	{
-		std::rotate(m_bla.rbegin(), m_bla.rbegin() + 1, m_bla.rend());
-		m_surface.SetFunction(m_bla[0].GetFunction());
-		m_surface.Tesselate(m_bla[0].GetRangeX(), m_bla[0].GetRangeY(), m_bla[0].GetStep());
+		std::rotate(m_functions.rbegin(), m_functions.rbegin() + 1, m_functions.rend());
+		m_surface.SetFunction(m_functions[0].GetFunction(), m_functions[0].GetFunctionType());
+		m_surface.Tesselate(m_functions[0].GetRangeX(), m_functions[0].GetRangeY(), m_functions[0].GetStep());
 	}
 }

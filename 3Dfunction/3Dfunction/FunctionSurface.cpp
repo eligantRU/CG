@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "FunctionSurface.h"
+#include "sheet.h"
 
 namespace
 {
@@ -34,17 +35,17 @@ void CalculateNormalsByUV(std::vector<SVertexP3NT2> & vertices, const Function3D
 	}
 }
 
-void CalculateNormals(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step, const CSolidFunctionSurface::FunctionType type)
+void CalculateNormals(std::vector<SVertexP3NT2> & vertices, const Function3D & fn, float step, const FunctionType type)
 {
 	switch (type)
 	{
-	case CSolidFunctionSurface::FunctionType::Function2D:
+	case FunctionType::Function2D:
 		CalculateNormalsByXY(vertices, fn, step);
 		break;
-	case CSolidFunctionSurface::FunctionType::Function3D:
+	case FunctionType::Function3D:
 		CalculateNormalsByUV(vertices, fn, step);
 		break;
-	case CSolidFunctionSurface::FunctionType::Undefined:
+	case FunctionType::Undefined:
 	default:
 		std::cerr << "Unexpected function type" << std::endl;
 		assert(0);
@@ -97,6 +98,8 @@ void CalculateTriangleStripIndicies(std::vector<uint32_t> & indicies, unsigned c
 
 }
 
+CSolidFunctionSurface::CSolidFunctionSurface() = default;
+
 CSolidFunctionSurface::CSolidFunctionSurface(const Function2D & fn)
 {
 	m_fn = [=](float x, float z) {
@@ -143,9 +146,10 @@ void CSolidFunctionSurface::Draw() const
 	DrawFace();
 }
 
-void CSolidFunctionSurface::SetFunction(const Function3D & fn)
+void CSolidFunctionSurface::SetFunction(const Function3D & fn, const FunctionType & type)
 {
 	m_fn = fn;
+	m_functionType = type;
 }
 
 void CSolidFunctionSurface::DrawFace() const
