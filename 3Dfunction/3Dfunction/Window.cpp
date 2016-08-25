@@ -211,8 +211,8 @@ CWindow::CWindow()
 		SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f),
 		SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f),
 		SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f),
-		SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f),
 		SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f),
+		SFunctionInfo(GetKleinBottle,{ 0, 6.4f },{ 0, 2 * M_PI * 1.025f }, 0.1f),
 		SFunctionInfo(GetTorus,{ 0, 2 * M_PI * 1.025f }, { 0, 7 }, 0.1f)
 	};
 
