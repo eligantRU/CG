@@ -189,10 +189,10 @@ FunctionType SFunctionInfo::GetFunctionType() const
 }
 
 CWindow::CWindow()
-    :m_camera(CAMERA_INITIAL_DISTANCE)
-    ,m_sunlight(GL_LIGHT0)
+	:m_camera(CAMERA_INITIAL_DISTANCE)
+	, m_sunlight(GL_LIGHT0)
 {
-    SetBackgroundColor(BACKGROUND_COLOUR);
+	SetBackgroundColor(BACKGROUND_COLOUR);
 
 	m_material.SetAmbient(ORANGE_RGBA);
 	m_material.SetDiffuse(ORANGE_RGBA);
@@ -200,19 +200,20 @@ CWindow::CWindow()
 	m_material.SetShininess(MATERIAL_SHININESS);
 
 	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
-    m_sunlight.SetDiffuse(WHITE_RGBA);
-    m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
+	m_sunlight.SetDiffuse(WHITE_RGBA);
+	m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK_RGBA);
 
-	m_functions.reserve(8);
-	m_functions.push_back(SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f));
-	m_functions.push_back(SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
-	m_functions.push_back(SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f));
-	m_functions.push_back(SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f)); 
-	m_functions.push_back(SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f));
-	m_functions.push_back(SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f));
-	m_functions.push_back(SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f));
-	m_functions.push_back(SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f));
+	m_functions = {
+		SFunctionInfo(GetSinc, { -10, 10 }, { -10, 10 }, 0.1f),
+		SFunctionInfo(GetHyperbolicParaboloid, { -2, 2 }, { -2, 2 }, 0.1f),
+		SFunctionInfo(GetEllipticalParaboloid, { -2, 2 }, { -2, 2 }, 0.1f),
+		SFunctionInfo(GetMonkeySaddle, { -1, 1 }, { -1, 1 }, 0.1f),
+		SFunctionInfo(GetHelicoid, { -10, 10 }, { -4, 4 }, 0.1f),
+		SFunctionInfo(GetCatenoid, { -1.5f, 1.5f }, { -M_PI * 1.025f, M_PI * 1.025f }, 0.1f),
+		SFunctionInfo(GetKleinBottle, { 0, 6.4f }, { 0, 2 * M_PI * 1.025f }, 0.1f),
+		SFunctionInfo(GetMobiusStrip, { 0, 2 * M_PI * 1.025f }, { -1, 1 }, 0.1f)
+	};
 
 	m_surface.SetFunction(m_functions[0].GetFunction(), m_functions[0].GetFunctionType());
 	m_surface.Tesselate(m_functions[0].GetRangeX(), m_functions[0].GetRangeY(), m_functions[0].GetStep());

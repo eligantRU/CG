@@ -70,7 +70,7 @@ void DoWithBindedArrays(const std::vector<SVertexP3NT2> & vertices, T && callbac
 
 void CalculateTriangleStripIndicies(std::vector<uint32_t> & indicies, unsigned columnCount, unsigned rowCount)
 {
-    indicies.clear();
+	indicies.clear();
     indicies.reserve((columnCount - 1) * rowCount * 2);
     
     for (unsigned ci = 0; ci < columnCount - 1; ++ci)
@@ -94,6 +94,7 @@ void CalculateTriangleStripIndicies(std::vector<uint32_t> & indicies, unsigned c
             }
         }
     }
+	indicies.shrink_to_fit();
 }
 
 }
@@ -122,9 +123,9 @@ void CSolidFunctionSurface::operator=(const Function3D & fn)
 
 void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 & rangeZ, float step)
 {
+	m_vertices.clear();
     const unsigned columnCount = unsigned((rangeX.y - rangeX.x) / step);
     const unsigned rowCount = unsigned((rangeZ.y - rangeZ.x) / step);
-    m_vertices.clear();
     m_vertices.reserve(columnCount * rowCount);
 
     for (unsigned ci = 0; ci < columnCount; ++ci)
@@ -139,6 +140,7 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 & rangeX, const glm::vec2 
     }
     CalculateNormals(m_vertices, m_fn, step, m_functionType);
     CalculateTriangleStripIndicies(m_indicies, columnCount, rowCount);
+	m_vertices.shrink_to_fit();
 }
 
 void CSolidFunctionSurface::Draw() const
