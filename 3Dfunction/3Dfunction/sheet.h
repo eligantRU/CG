@@ -2,7 +2,10 @@
 
 #include "stdafx.h"
 
-enum class FunctionType // TODO: add this file to the future commit
+// NOTE: this file need to be empty
+//       replace classes, structs & enums from them
+
+enum class FunctionType
 {
 	Undefined = 0,
 	Function2D,
