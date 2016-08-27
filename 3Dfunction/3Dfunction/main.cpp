@@ -4,8 +4,6 @@
 
 int main(int, char * [])
 {
-    glewInit();
-
     CWindow window;
     window.Show(WINDOW_SIZE);
     window.DoGameLoop();
