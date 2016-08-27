@@ -41,7 +41,6 @@ CLabyrinth::CLabyrinth()
 			float z = 0;
 
 			auto type = ((LABYRINTH[i][j])) ? BlockType::Barrier : BlockType::Free;
-
 			auto block = m_factory.CreateBlock(type);
 			block->SetPosition({ x, y, z });
 			m_labyrinth[i][j] = std::move(block);
@@ -53,11 +52,11 @@ CLabyrinth::~CLabyrinth() = default;
 
 void CLabyrinth::Draw() const
 {
-	for (const auto &bla : m_labyrinth) // TODO: no bla
+	for (const auto &row : m_labyrinth)
 	{
-		for (const auto &bla : bla) // TODO: no bla
+		for (const auto &element : row)
 		{
-			bla->Draw();
+			element->Draw();
 		}
 	}
 }
