@@ -12,6 +12,7 @@ public:
 
 	void Update(float) final { };
 	void Draw() const;
+
 private:
 	std::array<std::array<CBlock, 16>, 16> m_labyrinth;
 };

@@ -11,10 +11,13 @@ public:
 	~CBlock();
 
 	void Update(float deltaTime);
+	void SetPosition(glm::vec3 position);
+	glm::vec3 GetPosition() const;
 
 	void Draw() const;
 private:
 	CIdentityCube m_cube;
+	glm::vec3 m_position;
 };
 
 class CBarrierBlock : public CBlock

@@ -19,6 +19,8 @@ const float CAMERA_INITIAL_DISTANCE = 10.f;
 void SetupOpenGLState()
 {
 	glFrontFace(GL_CCW);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 
