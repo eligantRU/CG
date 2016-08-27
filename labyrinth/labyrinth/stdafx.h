@@ -13,6 +13,7 @@
 #include <iostream>
 #include <mutex>
 #include <memory>
+#include <array>
 #include <vector>
 #include <random>
 #include <algorithm>

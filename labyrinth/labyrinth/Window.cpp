@@ -45,7 +45,7 @@ void SetupLineMode(const bool flag)
 
 CWindow::CWindow()
 	:m_camera(CAMERA_INITIAL_DISTANCE)
-	, m_sunlight(GL_LIGHT0)
+	,m_sunlight(GL_LIGHT0)
 {
 	SetBackgroundColor(BACKGROUND_COLOUR);
 
@@ -69,6 +69,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera.Update(deltaSeconds);
+	m_labyrinth.Update(deltaSeconds);
 
 	SetupLineMode(m_lineMode);
 }
@@ -78,6 +79,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 & size)
 	SetupView(size);
 	m_sunlight.Setup();
 	m_material.Setup();
+	m_labyrinth.Draw();
 }
 
 void CWindow::SetupView(const glm::ivec2 & size)

@@ -4,6 +4,7 @@
 #include "DispatchEvent.h"
 #include "Camera.h"
 #include "Lights.h"
+#include "Labyrinth.h"
 
 class CWindow : public CAbstractInputControlWindow
 {
@@ -31,4 +32,5 @@ private:
 	CDirectedLightSource m_sunlight;
 	glm::vec2 m_dragPosition;
 	bool m_lineMode = false;
+	CLabyrinth m_labyrinth;
 };
