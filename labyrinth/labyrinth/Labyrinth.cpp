@@ -3,6 +3,7 @@
 #include "Labyrinth.h"
 #include "Blocks.h"
 #include "Factory.h"
+#include "consts.h"
 
 namespace
 {

@@ -4,6 +4,7 @@
 #include "IBody.h"
 #include "Blocks.h"
 #include "Factory.h"
+#include "consts.h"
 
 class CLabyrinth final : public IBody
 {
