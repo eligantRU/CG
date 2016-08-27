@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "IBody.h"
 #include "Blocks.h"
+#include "Factory.h"
 
 class CLabyrinth final : public IBody
 {
@@ -14,5 +15,6 @@ public:
 	void Draw() const;
 
 private:
-	std::array<std::array<CBlock, 16>, 16> m_labyrinth;
+	std::array<std::array<std::unique_ptr<CBlock>, 16>, 16> m_labyrinth;
+	CFactory m_factory;
 };

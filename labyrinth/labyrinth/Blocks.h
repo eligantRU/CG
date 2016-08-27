@@ -11,13 +11,19 @@ public:
 	~CBlock();
 
 	void Update(float deltaTime);
-	void SetPosition(glm::vec3 position);
+	void SetPosition(const glm::vec3 & position);
 	glm::vec3 GetPosition() const;
 
 	void Draw() const;
 private:
 	CIdentityCube m_cube;
 	glm::vec3 m_position;
+};
+
+enum class BlockType // TODO: use boost::variant
+{
+	Barrier = 0,
+	Free
 };
 
 class CBarrierBlock : public CBlock

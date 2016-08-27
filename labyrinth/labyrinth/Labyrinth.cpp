@@ -1,25 +1,50 @@
 #include "stdafx.h"
 
 #include "Labyrinth.h"
+#include "Blocks.h"
+#include "Factory.h"
 
 namespace
 {
 
-	const glm::vec3 BLOCK_SIZE = { 1, 1, 1 };
+	const glm::vec3 BLOCK_SIZE = { 2, 2, 2 };
+
+	const std::vector<std::vector<int>> LABYRINTH = {
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+	};
 
 }
 
 CLabyrinth::CLabyrinth()
 {
-	for (unsigned i = 0; i < m_labyrinth.size(); ++i)
+	for (unsigned i = 0; i < 16; ++i)
 	{
-		for (unsigned j = 0; j < m_labyrinth.size(); ++j)
+		for (unsigned j = 0; j < 16; ++j)
 		{
-			float x = - float(m_labyrinth.size()) + i * BLOCK_SIZE.x * 2;
-			float y = - float(m_labyrinth.size()) + j * BLOCK_SIZE.y * 2;
+			float x = - float(m_labyrinth.size()) + i * BLOCK_SIZE.x;
+			float y = - float(m_labyrinth.size()) + j * BLOCK_SIZE.y;
 			float z = 0;
 
-			m_labyrinth[i][j].SetPosition({ x, y, z});
+			auto type = ((LABYRINTH[i][j])) ? BlockType::Barrier : BlockType::Free;
+
+			auto block = m_factory.CreateBlock(type);
+			block->SetPosition({ x, y, z });
+			m_labyrinth[i][j] = std::move(block);
 		}
 	}
 }
@@ -28,11 +53,11 @@ CLabyrinth::~CLabyrinth() = default;
 
 void CLabyrinth::Draw() const
 {
-	for (const auto bla : m_labyrinth) // TODO: no bla
+	for (const auto &bla : m_labyrinth) // TODO: no bla
 	{
-		for (const auto bla : bla) // TODO: no bla
+		for (const auto &bla : bla) // TODO: no bla
 		{
-			bla.Draw();
+			bla->Draw();
 		}
 	}
 }

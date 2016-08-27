@@ -18,7 +18,7 @@ void CBlock::Update(float deltaTime)
 	(void)deltaTime;
 }
 
-void CBlock::SetPosition(glm::vec3 position)
+void CBlock::SetPosition(const glm::vec3 & position)
 {
 	m_position = position;
 }

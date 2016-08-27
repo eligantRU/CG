@@ -6,7 +6,7 @@ namespace
 
 const float MOUSE_LINEAR_MOVE_SPEED = 0.25f;
 const float MIN_DISTANCE = 1.f;
-const float MAX_DISTANCE = 30.f;
+const float MAX_DISTANCE = 40.f;
 
 }
 
