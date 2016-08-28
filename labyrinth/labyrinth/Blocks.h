@@ -15,6 +15,7 @@ public:
 	glm::vec3 GetPosition() const;
 
 	void Draw() const;
+
 private:
 	CIdentityCube m_cube;
 	glm::vec3 m_position;
@@ -33,6 +34,7 @@ public:
 	~CBarrierBlock();
 
 	void Draw() const override;
+
 private:
 };
 
@@ -43,5 +45,6 @@ public:
 	~CFreeBlock();
 
 	void Draw() const override;
+
 private:
 };

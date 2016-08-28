@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Lights.h"
 #include "Labyrinth.h"
+#include "Player.h"
 
 class CWindow : public CAbstractInputControlWindow
 {
@@ -22,15 +23,17 @@ protected:
 	void OnDragBegin(const glm::vec2 & pos) override;
 	void OnDragMotion(const glm::vec2 & pos) override;
 	void OnDragEnd(const glm::vec2 & pos) override;
+	void OnKeyDown(const SDL_KeyboardEvent & key) override;
 	void OnKeyUp(const SDL_KeyboardEvent & key) override;
 
 private:
     void SetupView(const glm::ivec2 & size);
 
 	CPhongModelMaterial m_material;
-    CCamera m_camera;
+    std::shared_ptr<CCamera> m_camera;
 	CDirectedLightSource m_sunlight;
 	glm::vec2 m_dragPosition;
 	bool m_lineMode = false;
 	CLabyrinth m_labyrinth;
+	CPlayer m_player;
 };

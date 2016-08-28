@@ -8,7 +8,7 @@ public:
     explicit CCamera(float distance);
 
     void Update(float deltaSec);
-	bool OnScale(const int & zoom);
+	void OnScale(const int & zoom);
 
 	glm::vec3 GetPosition() const;
 
@@ -18,9 +18,12 @@ public:
 	bool GetRotationFlag() const;
 
 	void Rotate(const glm::vec2);
+	void Translate(const glm::vec3);
 
 private:
     float m_distance = 1;
 	bool m_doesRotate = false;
 	glm::vec2 m_angle;
+	glm::vec3 m_eye;
+	glm::vec3 m_center;
 };

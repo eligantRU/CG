@@ -14,7 +14,7 @@ const glm::vec4 FADED_WHITE_RGBA = { 0.3f, 0.3f, 0.3f, 1 };
 const glm::vec4 YELLOW_RGBA = { 1, 1, 0, 1 };
 const glm::vec4 PERPLE_RGBA = { 0.7686f, 0, 0.6706f, 1 }; 
 const glm::vec3 SUNLIGHT_DIRECTION = { -1, 0.2f, 0.7f };
-const float CAMERA_INITIAL_DISTANCE = 10.f;
+const float CAMERA_INITIAL_DISTANCE = 0.1f;
 
 void SetupOpenGLState()
 {
@@ -46,7 +46,7 @@ void SetupLineMode(const bool flag)
 }
 
 CWindow::CWindow()
-	:m_camera(CAMERA_INITIAL_DISTANCE)
+	:m_camera(new CCamera(CAMERA_INITIAL_DISTANCE))
 	,m_sunlight(GL_LIGHT0)
 {
 	SetBackgroundColor(BACKGROUND_COLOUR);
@@ -60,6 +60,8 @@ CWindow::CWindow()
 	m_sunlight.SetDiffuse(WHITE_RGBA);
 	m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK_RGBA);
+
+	m_player.SetCamera(m_camera);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -70,7 +72,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
-    m_camera.Update(deltaSeconds);
+    m_camera->Update(deltaSeconds);
 	m_labyrinth.Update(deltaSeconds);
 
 	SetupLineMode(m_lineMode);
@@ -88,9 +90,9 @@ void CWindow::SetupView(const glm::ivec2 & size)
 {
     glViewport(0, 0, size.x, size.y);
 
-    glLoadMatrixf(glm::value_ptr(m_camera.GetViewTransform()));
+    glLoadMatrixf(glm::value_ptr(m_camera->GetViewTransform()));
 
-    const float fieldOfView = glm::radians(60.f);
+	const float fieldOfView = glm::radians(60.f);
     const float aspect = float(size.x) / float(size.y);
     const float zNear = 0.01f;
     const float zFar = 100.f;
@@ -102,23 +104,23 @@ void CWindow::SetupView(const glm::ivec2 & size)
 
 void CWindow::OnScroll(const int & zoom)
 {
-	m_camera.OnScale(zoom);
+	m_camera->OnScale(zoom);
 }
 
 void CWindow::OnDragBegin(const glm::vec2 & pos)
 {
 	m_dragPosition = pos;
-	m_camera.SetRotationFlag(true);
+	m_camera->SetRotationFlag(true);
 }
 
 void CWindow::OnDragMotion(const glm::vec2 & pos)
 {
-	if (m_camera.GetRotationFlag())
+	if (m_camera->GetRotationFlag())
 	{
 		auto lastPos = m_dragPosition;
 		if (lastPos.x && lastPos.y)
 		{
-			m_camera.Rotate(pos - lastPos);
+			m_camera->Rotate(pos - lastPos);
 		}
 
 		m_dragPosition = pos;
@@ -128,7 +130,12 @@ void CWindow::OnDragMotion(const glm::vec2 & pos)
 void CWindow::OnDragEnd(const glm::vec2 & pos)
 {
 	(void)pos;
-	m_camera.SetRotationFlag(false);
+	m_camera->SetRotationFlag(false);
+}
+
+void CWindow::OnKeyDown(const SDL_KeyboardEvent & key)
+{
+	m_player.DispatchKeyboardEvent(key);
 }
 
 void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
