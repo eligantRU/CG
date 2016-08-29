@@ -5,6 +5,9 @@
 namespace
 {
 
+const glm::vec3 INITIAL_VIEW_DIRECTION = { 1, 1, 0 };
+const glm::vec3 INITIAL_EYE_POSITION = { 0, 0, 0 };
+const glm::vec3 INITIAL_UP_DIRECTION = { 0, 0, 1 };
 const glm::vec4 BLACK_RGBA = { 0, 0, 0, 1 };
 const glm::vec3 ORANGE = { 1, 0.6275f, 0 };
 const glm::vec4 ORANGE_RGBA = { 1, 0.6275f, 0, 1 };
@@ -46,7 +49,7 @@ void SetupLineMode(const bool flag)
 }
 
 CWindow::CWindow()
-	:m_camera(new CCamera(CAMERA_INITIAL_DISTANCE))
+	:m_camera(new CCamera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION))
 	,m_sunlight(GL_LIGHT0)
 {
 	SetBackgroundColor(BACKGROUND_COLOUR);

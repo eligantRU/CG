@@ -6,7 +6,8 @@ namespace
 {
 
 	const glm::vec3 INITIAL_POSITION = { 0, 0, 0 };
-	const float MOUSE_LINEAR_MOVE_SPEED = 0.25f;
+	const float MOUSE_LINEAR_MOVE_SPEED = 0.25f; 
+	const float MOVEMENT_SPEED = 0.1f;
 
 }
 
@@ -38,17 +39,16 @@ void CPlayer::DispatchKeyboardEvent(const SDL_KeyboardEvent & key)
 	switch (key.keysym.sym)
 	{
 	case SDLK_w:
-		m_position.x += MOUSE_LINEAR_MOVE_SPEED;
-		break;
-	case SDLK_a:
-		m_position.y += MOUSE_LINEAR_MOVE_SPEED;
+		m_camera->MoveWard(MOVEMENT_SPEED);
 		break;
 	case SDLK_s:
-		m_position.x -= MOUSE_LINEAR_MOVE_SPEED;
+		m_camera->MoveWard(-MOVEMENT_SPEED);
+		break;
+	case SDLK_a:
+		m_camera->MoveHorizontal(MOVEMENT_SPEED);
 		break;
 	case SDLK_d:
-		m_position.y -= MOUSE_LINEAR_MOVE_SPEED;
+		m_camera->MoveHorizontal(-MOVEMENT_SPEED);
 		break;
 	}
-	m_camera->Translate(m_position);
 }

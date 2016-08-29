@@ -5,7 +5,7 @@
 class CCamera : private boost::noncopyable
 {
 public:
-    explicit CCamera(float distance);
+    explicit CCamera(glm::vec3 viewDirection, glm::vec3 eye, glm::vec3 up);
 
     void Update(float deltaSec);
 	void OnScale(const int & zoom);
@@ -18,12 +18,22 @@ public:
 	bool GetRotationFlag() const;
 
 	void Rotate(const glm::vec2);
-	void Translate(const glm::vec3);
+
+	void MoveWard(const float speed);
+	void MoveHorizontal(const float speed);
+	void MoveVertical(const float speed);
+
+	void CCamera::StrafeLeft();
+	void CCamera::StrafeRight();
 
 private:
-    float m_distance = 1;
 	bool m_doesRotate = false;
 	glm::vec2 m_angle;
+
 	glm::vec3 m_eye;
-	glm::vec3 m_center;
+	glm::vec3 m_viewDirection;
+	glm::vec3 m_strafeDirection;
+	const glm::vec3 m_up;
+
+	glm::vec2 oldMousePosition;
 };

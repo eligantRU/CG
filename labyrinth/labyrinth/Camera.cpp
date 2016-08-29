@@ -4,14 +4,17 @@
 namespace
 {
 
-const float MOUSE_LINEAR_MOVE_SPEED = 0.25f;
+const float MOUSE_LINEAR_MOVE_SPEED = 0.025f;
+const float MOVEMENT_SPEED = 0.1f;
 const float MIN_DISTANCE = 1.f;
 const float MAX_DISTANCE = 45.f;
 
 }
 
-CCamera::CCamera(float distance)
-    :m_distance(distance)
+CCamera::CCamera(glm::vec3 viewDirection, glm::vec3 eye, glm::vec3 up)
+    :m_viewDirection(viewDirection)
+	,m_eye(eye)
+	,m_up(up)
 {
 
 }
@@ -19,41 +22,21 @@ CCamera::CCamera(float distance)
 void CCamera::Update(float deltaSec)
 {
 	(void)deltaSec;
-    m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
 }
 
 void CCamera::OnScale(const int & zoom)
 { 
-	if (zoom > 0)
-	{
-		m_distance += -MOUSE_LINEAR_MOVE_SPEED;
-	}
-	else if (zoom < 0)
-	{
-		m_distance += MOUSE_LINEAR_MOVE_SPEED;
-	}
+	(void)zoom;
 }
 
 glm::mat4 CCamera::GetViewTransform() const
 {
-	const auto eye = GetPosition();
-    const glm::vec3 center = m_center;
-	const glm::vec3 up = { 0, 0, 1 };
-
-	return glm::lookAt(eye, center, up);
+	return glm::lookAt(m_eye, m_eye + m_viewDirection, m_up);
 }
 
 glm::vec3 CCamera::GetPosition() const
 {
-	glm::vec3 direction = { 1, 0, 0 };
-#ifdef _DEBUG
-	glm::vec3 eye = direction * m_distance;
-#else
-	glm::vec3 eye = direction;
-#endif
-	eye = glm::rotateZ(eye, glm::radians(float(-m_angle.y)));
-
-	return eye;
+	return m_eye;
 }
 
 void CCamera::SetRotationFlag(bool flag)
@@ -68,11 +51,34 @@ bool CCamera::GetRotationFlag() const
 
 void CCamera::Rotate(const glm::vec2 angle)
 {
-	m_angle.x += angle.y;
-	m_angle.y -= angle.x;
+	m_strafeDirection = glm::cross(m_viewDirection, m_up);
+	glm::mat4 rotator = glm::rotate(-angle.x * MOUSE_LINEAR_MOVE_SPEED, m_up)
+		* glm::rotate(-angle.y * MOUSE_LINEAR_MOVE_SPEED, m_strafeDirection);
+
+	m_viewDirection = glm::mat3(rotator) * m_viewDirection;
 }
 
-void CCamera::Translate(const glm::vec3 position)
+void CCamera::MoveWard(const float speed) // TODO: fix the name
 {
-	m_eye = position;
+	m_eye += speed * m_viewDirection;
+}
+
+void CCamera::StrafeLeft()
+{
+	m_eye += - MOVEMENT_SPEED * m_strafeDirection;
+}
+
+void CCamera::StrafeRight()
+{
+	m_eye += MOVEMENT_SPEED * m_strafeDirection;
+}
+
+void CCamera::MoveHorizontal(const float speed)
+{
+	m_eye -= speed * m_strafeDirection;
+}
+
+void CCamera::MoveVertical(const float speed)
+{
+	m_eye += speed * m_up;
 }
