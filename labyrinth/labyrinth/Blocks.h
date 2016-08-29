@@ -18,7 +18,6 @@ public:
 
 private:
 	CIdentityCube m_cube;
-	glm::vec3 m_position;
 };
 
 enum class BlockType // TODO: use boost::variant

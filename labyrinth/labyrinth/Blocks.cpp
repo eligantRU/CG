@@ -45,18 +45,19 @@ void CBlock::Update(float deltaTime)
 
 void CBlock::SetPosition(const glm::vec3 & position)
 {
-	m_position = position;
+	m_cube.SetPosition(position);
 }
 
 glm::vec3 CBlock::GetPosition() const
 {
-	return m_position;
+	return m_cube.GetPosition();
 }
 
 void CBlock::Draw() const
 {
+	auto pos = GetPosition();
 	glPushMatrix();
-	glTranslatef(m_position.x, m_position.y, m_position.z); // TODO: do not use glTranslatef()
+	glTranslatef(pos.x, pos.y, pos.z); // TODO: do not use glTranslatef()
 	m_cube.Draw();
 	glPopMatrix();
 }

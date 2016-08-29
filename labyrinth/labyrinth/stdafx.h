@@ -40,6 +40,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <boost/noncopyable.hpp>
+#include <boost/variant.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>

@@ -15,6 +15,19 @@ enum class CubeFace
     NumFaces
 };
 
+struct SVertexP3N
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+
+	SVertexP3N() = default;
+	SVertexP3N(const glm::vec3 & position)
+		:position(position)
+	{
+
+	}
+};
+
 class CIdentityCube final : public IBody
 {
 public:
@@ -22,13 +35,14 @@ public:
     void Update(float deltaTime) final;
     void Draw() const final;
 
-    void SetFaceColor(CubeFace face, const glm::vec3 & color);
-    void SetAlpha(float alpha);
+	void SetPosition(const glm::vec3 & pos);
+	glm::vec3 GetPosition() const;
 
 private:
     void OutputFaces() const;
 
     static const size_t COLORS_COUNT = static_cast<size_t>(CubeFace::NumFaces);
     glm::vec3 m_colors[COLORS_COUNT];
-    float m_alpha;
+	glm::vec3 m_position;
+	std::array<SVertexP3N, 8> m_vertices;
 };

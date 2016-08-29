@@ -4,7 +4,7 @@
 
 int main(int, char * [])
 {
-    CWindow window;
+	CWindow window;
     window.Show(WINDOW_SIZE);
     window.DoGameLoop();
 

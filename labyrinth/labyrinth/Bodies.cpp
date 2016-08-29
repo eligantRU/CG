@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "Bodies.h"
 
 namespace
@@ -43,7 +44,6 @@ const STriangleFace CUBE_FACES[] = {
 }
 
 CIdentityCube::CIdentityCube()
-    :m_alpha(1)
 {
     for (glm::vec3 &color : m_colors)
     {
@@ -60,25 +60,17 @@ void CIdentityCube::Update(float deltaTime)
 
 void CIdentityCube::Draw() const
 {
-    if (m_alpha < 0.99f)
-    {
-        glFrontFace(GL_CW);
-        OutputFaces();
-        glFrontFace(GL_CCW);
-    }
     OutputFaces();
 }
 
-void CIdentityCube::SetFaceColor(CubeFace face, const glm::vec3 & color)
+void CIdentityCube::SetPosition(const glm::vec3 & pos)
 {
-    const size_t index = static_cast<size_t>(face);
-    assert(index < COLORS_COUNT);
-    m_colors[index] = color;
+	m_position = pos;
 }
 
-void CIdentityCube::SetAlpha(float alpha)
+glm::vec3 CIdentityCube::GetPosition() const
 {
-    m_alpha = alpha;
+	return m_position;
 }
 
 void CIdentityCube::OutputFaces() const // TODO: do not do it this way
@@ -93,7 +85,7 @@ void CIdentityCube::OutputFaces() const // TODO: do not do it this way
         glm::vec3 normal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
         glm::vec3 color = m_colors[face.colorIndex];
 
-        glColor4f(color.x, color.y, color.z, m_alpha);
+        glColor3f(color.x, color.y, color.z);
         glNormal3fv(glm::value_ptr(normal));
         glVertex3fv(glm::value_ptr(v1));
         glVertex3fv(glm::value_ptr(v2));
