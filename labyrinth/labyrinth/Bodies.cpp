@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Bodies.h"
+#include "consts.h"
 
 namespace
 {
@@ -63,9 +64,9 @@ void CIdentityCube::Draw() const
     OutputFaces();
 }
 
-void CIdentityCube::SetPosition(const glm::vec3 & pos)
+void CIdentityCube::SetPosition(const glm::vec3 & position)
 {
-	m_position = pos;
+	m_position = position;
 }
 
 glm::vec3 CIdentityCube::GetPosition() const
@@ -76,7 +77,6 @@ glm::vec3 CIdentityCube::GetPosition() const
 void CIdentityCube::OutputFaces() const // TODO: do not do it this way
 {
     glBegin(GL_TRIANGLES);
-
     for (const STriangleFace &face : CUBE_FACES)
     {
         const Vertex &v1 = CUBE_VERTICIES[face.vertexIndex1];

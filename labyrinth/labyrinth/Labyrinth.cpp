@@ -8,8 +8,6 @@
 namespace
 {
 
-	const glm::vec3 BLOCK_SIZE = { 2, 2, 2 };
-
 	const std::vector<std::vector<int>> LABYRINTH = {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },

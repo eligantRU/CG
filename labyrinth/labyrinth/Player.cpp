@@ -7,7 +7,7 @@ namespace
 
 	const glm::vec3 INITIAL_POSITION = { 0, 0, 0 };
 	const float MOUSE_LINEAR_MOVE_SPEED = 0.25f; 
-	const float MOVEMENT_SPEED = 0.1f;
+	const float MOVEMENT_SPEED = 0.15f;
 
 }
 
@@ -51,4 +51,5 @@ void CPlayer::DispatchKeyboardEvent(const SDL_KeyboardEvent & key)
 		m_camera->MoveHorizontal(-MOVEMENT_SPEED);
 		break;
 	}
+	m_position = m_camera->GetPosition();
 }

@@ -20,7 +20,7 @@ private:
 	CIdentityCube m_cube;
 };
 
-enum class BlockType // TODO: use boost::variant
+enum class BlockType
 {
 	Barrier = 0,
 	Free
