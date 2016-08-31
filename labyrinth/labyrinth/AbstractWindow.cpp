@@ -3,7 +3,7 @@
 
 namespace
 {
-const char WINDOW_TITLE[] = "CG: lw2.2";
+const char WINDOW_TITLE[] = "CG: lw2.3";
 std::once_flag g_glewInitOnceFlag;
 
 using SDLWindowPtr = std::unique_ptr<SDL_Window, void(*)(SDL_Window*)>;
