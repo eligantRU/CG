@@ -38,10 +38,16 @@ public:
 	void SetPosition(const glm::vec3 & position);
 	glm::vec3 GetPosition() const;
 
+	void SetSize(const glm::vec3 & size);
+	glm::vec3 GetSize() const;
+
 private:
     void OutputFaces() const;
 
     static const size_t COLORS_COUNT = static_cast<size_t>(CubeFace::NumFaces);
     glm::vec3 m_colors[COLORS_COUNT];
 	glm::vec3 m_position;
+	glm::vec3 m_size;
+
+	std::array<glm::vec3, 8> m_vertices;
 };

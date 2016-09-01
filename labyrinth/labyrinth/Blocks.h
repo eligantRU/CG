@@ -11,10 +11,13 @@ public:
 	~CBlock();
 
 	void Update(float deltaTime);
+	void Draw() const;
+
 	void SetPosition(const glm::vec3 & position);
 	glm::vec3 GetPosition() const;
 
-	void Draw() const;
+	void SetSize(const glm::vec3 & size);
+	glm::vec3 GetSize() const;
 
 private:
 	CIdentityCube m_cube;

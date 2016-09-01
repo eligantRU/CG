@@ -8,6 +8,8 @@
 namespace
 {
 
+	const glm::vec3 BLOCK_SIZE = { 2, 2, 2 };
+
 	const std::vector<std::vector<int>> LABYRINTH = {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -41,6 +43,7 @@ CLabyrinth::CLabyrinth()
 
 			auto type = ((LABYRINTH[i][j])) ? BlockType::Barrier : BlockType::Free;
 			auto block = m_factory.CreateBlock(type);
+			block->SetSize(BLOCK_SIZE);
 			block->SetPosition({ x, y, z });
 			m_labyrinth[i][j] = std::move(block);
 		}

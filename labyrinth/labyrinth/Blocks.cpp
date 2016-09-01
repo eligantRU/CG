@@ -53,6 +53,16 @@ glm::vec3 CBlock::GetPosition() const
 	return m_cube.GetPosition();
 }
 
+void CBlock::SetSize(const glm::vec3 & size)
+{
+	m_cube.SetSize(size);
+}
+
+glm::vec3 CBlock::GetSize() const
+{
+	return m_cube.GetSize();
+}
+
 void CBlock::Draw() const
 {
 	auto pos = GetPosition();
