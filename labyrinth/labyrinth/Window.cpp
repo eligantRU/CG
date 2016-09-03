@@ -65,6 +65,7 @@ CWindow::CWindow()
 	m_sunlight.SetSpecular(BLACK_RGBA);
 
 	m_player.SetCamera(m_camera);
+	m_camera->SetRotationFlag(true);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 & size)
@@ -113,7 +114,6 @@ void CWindow::OnScroll(const int & zoom)
 void CWindow::OnDragBegin(const glm::vec2 & pos)
 {
 	m_dragPosition = pos;
-	m_camera->SetRotationFlag(true);
 }
 
 void CWindow::OnDragMotion(const glm::vec2 & pos)
@@ -133,7 +133,6 @@ void CWindow::OnDragMotion(const glm::vec2 & pos)
 void CWindow::OnDragEnd(const glm::vec2 & pos)
 {
 	(void)pos;
-	m_camera->SetRotationFlag(false);
 }
 
 void CWindow::OnKeyDown(const SDL_KeyboardEvent & key)
@@ -151,5 +150,9 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
 	if (key.keysym.sym == SDLK_SPACE)
 	{
 		m_lineMode = !m_lineMode;
+	}
+	if (key.keysym.sym == SDLK_ESCAPE)
+	{
+		std::exit(0);
 	}
 }
