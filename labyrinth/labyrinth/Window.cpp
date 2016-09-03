@@ -144,19 +144,6 @@ void CWindow::OnKeyDown(const SDL_KeyboardEvent & key)
 	{
 		m_camera->SetPosition(pos);
 	}
-	//m_labyrinth.CheckCollision(m_player.GetPosition());;
-	/*try
-	{
-		m_player.DispatchKeyboardEvent(key);
-		if (m_labyrinth.CheckCollision(m_player.GetPosition()))
-		{
-			throw "Ooops";
-		}
-	}
-	catch (...)
-	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Game over", "Do not try to pass through cubes!", nullptr);
-	}*/
 }
 
 void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
