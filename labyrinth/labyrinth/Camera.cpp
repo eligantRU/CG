@@ -34,6 +34,11 @@ glm::mat4 CCamera::GetViewTransform() const
 	return glm::lookAt(m_eye, m_eye + m_viewDirection, m_up);
 }
 
+void CCamera::SetPosition(const glm::vec3 & position)
+{
+	m_eye = position;
+}
+
 glm::vec3 CCamera::GetPosition() const
 {
 	return m_eye;

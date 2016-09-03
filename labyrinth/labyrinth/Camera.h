@@ -10,6 +10,7 @@ public:
     void Update(float deltaSec);
 	void OnScale(const int & zoom);
 
+	void SetPosition(const glm::vec3 & position);
 	glm::vec3 GetPosition() const;
 
 	glm::mat4 GetViewTransform() const;
