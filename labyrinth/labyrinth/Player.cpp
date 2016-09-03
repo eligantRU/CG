@@ -34,6 +34,11 @@ void CPlayer::SetCamera(std::shared_ptr<CCamera> camera)
 	m_camera = camera;
 }
 
+glm::vec3 CPlayer::GetPosition() const
+{
+	return m_position;
+}
+
 void CPlayer::DispatchKeyboardEvent(const SDL_KeyboardEvent & key)
 {
 	switch (key.keysym.sym)

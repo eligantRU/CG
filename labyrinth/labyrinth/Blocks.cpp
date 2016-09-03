@@ -81,6 +81,36 @@ void CBarrierBlock::Draw() const
 	CBlock::Draw();
 }
 
+bool CBarrierBlock::CheckCollision(glm::vec3 & position) const
+{
+	auto pos = GetPosition();
+	auto size = GetSize();
+	const std::vector<glm::vec3> vertices = {
+		{ pos.x - size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 },
+		{ pos.x + size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 },
+		{ pos.x + size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 },
+		{ pos.x - size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 },
+		{ pos.x - size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 },
+		{ pos.x + size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 },
+		{ pos.x + size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 },
+		{ pos.x - size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }
+	};
+
+
+	// TODO: added the epsilon
+	if ((vertices[3].x <= position.x && position.x <= vertices[5].x) && 
+		(vertices[3].y <= position.y && position.y <= vertices[5].y) &&
+		(vertices[3].z <= position.z && position.z <= vertices[5].z))
+	{
+		return true;
+	}
+	else
+	{
+		std::cout << std::endl;
+		return false;
+	}
+}
+
 CFreeBlock::CFreeBlock() = default;
 
 CFreeBlock::~CFreeBlock() = default;
@@ -109,4 +139,10 @@ void CFreeBlock::Draw() const // TODO: this is the wrong way
 	glEnd();
 
 	glPopMatrix();
+}
+
+bool CFreeBlock::CheckCollision(glm::vec3 & position) const
+{
+	(void)position;
+	return false;
 }

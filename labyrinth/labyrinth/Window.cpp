@@ -138,7 +138,20 @@ void CWindow::OnDragEnd(const glm::vec2 & pos)
 
 void CWindow::OnKeyDown(const SDL_KeyboardEvent & key)
 {
-	m_player.DispatchKeyboardEvent(key);
+	//m_labyrinth.CheckCollision(m_player.GetPosition());
+	//m_player.DispatchKeyboardEvent(key);
+	try
+	{
+		m_player.DispatchKeyboardEvent(key);
+		if (m_labyrinth.CheckCollision(m_player.GetPosition()))
+		{
+			throw "Ooops";
+		}
+	}
+	catch (...)
+	{
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over", "Do not try to pass through cubes!", nullptr);
+	}
 }
 
 void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)

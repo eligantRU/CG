@@ -68,14 +68,14 @@ void CIdentityCube::SetPosition(const glm::vec3 & position)
 {
 	m_position = position;
 
-	m_vertices[0] = { position.x - m_size.x, position.y + m_size.y, position.z - m_size.z };
-	m_vertices[1] = { position.x + m_size.x, position.y + m_size.y, position.z - m_size.z };
-	m_vertices[2] = { position.x + m_size.x, position.y - m_size.y, position.z - m_size.z };
-	m_vertices[3] = { position.x - m_size.x, position.y - m_size.y, position.z - m_size.z };
-	m_vertices[4] = { position.x - m_size.x, position.y + m_size.y, position.z + m_size.z };
-	m_vertices[5] = { position.x + m_size.x, position.y + m_size.y, position.z + m_size.z };
-	m_vertices[6] = { position.x + m_size.x, position.y - m_size.y, position.z + m_size.z };
-	m_vertices[7] = { position.x - m_size.x, position.y - m_size.y, position.z + m_size.z };
+	m_vertices[0] = { position.x - m_size.x / 2, position.y + m_size.y / 2, position.z - m_size.z / 2 };
+	m_vertices[1] = { position.x + m_size.x / 2, position.y + m_size.y / 2, position.z - m_size.z / 2 };
+	m_vertices[2] = { position.x + m_size.x / 2, position.y - m_size.y / 2, position.z - m_size.z / 2 };
+	m_vertices[3] = { position.x - m_size.x / 2, position.y - m_size.y / 2, position.z - m_size.z / 2 };
+	m_vertices[4] = { position.x - m_size.x / 2, position.y + m_size.y / 2, position.z + m_size.z / 2 };
+	m_vertices[5] = { position.x + m_size.x / 2, position.y + m_size.y / 2, position.z + m_size.z / 2 };
+	m_vertices[6] = { position.x + m_size.x / 2, position.y - m_size.y / 2, position.z + m_size.z / 2 };
+	m_vertices[7] = { position.x - m_size.x / 2, position.y - m_size.y / 2, position.z + m_size.z / 2 };
 }
 
 glm::vec3 CIdentityCube::GetPosition() const

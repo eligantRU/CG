@@ -19,6 +19,8 @@ public:
 	void SetSize(const glm::vec3 & size);
 	glm::vec3 GetSize() const;
 
+	virtual bool CheckCollision(glm::vec3 & position) const = 0;
+
 private:
 	CIdentityCube m_cube;
 };
@@ -37,6 +39,8 @@ public:
 
 	void Draw() const override;
 
+	bool CheckCollision(glm::vec3 & position) const;
+
 private:
 };
 
@@ -47,6 +51,8 @@ public:
 	~CFreeBlock();
 
 	void Draw() const override;
+
+	bool CheckCollision(glm::vec3 & position) const;
 
 private:
 };
