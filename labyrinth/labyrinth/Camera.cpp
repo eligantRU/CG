@@ -63,7 +63,7 @@ void CCamera::Rotate(const glm::vec2 angle)
 	m_viewDirection = glm::mat3(rotator) * m_viewDirection;
 }
 
-void CCamera::MoveWard(const float speed) // TODO: fix the name
+void CCamera::MoveFrontal(const float speed)
 {
 	m_eye += speed * m_viewDirection;
 }

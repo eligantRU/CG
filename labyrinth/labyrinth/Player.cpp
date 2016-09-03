@@ -44,10 +44,10 @@ void CPlayer::DispatchKeyboardEvent(const SDL_KeyboardEvent & key)
 	switch (key.keysym.sym)
 	{
 	case SDLK_w:
-		m_camera->MoveWard(MOVEMENT_SPEED);
+		m_camera->MoveFrontal(MOVEMENT_SPEED);
 		break;
 	case SDLK_s:
-		m_camera->MoveWard(-MOVEMENT_SPEED);
+		m_camera->MoveFrontal(-MOVEMENT_SPEED);
 		break;
 	case SDLK_a:
 		m_camera->MoveHorizontal(MOVEMENT_SPEED);

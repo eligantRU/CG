@@ -20,7 +20,7 @@ public:
 
 	void Rotate(const glm::vec2);
 
-	void MoveWard(const float speed);
+	void MoveFrontal(const float speed);
 	void MoveHorizontal(const float speed);
 	void MoveVertical(const float speed);
 
