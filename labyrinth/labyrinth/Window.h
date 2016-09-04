@@ -31,7 +31,7 @@ private:
 
 	CPhongModelMaterial m_material;
     std::shared_ptr<CCamera> m_camera;
-	CDirectedLightSource m_sunlight;
+	CPositionLightSource m_sunlight;
 	glm::vec2 m_dragPosition;
 	bool m_lineMode = false;
 	CLabyrinth m_labyrinth;

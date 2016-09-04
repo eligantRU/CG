@@ -59,7 +59,7 @@ CWindow::CWindow()
 	m_material.SetSpecular(BLACK_RGBA);
 	m_material.SetShininess(MATERIAL_SHININESS);
 
-	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
+	m_sunlight.SetPosition(m_camera->GetPosition());
 	m_sunlight.SetDiffuse(WHITE_RGBA);
 	m_sunlight.SetAmbient(0.1f * WHITE_RGBA);
 	m_sunlight.SetSpecular(BLACK_RGBA);
@@ -77,6 +77,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
     m_camera->Update(deltaSeconds);
+	m_sunlight.SetPosition(m_camera->GetPosition());
 	m_labyrinth.Update(deltaSeconds);
 
 	SetupLineMode(m_lineMode);
