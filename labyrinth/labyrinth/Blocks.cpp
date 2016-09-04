@@ -96,11 +96,10 @@ bool CBarrierBlock::CheckCollision(glm::vec3 & position) const
 		{ pos.x - size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }
 	};
 
-
-	// TODO: added the epsilon
-	if ((vertices[3].x <= position.x && position.x <= vertices[5].x) && 
-		(vertices[3].y <= position.y && position.y <= vertices[5].y) &&
-		(vertices[3].z <= position.z && position.z <= vertices[5].z))
+	auto eps = 0.1f;
+	if ((vertices[3].x - eps <= position.x && position.x <= vertices[5].x + eps) && 
+		(vertices[3].y - eps <= position.y && position.y <= vertices[5].y + eps) &&
+		(vertices[3].z - eps <= position.z && position.z <= vertices[5].z + eps))
 	{
 		return true;
 	}
