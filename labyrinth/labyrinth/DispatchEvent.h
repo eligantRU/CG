@@ -5,8 +5,10 @@
 class IInputEventAcceptor;
 namespace sdl
 {
+
 // Совершает диспетчеризацию событий SDL по категориям.
 void DispatchEvent(const SDL_Event & event, IInputEventAcceptor & acceptor);
+
 }
 
 // Принимает события SDL, разделённые по категориям.

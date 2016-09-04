@@ -5,32 +5,32 @@
 namespace
 {
 
-	typedef glm::vec3 Vertex;
+typedef glm::vec3 Vertex;
 
-	struct STriangleFace
-	{
-		uint16_t vertexIndex1;
-		uint16_t vertexIndex2;
-		uint16_t vertexIndex3;
-	};
+struct STriangleFace
+{
+	uint16_t vertexIndex1;
+	uint16_t vertexIndex2;
+	uint16_t vertexIndex3;
+};
 
-	const Vertex FREE_BLOCK_VERTICIES[] = {
-		{ -1, +1, -1 },
-		{ +1, +1, -1 },
-		{ +1, -1, -1 },
-		{ -1, -1, -1 },
-		{ -1, +1, +1 },
-		{ +1, +1, +1 },
-		{ +1, -1, +1 },
-		{ -1, -1, +1 },
-	};
+const Vertex FREE_BLOCK_VERTICIES[] = {
+	{ -1, +1, -1 },
+	{ +1, +1, -1 },
+	{ +1, -1, -1 },
+	{ -1, -1, -1 },
+	{ -1, +1, +1 },
+	{ +1, +1, +1 },
+	{ +1, -1, +1 },
+	{ -1, -1, +1 },
+};
 
-	const STriangleFace FREE_BLOCK_FACES[] = {
-		{ 0, 2, 1},
-		{ 0, 3, 2},
-		{ 6, 4, 5},
-		{ 6, 7, 4}
-	};
+const STriangleFace FREE_BLOCK_FACES[] = {
+	{ 0, 2, 1},
+	{ 0, 3, 2},
+	{ 6, 4, 5},
+	{ 6, 7, 4}
+};
 
 }
 
@@ -103,11 +103,7 @@ bool CBarrierBlock::CheckCollision(glm::vec3 & position) const
 	{
 		return true;
 	}
-	else
-	{
-		std::cout << std::endl;
-		return false;
-	}
+	return false;
 }
 
 CFreeBlock::CFreeBlock() = default;

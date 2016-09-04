@@ -3,6 +3,7 @@
 
 namespace
 {
+
 glm::vec2 GetMousePosition(const SDL_MouseButtonEvent & event)
 {
     return { event.x, event.y };
@@ -12,6 +13,7 @@ glm::vec2 GetMousePosition(const SDL_MouseMotionEvent & event)
 {
     return { event.x, event.y };
 }
+
 }
 
 void sdl::DispatchEvent(const SDL_Event & event, IInputEventAcceptor & acceptor)

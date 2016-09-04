@@ -5,9 +5,9 @@
 namespace
 {
 
-	const glm::vec3 INITIAL_POSITION = { 0, 0, 0 };
-	const float MOUSE_LINEAR_MOVE_SPEED = 0.25f; 
-	const float MOVEMENT_SPEED = 0.15f;
+const glm::vec3 INITIAL_POSITION = { 0, 0, 0 };
+const float MOUSE_LINEAR_MOVE_SPEED = 0.25f; 
+const float MOVEMENT_SPEED = 0.15f;
 
 }
 

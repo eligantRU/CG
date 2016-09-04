@@ -3,6 +3,7 @@
 
 namespace
 {
+
 const char WINDOW_TITLE[] = "CG: lw2.3";
 std::once_flag g_glewInitOnceFlag;
 
@@ -29,6 +30,7 @@ public:
 private:
     std::chrono::system_clock::time_point m_lastTime;
 };
+
 }
 
 class CAbstractWindow::Impl
