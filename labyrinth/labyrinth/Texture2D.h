@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 
-
 class CTexture2D : private boost::noncopyable
 {
 public:

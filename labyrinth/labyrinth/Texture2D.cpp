@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Texture2D.h"
 
-// Используем unique_ptr с явно заданной функцией удаления вместо delete.
 using SDLSurfacePtr = std::unique_ptr<SDL_Surface, void(*)(SDL_Surface*)>;
 using SDLPixelFormatPtr = std::unique_ptr<SDL_PixelFormat, void(*)(SDL_PixelFormat*)>;
 

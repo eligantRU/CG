@@ -41,6 +41,7 @@
 
 #include <boost/noncopyable.hpp>
 #include <boost/variant.hpp>
+#include <boost/scope_exit.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
