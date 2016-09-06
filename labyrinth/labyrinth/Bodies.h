@@ -3,22 +3,10 @@
 #include "stdafx.h"
 #include "IBody.h"
 
-enum class CubeFace
-{
-    Front = 0,
-    Back,
-    Top,
-    Bottom,
-    Left,
-    Right,
-
-    NumFaces
-};
-
 struct SVertexP3N
 {
 	glm::vec3 position;
-	glm::vec3 normal;
+	//glm::vec3 normal;
 
 	SVertexP3N() = default;
 	SVertexP3N(const glm::vec3 & position)
@@ -44,10 +32,9 @@ public:
 private:
     void OutputFaces() const;
 
-    static const size_t COLORS_COUNT = static_cast<size_t>(CubeFace::NumFaces);
-    glm::vec3 m_colors[COLORS_COUNT];
 	glm::vec3 m_position;
 	glm::vec3 m_size;
 
-	std::array<glm::vec3, 8> m_vertices;
+	std::vector<SVertexP3N> m_vertices;
+	const std::vector<uint32_t> m_indicies;
 };

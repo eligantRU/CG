@@ -5,38 +5,32 @@
 namespace
 {
 
-typedef glm::vec3 Vertex;
+const std::vector<uint32_t> CUBE_FACES = {
+	0, 2, 1,
+	0, 3, 2,
+	6, 4, 5,
+	6, 7, 4
+};
 
-struct STriangleFace
+template <class T>
+void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
 {
-	uint16_t vertexIndex1;
-	uint16_t vertexIndex2;
-	uint16_t vertexIndex3;
-};
+	glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_NORMAL_ARRAY);
 
-const Vertex FREE_BLOCK_VERTICIES[] = {
-	{ -1, +1, -1 },
-	{ +1, +1, -1 },
-	{ +1, -1, -1 },
-	{ -1, -1, -1 },
-	{ -1, +1, +1 },
-	{ +1, +1, +1 },
-	{ +1, -1, +1 },
-	{ -1, -1, +1 },
-};
+	const size_t stride = sizeof(SVertexP3N);
+	//glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
+	glVertexPointer(3, GL_FLOAT, stride, glm::value_ptr(vertices[0].position));
 
-const STriangleFace FREE_BLOCK_FACES[] = {
-	{ 0, 2, 1},
-	{ 0, 3, 2},
-	{ 6, 4, 5},
-	{ 6, 7, 4}
-};
+	callback();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_NORMAL_ARRAY);
+}
 
 }
 
 CBlock::CBlock() = default;
-
-CBlock::~CBlock() = default;
 
 void CBlock::Update(float deltaTime)
 {
@@ -65,11 +59,7 @@ glm::vec3 CBlock::GetSize() const
 
 void CBlock::Draw() const
 {
-	auto pos = GetPosition();
-	glPushMatrix();
-	glTranslatef(pos.x, pos.y, pos.z); // TODO: do not use glTranslatef()
 	m_cube.Draw();
-	glPopMatrix();
 }
 
 CBarrierBlock::CBarrierBlock() = default;
@@ -106,34 +96,36 @@ bool CBarrierBlock::CheckCollision(glm::vec3 & position) const
 	return false;
 }
 
-CFreeBlock::CFreeBlock() = default;
+CFreeBlock::CFreeBlock()
+	:m_indicies(CUBE_FACES)
+{
+	m_vertices.reserve(8);
+}
 
 CFreeBlock::~CFreeBlock() = default;
 
-void CFreeBlock::Draw() const // TODO: this is the wrong way
+void CFreeBlock::SetPosition(const glm::vec3 & position)
 {
-	glPushMatrix();
+	CBlock::SetPosition(position);
+	
+	auto pos = position;
+	auto size = CBlock::GetSize();
+	m_vertices.erase(m_vertices.begin(), m_vertices.end());
+	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 })),
+	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 }));
+	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 }));
+	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 }));
+	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 }));
+	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 }));
+	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }));
+	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }));
+}
 
-	auto pos = GetPosition();
-	glTranslatef(pos.x, pos.y, pos.z); // TODO: do not use glTranslatef()
-
-	glBegin(GL_TRIANGLES);
-	for (const STriangleFace &face : FREE_BLOCK_FACES)
-	{
-		const Vertex &v1 = FREE_BLOCK_VERTICIES[face.vertexIndex1];
-		const Vertex &v2 = FREE_BLOCK_VERTICIES[face.vertexIndex2];
-		const Vertex &v3 = FREE_BLOCK_VERTICIES[face.vertexIndex3];
-		glm::vec3 normal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
-
-		glColor3f(0, 0, 0);
-		glNormal3fv(glm::value_ptr(normal));
-		glVertex3fv(glm::value_ptr(v1));
-		glVertex3fv(glm::value_ptr(v2));
-		glVertex3fv(glm::value_ptr(v3));
-	}
-	glEnd();
-
-	glPopMatrix();
+void CFreeBlock::Draw() const
+{
+	DoWithBindedArrays(m_vertices, [this] {
+		glDrawElements(GL_TRIANGLES, GLsizei(m_indicies.size()), GL_UNSIGNED_INT, m_indicies.data());
+	});
 }
 
 bool CFreeBlock::CheckCollision(glm::vec3 & position) const

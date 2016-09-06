@@ -8,12 +8,12 @@ class CBlock : public IBody
 {
 public:
 	CBlock();
-	~CBlock();
+	virtual ~CBlock() = default;
 
 	void Update(float deltaTime);
 	void Draw() const;
 
-	void SetPosition(const glm::vec3 & position);
+	virtual void SetPosition(const glm::vec3 & position);
 	glm::vec3 GetPosition() const;
 
 	void SetSize(const glm::vec3 & size);
@@ -39,7 +39,7 @@ public:
 
 	void Draw() const override;
 
-	bool CheckCollision(glm::vec3 & position) const;
+	bool CheckCollision(glm::vec3 & position) const override;
 
 private:
 };
@@ -52,7 +52,10 @@ public:
 
 	void Draw() const override;
 
+	void SetPosition(const glm::vec3 & position) override;
 	bool CheckCollision(glm::vec3 & position) const;
 
 private:
+	std::vector<SVertexP3N> m_vertices;
+	const std::vector<uint32_t> m_indicies;
 };
