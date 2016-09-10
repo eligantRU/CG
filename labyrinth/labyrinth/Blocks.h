@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "IBody.h"
 #include "Bodies.h"
+#include "Texture2D.h"
 
 class CBlock : public IBody
 {
@@ -19,10 +20,11 @@ public:
 	void SetSize(const glm::vec3 & size);
 	glm::vec3 GetSize() const;
 
-	virtual bool CheckCollision(glm::vec3 & position) const = 0;
+	virtual bool CheckCollision(const glm::vec3 & position) const = 0;
 
 private:
-	CIdentityCube m_cube;
+	CIdentityCube m_cube; 
+	CTexture2DUniquePtr m_texture;
 };
 
 enum class BlockType
@@ -39,7 +41,7 @@ public:
 
 	void Draw() const override;
 
-	bool CheckCollision(glm::vec3 & position) const override;
+	bool CheckCollision(const glm::vec3 & position) const override;
 
 private:
 };
@@ -53,7 +55,7 @@ public:
 	void Draw() const override;
 
 	void SetPosition(const glm::vec3 & position) override;
-	bool CheckCollision(glm::vec3 & position) const;
+	bool CheckCollision(const glm::vec3 & position) const;
 
 private:
 	std::vector<SVertexP3N> m_vertices;

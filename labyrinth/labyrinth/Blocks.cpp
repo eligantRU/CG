@@ -1,9 +1,12 @@
 #include "stdafx.h"
 
 #include "Blocks.h"
+#include "Texture2D.h"
 
 namespace
 {
+
+const std::string TEXTURE_PATH = "res/block_texture.bmp";
 
 const std::vector<uint32_t> CUBE_FACES = {
 	0, 2, 1,
@@ -30,7 +33,10 @@ void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
 
 }
 
-CBlock::CBlock() = default;
+CBlock::CBlock()
+{
+	m_texture = LoadTexture2DFromBMP(TEXTURE_PATH);
+}
 
 void CBlock::Update(float deltaTime)
 {
@@ -71,7 +77,7 @@ void CBarrierBlock::Draw() const
 	CBlock::Draw();
 }
 
-bool CBarrierBlock::CheckCollision(glm::vec3 & position) const
+bool CBarrierBlock::CheckCollision(const glm::vec3 & position) const
 {
 	auto pos = GetPosition();
 	auto size = GetSize();
@@ -128,7 +134,7 @@ void CFreeBlock::Draw() const
 	});
 }
 
-bool CFreeBlock::CheckCollision(glm::vec3 & position) const
+bool CFreeBlock::CheckCollision(const glm::vec3 & position) const
 {
 	(void)position;
 	return false;
