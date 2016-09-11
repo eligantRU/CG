@@ -1,10 +1,13 @@
 #include "stdafx.h"
 
 #include "Bodies.h"
+#include "Texture2D.h"
 #include "consts.h"
 
 namespace
 {
+
+const std::string BLOCK_TEXTURE_PATH = "res/block_texture.bmp";
 
 const std::vector<uint32_t> CUBE_FACES = {
     0, 1, 2,
@@ -43,6 +46,7 @@ CIdentityCube::CIdentityCube()
 	:m_indicies(CUBE_FACES)
 {
 	m_vertices.reserve(8);
+	m_texture = LoadTexture2DFromBMP(BLOCK_TEXTURE_PATH);
 }
 
 void CIdentityCube::Update(float deltaTime)

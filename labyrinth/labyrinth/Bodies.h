@@ -1,7 +1,9 @@
 #pragma once
 
 #include "stdafx.h"
+
 #include "IBody.h"
+#include "Texture2D.h"
 
 struct SVertexP3N
 {
@@ -34,6 +36,8 @@ private:
 
 	glm::vec3 m_position;
 	glm::vec3 m_size;
+
+	CTextture2DUniquePtr m_texture;
 
 	std::vector<SVertexP3N> m_vertices;
 	const std::vector<uint32_t> m_indicies;
