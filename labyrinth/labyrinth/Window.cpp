@@ -30,6 +30,7 @@ void SetupOpenGLState()
 	glShadeModel(GL_SMOOTH);
 
     glEnable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
 
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
