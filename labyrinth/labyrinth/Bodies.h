@@ -9,6 +9,7 @@ struct SVertexP3N
 {
 	glm::vec3 position;
 	//glm::vec3 normal;
+	glm::vec2 texCoord;
 
 	SVertexP3N() = default;
 	SVertexP3N(const glm::vec3 & position)
@@ -37,7 +38,7 @@ private:
 	glm::vec3 m_position;
 	glm::vec3 m_size;
 
-	CTextture2DUniquePtr m_texture;
+	CTexture2DUniquePtr m_texture;
 
 	std::vector<SVertexP3N> m_vertices;
 	const std::vector<uint32_t> m_indicies;
