@@ -57,8 +57,8 @@ bool CCamera::GetRotationFlag() const
 void CCamera::Rotate(const glm::vec2 angle)
 {
 	m_strafeDirection = glm::cross(m_viewDirection, m_up);
-	glm::mat4 rotator = glm::rotate(-angle.x * MOUSE_LINEAR_MOVE_SPEED, m_up);
-		//* glm::rotate(-angle.y * MOUSE_LINEAR_MOVE_SPEED, m_strafeDirection); // TODO: issue #11
+	glm::mat4 rotator = glm::rotate(-angle.x * MOUSE_LINEAR_MOVE_SPEED, m_up)
+		* glm::rotate(-angle.y * MOUSE_LINEAR_MOVE_SPEED, m_strafeDirection); // TODO: issue #11
 
 	m_viewDirection = glm::mat3(rotator) * m_viewDirection;
 }

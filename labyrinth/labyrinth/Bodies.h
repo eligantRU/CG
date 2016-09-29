@@ -8,8 +8,7 @@
 struct SVertexP3N
 {
 	glm::vec3 position;
-	//glm::vec3 normal;
-	glm::vec2 texCoord;
+	glm::vec3 normal;
 
 	SVertexP3N() = default;
 	SVertexP3N(const glm::vec3 & position)

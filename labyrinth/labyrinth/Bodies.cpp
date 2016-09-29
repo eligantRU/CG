@@ -27,20 +27,20 @@ const std::vector<uint32_t> CUBE_FACES = {
 template <class T>
 void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
 {
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 
 	const size_t stride = sizeof(SVertexP3N);
-	//glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
+	glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
 	glVertexPointer(3, GL_FLOAT, stride, glm::value_ptr(vertices[0].position));
-	glTexCoordPointer(2, GL_FLOAT, stride, glm::value_ptr(vertices[0].texCoord));
+	//glTexCoordPointer(2, GL_FLOAT, stride, glm::value_ptr(vertices[0].texCoord));
 
 	callback();
 
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	//glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 }
 
 }
@@ -96,7 +96,7 @@ glm::vec3 CIdentityCube::GetSize() const
 
 void CIdentityCube::OutputFaces() const
 {
-	DoWithBindedArrays(m_vertices, [this] {
+	/*DoWithBindedArrays(m_vertices, [this] {
 		glDrawElements(GL_TRIANGLES, GLsizei(m_indicies.size()), GL_UNSIGNED_INT, m_indicies.data());
-	});
+	});*/
 }

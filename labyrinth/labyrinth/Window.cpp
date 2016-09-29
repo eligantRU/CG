@@ -32,7 +32,7 @@ void SetupOpenGLState()
     glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
 
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
 
 void SetupLineMode(const bool flag)

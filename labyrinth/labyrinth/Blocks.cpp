@@ -11,24 +11,24 @@ const std::string TEXTURE_PATH = "res/block_texture.bmp";
 const std::vector<uint32_t> CUBE_FACES = {
 	0, 2, 1,
 	0, 3, 2,
-	6, 4, 5,
-	6, 7, 4
+	/*6, 4, 5,
+	6, 7, 4*/
 };
 
 template <class T>
 void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 
 	const size_t stride = sizeof(SVertexP3N);
-	//glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
+	glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
 	glVertexPointer(3, GL_FLOAT, stride, glm::value_ptr(vertices[0].position));
 
 	callback();
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	//glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 }
 
 }
@@ -125,6 +125,11 @@ void CFreeBlock::SetPosition(const glm::vec3 & position)
 	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 }));
 	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }));
 	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }));
+
+	for (auto & vertex : m_vertices)
+	{
+		vertex.normal = { 0, 0, 1 };
+	}
 }
 
 void CFreeBlock::Draw() const
