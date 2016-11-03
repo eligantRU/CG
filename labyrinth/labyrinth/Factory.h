@@ -6,12 +6,12 @@
 class CFactory
 {
 public:
-	CFactory();
-	~CFactory();
+	CFactory() = default;
+	~CFactory() = default;
 
-	std::unique_ptr<CBlock> CreateBlock(BlockType type) const;
+	std::unique_ptr<CBlock> CreateBlock(const BlockType type, const glm::vec3 & center, const float size) const;
 
 private:
-	std::unique_ptr<CBarrierBlock> CreateBarrierBlock() const;
-	std::unique_ptr<CFreeBlock> CreateFreeBlock() const;
+	std::unique_ptr<CBarrierBlock> CreateBarrierBlock(const glm::vec3 & center, const float size) const;
+	std::unique_ptr<CFreeBlock> CreateFreeBlock(const glm::vec3 & center, const float size) const;
 };

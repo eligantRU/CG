@@ -1,142 +1,96 @@
 #include "stdafx.h"
 
 #include "Blocks.h"
-#include "Texture2D.h"
 
 namespace
 {
 
-const std::string TEXTURE_PATH = "res/block_texture.bmp";
-
-const std::vector<uint32_t> CUBE_FACES = {
-	0, 2, 1,
-	0, 3, 2,
-	/*6, 4, 5,
-	6, 7, 4*/
+const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
+const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
+	{ CubeFace::Front, "cobblestone_block_front.png" },
+	{ CubeFace::Back, "cobblestone_block_back.png" },
+	{ CubeFace::Top, "cobblestone_block_top.png" },
+	{ CubeFace::Bottom, "cobblestone_block_bottom.png" },
+	{ CubeFace::Left, "cobblestone_block_left.png" },
+	{ CubeFace::Right, "cobblestone_block_right.png" }
 };
 
-template <class T>
-void DoWithBindedArrays(const std::vector<SVertexP3N> & vertices, T && callback)
+const char GRASS_TEXTURE_ATLAS[] = "res/grass_block/grass_block.plist";
+const std::pair<CubeFace, const char *> GRASS_FRAME_MAPPING[] = {
+	{ CubeFace::Front, "grass_block_front.png" },
+	{ CubeFace::Back, "grass_block_back.png" },
+	{ CubeFace::Top, "grass_block_top.png" },
+	{ CubeFace::Bottom, "grass_block_bottom.png" },
+	{ CubeFace::Left, "grass_block_left.png" },
+	{ CubeFace::Right, "grass_block_right.png" }
+};
+
+CTexture2DLoader MakeTextureLoader()
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-
-	const size_t stride = sizeof(SVertexP3N);
-	glNormalPointer(GL_FLOAT, stride, glm::value_ptr(vertices[0].normal));
-	glVertexPointer(3, GL_FLOAT, stride, glm::value_ptr(vertices[0].position));
-
-	callback();
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
+	CTexture2DLoader loader;
+	loader.SetWrapMode(TextureWrapMode::CLAMP_TO_EDGE);
+	return loader;
 }
 
 }
 
-CBlock::CBlock()
+CBarrierBlock::CBarrierBlock(const glm::vec3 & center, const float size)
+	:m_atlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_TEXTURE_ATLAS), MakeTextureLoader())
+	,m_cube(center, size)
+	,m_position(glm::vec3(center.x - size, center.y - size, center.z - size), glm::vec3(center.x + size, center.y + size, center.z + size))
 {
-	m_texture = LoadTexture2DFromBMP(TEXTURE_PATH);
+	for (const auto &pair : COBBLESTONE_FRAME_MAPPING)
+	{
+		CFloatRect texRect = m_atlas.GetFrameRect(pair.second);
+		m_cube.SetFaceTextureRect(pair.first, texRect);
+	}
 }
 
-void CBlock::Update(float deltaTime)
+void CBarrierBlock::Update(float dt)
 {
-	(void)deltaTime;
+	m_cube.Update(dt);
 }
-
-void CBlock::SetPosition(const glm::vec3 & position)
-{
-	m_cube.SetPosition(position);
-}
-
-glm::vec3 CBlock::GetPosition() const
-{
-	return m_cube.GetPosition();
-}
-
-void CBlock::SetSize(const glm::vec3 & size)
-{
-	m_cube.SetSize(size);
-}
-
-glm::vec3 CBlock::GetSize() const
-{
-	return m_cube.GetSize();
-}
-
-void CBlock::Draw() const
-{
-	m_cube.Draw();
-}
-
-CBarrierBlock::CBarrierBlock() = default;
-
-CBarrierBlock::~CBarrierBlock() = default;
 
 void CBarrierBlock::Draw() const
 {
-	CBlock::Draw();
+	m_atlas.GetTexture().DoWhileBinded([this] {
+		m_cube.Draw();
+	});
 }
 
 bool CBarrierBlock::CheckCollision(const glm::vec3 & position) const
 {
-	auto pos = GetPosition();
-	auto size = GetSize();
-	const std::vector<glm::vec3> vertices = {
-		{ pos.x - size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 },
-		{ pos.x + size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 },
-		{ pos.x + size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 },
-		{ pos.x - size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 },
-		{ pos.x - size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 },
-		{ pos.x + size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 },
-		{ pos.x + size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 },
-		{ pos.x - size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }
-	};
-
-	auto eps = 0.1f;
-	if ((vertices[3].x - eps <= position.x && position.x <= vertices[5].x + eps) && 
-		(vertices[3].y - eps <= position.y && position.y <= vertices[5].y + eps) &&
-		(vertices[3].z - eps <= position.z && position.z <= vertices[5].z + eps))
+	auto eps = 0.85f;
+	if ((m_position.first.x + eps <= position.x && position.x <= m_position.second.x - eps) &&
+		(m_position.first.y + eps <= position.y && position.y <= m_position.second.y - eps) &&
+		(m_position.first.z + eps <= position.z && position.z <= m_position.second.z - eps))
 	{
 		return true;
 	}
 	return false;
 }
 
-CFreeBlock::CFreeBlock()
-	:m_indicies(CUBE_FACES)
+CFreeBlock::CFreeBlock(const glm::vec3 & center, const float size)
+	:m_atlas(CFilesystemUtils::GetResourceAbspath(GRASS_TEXTURE_ATLAS), MakeTextureLoader())
+	,m_cube(glm::vec3(center.x, center.y, center.z - 2), size)
 {
-	m_vertices.reserve(8);
-}
-
-CFreeBlock::~CFreeBlock() = default;
-
-void CFreeBlock::SetPosition(const glm::vec3 & position)
-{
-	CBlock::SetPosition(position);
-	
-	auto pos = position;
-	auto size = CBlock::GetSize();
-	m_vertices.erase(m_vertices.begin(), m_vertices.end());
-	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 })),
-	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y + size.y / 2, pos.z - size.z / 2 }));
-	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 }));
-	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y - size.y / 2, pos.z - size.z / 2 }));
-	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 }));
-	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y + size.y / 2, pos.z + size.z / 2 }));
-	m_vertices.push_back(SVertexP3N({ pos.x + size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }));
-	m_vertices.push_back(SVertexP3N({ pos.x - size.x / 2, pos.y - size.y / 2, pos.z + size.z / 2 }));
-
-	for (auto & vertex : m_vertices)
+	for (const auto &pair : GRASS_FRAME_MAPPING)
 	{
-		vertex.normal = { 0, 0, 1 };
+		CFloatRect texRect = m_atlas.GetFrameRect(pair.second);
+		m_cube.SetFaceTextureRect(pair.first, texRect);
 	}
 }
 
 void CFreeBlock::Draw() const
 {
-	DoWithBindedArrays(m_vertices, [this] {
-		glDrawElements(GL_TRIANGLES, GLsizei(m_indicies.size()), GL_UNSIGNED_INT, m_indicies.data());
+	m_atlas.GetTexture().DoWhileBinded([this] {
+		m_cube.Draw();
 	});
+}
+
+void CFreeBlock::Update(float dt)
+{
+	m_cube.Update(dt);
 }
 
 bool CFreeBlock::CheckCollision(const glm::vec3 & position) const

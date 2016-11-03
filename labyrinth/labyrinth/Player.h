@@ -1,25 +1,23 @@
 #pragma once
 
 #include "stdafx.h"
-#include "IBody.h"
+#include "libchapter2.h"
 #include "Camera.h"
 
-class CPlayer : public IBody
+class CPlayer : public ISceneObject
 {
 public:
-	CPlayer();
+	CPlayer(CCamera & camera);
 	~CPlayer();
 
 	void Update(float deltaTime);
 	void Draw() const;
 	void DispatchKeyboardEvent(const SDL_KeyboardEvent & key);
 
-	void SetCamera(std::shared_ptr<CCamera> camera);
-
 	glm::vec3 GetPosition() const;
 
 private:
-	std::shared_ptr<CCamera> m_camera = nullptr;
+	CCamera & m_camera;
 	std::function<bool(glm::vec3 &)> m_fnCheckCollision;
 	glm::vec3 m_position;
 };

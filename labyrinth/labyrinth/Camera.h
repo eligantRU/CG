@@ -24,8 +24,8 @@ public:
 	void MoveHorizontal(const float speed);
 	void MoveVertical(const float speed);
 
-	void CCamera::StrafeLeft();
-	void CCamera::StrafeRight();
+	void StrafeLeft();
+	void StrafeRight();
 
 private:
 	bool m_doesRotate = false;

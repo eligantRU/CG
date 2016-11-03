@@ -2,13 +2,11 @@
 
 #include "Labyrinth.h"
 #include "Blocks.h"
-#include "Factory.h"
-#include "consts.h"
 
 namespace
 {
 
-const glm::vec3 BLOCK_SIZE = { 2, 2, 2 };
+const float BLOCK_SIZE = 2;
 
 const std::vector<std::vector<int>> LABYRINTH = {
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -18,8 +16,8 @@ const std::vector<std::vector<int>> LABYRINTH = {
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1 },
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
@@ -37,20 +35,29 @@ CLabyrinth::CLabyrinth()
 	{
 		for (unsigned j = 0; j < 16; ++j)
 		{
-			float x = - float(m_labyrinth.size()) + i * BLOCK_SIZE.x;
-			float y = - float(m_labyrinth.size()) + j * BLOCK_SIZE.y;
+			float x = - float(m_labyrinth.size()) + i * BLOCK_SIZE;
+			float y = - float(m_labyrinth.size()) + j * BLOCK_SIZE;
 			float z = 0;
 
 			auto type = ((LABYRINTH[i][j])) ? BlockType::Barrier : BlockType::Free;
-			auto block = m_factory.CreateBlock(type);
-			block->SetSize(BLOCK_SIZE);
-			block->SetPosition({ x, y, z });
+			auto block = m_factory.CreateBlock(type, glm::vec3(x, y, z), BLOCK_SIZE);
 			m_labyrinth[i][j] = std::move(block);
 		}
 	}
 }
 
 CLabyrinth::~CLabyrinth() = default;
+
+void CLabyrinth::Update(float dt)
+{
+	for (auto &row : m_labyrinth)
+	{
+		for (auto &block : row)
+		{
+			block->Update(dt);
+		}
+	}
+}
 
 void CLabyrinth::Draw() const
 {
@@ -63,7 +70,7 @@ void CLabyrinth::Draw() const
 	}
 }
 
-bool CLabyrinth::CheckCollision(glm::vec3 & position) const
+bool CLabyrinth::CheckCollision(glm::vec3 position) const
 {
 	for (const auto &row : m_labyrinth)
 	{

@@ -10,19 +10,19 @@ class ILightSource
 {
 public:
     virtual ~ILightSource() = default;
-    virtual void Setup() const = 0;
+    virtual void Setup()const = 0;
 
     virtual glm::vec4 GetAmbient() const = 0;
     virtual glm::vec4 GetDiffuse() const = 0;
     virtual glm::vec4 GetSpecular() const = 0;
-    virtual void SetAmbient(const glm::vec4 & color) = 0;
-    virtual void SetDiffuse(const glm::vec4 & color) = 0;
-    virtual void SetSpecular(const glm::vec4 & color) = 0;
+    virtual void SetAmbient(const glm::vec4 &color) = 0;
+    virtual void SetDiffuse(const glm::vec4 &color) = 0;
+    virtual void SetSpecular(const glm::vec4 &color) = 0;
 };
 
 class CAbstractLightSource
-        :public ILightSource
-        ,private boost::noncopyable
+        : public ILightSource
+        , private boost::noncopyable
 {
 public:
     /// @param index - один из GL_LIGHT*
@@ -32,13 +32,13 @@ public:
     glm::vec4 GetAmbient() const final;
     glm::vec4 GetDiffuse() const final;
     glm::vec4 GetSpecular() const final;
-    void SetAmbient(const glm::vec4 & color) final;
-    void SetDiffuse(const glm::vec4 & color) final;
-    void SetSpecular(const glm::vec4 & color) final;
+    void SetAmbient(const glm::vec4 &color) final;
+    void SetDiffuse(const glm::vec4 &color) final;
+    void SetSpecular(const glm::vec4 &color) final;
 
 protected:
-    void SetupImpl() const;
-    unsigned GetIndex() const;
+    void SetupImpl()const;
+    unsigned GetIndex()const;
 
 private:
     glm::vec4 m_ambient;
@@ -54,7 +54,7 @@ public:
     CDirectedLightSource(unsigned index);
 
     glm::vec3 GetDirection() const;
-    void SetDirection(const glm::vec3 & value);
+    void SetDirection(const glm::vec3 &value);
 
     void Setup() const override;
 
@@ -69,7 +69,7 @@ public:
     CPositionLightSource(unsigned index);
 
     glm::vec3 GetPosition() const;
-    void SetPosition(const glm::vec3 & value);
+    void SetPosition(const glm::vec3 &value);
 
     void Setup() const override;
 
@@ -80,27 +80,24 @@ private:
 class CPhongModelMaterial
 {
 public:
-	CPhongModelMaterial();
-	~CPhongModelMaterial();
+    void Setup() const;
 
-	void Setup() const;
+    glm::vec4 GetEmission() const;
+    glm::vec4 GetAmbient() const;
+    glm::vec4 GetDiffuse() const;
+    glm::vec4 GetSpecular() const;
+    float GetShininess() const;
 
-	glm::vec4 GetEmission() const;
-	glm::vec4 GetAmbient() const;
-	glm::vec4 GetDiffuse() const;
-	glm::vec4 GetSpecular() const;
-	float GetShininess() const;
-
-	void SetAmbient(const glm::vec4 &GetAmbient);
-	void SetEmission(const glm::vec4 &GetEmission);
-	void SetDiffuse(const glm::vec4 &GetDiffuse);
-	void SetSpecular(const glm::vec4 &GetSpecular);
-	void SetShininess(float GetShininess);
+    void SetAmbient(const glm::vec4 &GetAmbient);
+    void SetEmission(const glm::vec4 &GetEmission);
+    void SetDiffuse(const glm::vec4 &GetDiffuse);
+    void SetSpecular(const glm::vec4 &GetSpecular);
+    void SetShininess(float GetShininess);
 
 private:
-	glm::vec4 m_emission;
-	glm::vec4 m_ambient;
-	glm::vec4 m_diffuse;
-	glm::vec4 m_specular;
-	float m_shininess = 10.f;
+    glm::vec4 m_emission;
+    glm::vec4 m_ambient;
+    glm::vec4 m_diffuse;
+    glm::vec4 m_specular;
+    float m_shininess = 10.f;
 };

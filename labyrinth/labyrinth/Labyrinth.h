@@ -1,21 +1,20 @@
 #pragma once
 
 #include "stdafx.h"
-#include "IBody.h"
+#include "libchapter2.h"
 #include "Blocks.h"
 #include "Factory.h"
-#include "consts.h"
 
-class CLabyrinth final : public IBody
+class CLabyrinth final : public ISceneObject
 {
 public:
-	CLabyrinth(); // TODO: get sth with barriers & roads
+	CLabyrinth();
 	~CLabyrinth();
 
-	void Update(float) final { };
+	void Update(float dt) final;
 	void Draw() const;
 
-	bool CheckCollision(glm::vec3 & position) const;
+	bool CheckCollision(glm::vec3 position) const;
 
 private:
 	std::array<std::array<std::unique_ptr<CBlock>, 16>, 16> m_labyrinth;
