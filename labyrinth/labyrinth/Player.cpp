@@ -6,8 +6,7 @@ namespace
 {
 
 const glm::vec3 INITIAL_POSITION = { 0, 0, 0 };
-const float MOUSE_LINEAR_MOVE_SPEED = 0.25f; 
-const float MOVEMENT_SPEED = 0.15f;
+const float MOVEMENT_SPEED = 0.04f;
 
 }
 
@@ -38,21 +37,26 @@ glm::vec3 CPlayer::GetPosition() const
 
 void CPlayer::DispatchKeyboardEvent()
 {
+	auto k = 1.f;
+	if (m_keyboardHandler.IsKeyPressed(SDLK_LSHIFT))
+	{
+		k = 2.f;
+	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_w))
 	{
-		m_camera.MoveFrontal(MOVEMENT_SPEED);
+		m_camera.MoveFrontal(k * MOVEMENT_SPEED);
 	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_s))
 	{
-		m_camera.MoveFrontal(-MOVEMENT_SPEED);
+		m_camera.MoveFrontal(-k * MOVEMENT_SPEED);
 	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_a))
 	{
-		m_camera.MoveHorizontal(MOVEMENT_SPEED);
+		m_camera.MoveHorizontal(k * MOVEMENT_SPEED);
 	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_d))
 	{
-		m_camera.MoveHorizontal(-MOVEMENT_SPEED);
+		m_camera.MoveHorizontal(-k * MOVEMENT_SPEED);
 	}
 	m_position = m_camera.GetPosition();
 }
