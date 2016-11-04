@@ -11,9 +11,10 @@ const float MOVEMENT_SPEED = 0.15f;
 
 }
 
-CPlayer::CPlayer(CCamera & camera)
+CPlayer::CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler)
 	:m_position(INITIAL_POSITION)
 	,m_camera(camera)
+	,m_keyboardHandler(keyboardHandler)
 {
 
 }
@@ -35,24 +36,23 @@ glm::vec3 CPlayer::GetPosition() const
 	return m_position;
 }
 
-void CPlayer::DispatchKeyboardEvent(const SDL_KeyboardEvent & key)
+void CPlayer::DispatchKeyboardEvent()
 {
-	switch (key.keysym.sym)
+	if (m_keyboardHandler.IsKeyPressed(SDLK_w))
 	{
-	case SDLK_w:
 		m_camera.MoveFrontal(MOVEMENT_SPEED);
-		break;
-	case SDLK_s:
+	}
+	if (m_keyboardHandler.IsKeyPressed(SDLK_s))
+	{
 		m_camera.MoveFrontal(-MOVEMENT_SPEED);
-		break;
-	case SDLK_a:
+	}
+	if (m_keyboardHandler.IsKeyPressed(SDLK_a))
+	{
 		m_camera.MoveHorizontal(MOVEMENT_SPEED);
-		break;
-	case SDLK_d:
+	}
+	if (m_keyboardHandler.IsKeyPressed(SDLK_d))
+	{
 		m_camera.MoveHorizontal(-MOVEMENT_SPEED);
-		break;
-	default:
-		break;
 	}
 	m_position = m_camera.GetPosition();
 }

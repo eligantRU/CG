@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Player.h"
 #include "Skysphere.h"
+#include "KeyboardHandler.h"
 
 class CWindow 
 	:public CAbstractInputControlWindow
@@ -18,9 +19,9 @@ public:
 
 protected:
 	// CAbstractWindow interface
-	void OnWindowInit(const glm::ivec2 &size) override;
+	void OnWindowInit(const glm::ivec2 & size) override;
 	void OnUpdateWindow(float deltaSeconds) override;
-	void OnDrawWindow(const glm::ivec2 &size) override;
+	void OnDrawWindow(const glm::ivec2 & size) override;
 
 	// IInputEventAcceptor interface
 	void OnScroll(const int &) override;
@@ -31,7 +32,7 @@ protected:
 	void OnKeyUp(const SDL_KeyboardEvent & key) override;
 
 private:
-	void SetupView(const glm::ivec2 &size);
+	void SetupView(const glm::ivec2 & size);
 
 	CPhongModelMaterial m_material;
 	CDirectedLightSource m_sunlight;
@@ -43,4 +44,6 @@ private:
 	std::unique_ptr<CSkysphere> m_pSkysphere;
 	CTexture2DUniquePtr m_pEarthTexture;
 	CAnimatedDecorator m_decoratedSphere;
+
+	CKeyboardHandler m_keyboardHandler;
 };

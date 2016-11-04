@@ -168,6 +168,7 @@
     <ClInclude Include="Decorators.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="IdentitySphere.h" />
+    <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="Labyrinth.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="MeshP3NT2.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Decorators.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="IdentitySphere.cpp" />
+    <ClCompile Include="KeyboardHandler.cpp" />
     <ClCompile Include="Labyrinth.cpp" />
     <ClCompile Include="Lights.cpp" />
     <ClCompile Include="main.cpp" />

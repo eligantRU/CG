@@ -18,7 +18,7 @@ const glm::vec4 FADED_WHITE_RGBA = { 0.3f, 0.3f, 0.3f, 1.f };
 const glm::vec3 SUNLIGHT_DIRECTION = { 1, 1, 1 };
 
 const char EARTH_TEX_PATH[] = "res/daily_earth.jpg";
-const float EARTH_ROTATION_PERIOD_SEC = 12.f;
+const float EARTH_ROTATION_PERIOD_SEC = 60.f;
 const unsigned SPHERE_PRECISION = 40;
 
 void SetupOpenGLState()
@@ -54,7 +54,7 @@ void SetupLineMode(const bool flag)
 CWindow::CWindow()
 	:m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_sunlight(GL_LIGHT0)
-	,m_player(m_camera)
+	,m_player(m_camera, m_keyboardHandler)
 {
 	SetBackgroundColor(BLACK);
 
@@ -74,7 +74,7 @@ CWindow::CWindow()
 	m_camera.SetRotationFlag(true);
 }
 
-void CWindow::OnWindowInit(const glm::ivec2 &size)
+void CWindow::OnWindowInit(const glm::ivec2 & size)
 {
 	(void)size;
 	SetupOpenGLState();
@@ -90,8 +90,14 @@ void CWindow::OnWindowInit(const glm::ivec2 &size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
 	m_camera.Update(deltaSeconds);
+
 	auto pos = m_camera.GetPosition();
-	m_camera.SetPosition({ pos.x, pos.y, 0 });
+	m_player.DispatchKeyboardEvent();
+	if (m_labyrinth->CheckCollision(m_player.GetPosition()))
+	{
+		m_camera.SetPosition(pos);
+	}
+	m_camera.SetPosition({ m_camera.GetPosition().x, m_camera.GetPosition().y, 0 });
 
 	m_labyrinth->Update(deltaSeconds);
 	m_decoratedSphere.Update(deltaSeconds);
@@ -100,7 +106,7 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 	SetupLineMode(m_lineMode);
 }
 
-void CWindow::OnDrawWindow(const glm::ivec2 &size)
+void CWindow::OnDrawWindow(const glm::ivec2 & size)
 {
 	SetupView(size);
 
@@ -159,16 +165,12 @@ void CWindow::OnDragEnd(const glm::vec2 & pos)
 
 void CWindow::OnKeyDown(const SDL_KeyboardEvent & key)
 {
-	auto pos = m_camera.GetPosition();
-	m_player.DispatchKeyboardEvent(key);
-	if (m_labyrinth->CheckCollision(m_player.GetPosition()))
-	{
-		m_camera.SetPosition(pos);
-	}
+	m_keyboardHandler.OnKeyDown(key.keysym.sym);
 }
 
 void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
 {
+	m_keyboardHandler.OnKeyUp(key.keysym.sym);
 	if (key.keysym.sym == SDLK_SPACE)
 	{
 		m_lineMode = !m_lineMode;
