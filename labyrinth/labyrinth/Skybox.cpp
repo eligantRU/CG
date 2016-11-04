@@ -1,9 +1,11 @@
 #include "stdafx.h"
+
 #include "Skybox.h"
-#include <stdint.h>
 
 namespace
 {
+
+const float BLOCK_SIZE = 2;
 
 const char TEXTURE_ATLAS[] = "res/galaxy/galaxy.plist";
 const std::pair<CubeFace, const char *> FRAME_MAPPING[] = {
@@ -42,7 +44,7 @@ CTexture2DLoader MakeTextureLoader()
 
 CSkybox::CSkybox()
 	:m_atlas(CFilesystemUtils::GetResourceAbspath(TEXTURE_ATLAS), MakeTextureLoader())
-	,m_cube(glm::vec3(0, 0, 0), 2)
+	,m_cube(glm::vec3(0, 0, 0), BLOCK_SIZE)
 {
 	for (const auto &pair : FRAME_MAPPING)
 	{

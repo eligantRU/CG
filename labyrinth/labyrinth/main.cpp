@@ -22,8 +22,7 @@ int main(int, char * [])
 	}
 	catch (const std::exception & ex)
 	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ERROR_TITLE,
-									ex.what(), nullptr);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ERROR_TITLE, ex.what(), nullptr);
 	}
 
 	return 0;

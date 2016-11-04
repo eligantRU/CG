@@ -31,4 +31,5 @@
 #include <mutex>
 #include <memory>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#include <algorithm>

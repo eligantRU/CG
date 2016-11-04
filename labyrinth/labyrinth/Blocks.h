@@ -1,14 +1,14 @@
 #pragma once
 
-#include "stdafx.h"
 #include "libchapter2.h"
 #include "MeshP3NT2.h"
 #include "Cube.h"
 
-class CBlock : public ISceneObject
+class CBlock 
+	:public ISceneObject
 {
 public:
-	CBlock() {};
+	CBlock() = default;
 	CBlock(const glm::vec3 & center, const float size) { (void)center; (void)size; };
 	virtual ~CBlock() = default;
 
@@ -26,7 +26,8 @@ enum class BlockType
 	Free
 };
 
-class CBarrierBlock : public CBlock
+class CBarrierBlock 
+	:public CBlock
 {
 public:
 	CBarrierBlock(const glm::vec3 & center, const float size);
@@ -43,7 +44,8 @@ private:
 	std::pair<glm::vec3, glm::vec3> m_position;
 };
 
-class CFreeBlock : public CBlock
+class CFreeBlock
+	:public CBlock
 {
 public:
 	CFreeBlock(const glm::vec3 & center, const float size);

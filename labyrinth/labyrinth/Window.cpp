@@ -2,9 +2,6 @@
 
 #include "Window.h"
 #include "IdentitySphere.h"
-#include <boost/range/algorithm/find_if.hpp>
-#include <boost/range/adaptor/reversed.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace
 {
@@ -55,11 +52,11 @@ void SetupLineMode(const bool flag)
 }
 
 CWindow::CWindow()
-    :m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
-    ,m_sunlight(GL_LIGHT0)
+	:m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
+	,m_sunlight(GL_LIGHT0)
 	,m_player(m_camera)
 {
-    SetBackgroundColor(BLACK);
+	SetBackgroundColor(BLACK);
 
 	m_decoratedSphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3(0, 0, -18)));
 	m_decoratedSphere.SetPeriod(EARTH_ROTATION_PERIOD_SEC);
@@ -79,14 +76,14 @@ CWindow::CWindow()
 
 void CWindow::OnWindowInit(const glm::ivec2 &size)
 {
-    (void)size;
-    SetupOpenGLState();
+	(void)size;
+	SetupOpenGLState();
 
 	m_labyrinth = std::make_unique<CLabyrinth>();
 	m_pSkysphere = std::make_unique<CSkysphere>();
 
-    CTexture2DLoader loader;
-    loader.SetWrapMode(TextureWrapMode::REPEAT);
+	CTexture2DLoader loader;
+	loader.SetWrapMode(TextureWrapMode::REPEAT);
 	m_pEarthTexture = loader.Load(EARTH_TEX_PATH);
 }
 

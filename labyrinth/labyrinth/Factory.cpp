@@ -11,9 +11,7 @@ std::unique_ptr<CBlock> CFactory::CreateBlock(const BlockType type, const glm::v
 	case BlockType::Free:
 		return CreateFreeBlock(center, size);
 	default:
-		assert(0);
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Unexpected BlockType", nullptr); // TODO: use boost::variant
-		std::abort();
+		throw std::logic_error("Unexpected BlockType");
 	}
 }
 

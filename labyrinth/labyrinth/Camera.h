@@ -1,8 +1,12 @@
 #pragma once
 
-#include "stdafx.h"
+#include <boost/noncopyable.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
-class CCamera : private boost::noncopyable
+
+class CCamera 
+	:private boost::noncopyable
 {
 public:
     explicit CCamera(glm::vec3 viewDirection, glm::vec3 eye, glm::vec3 up);

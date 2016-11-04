@@ -26,12 +26,6 @@ public:
 	void Update(float);
 	void Draw() const;
 
-	// TODO: for the future
-	/*void SetPosition(glm::vec3 &);
-	glm::vec3 GetPosition() const;
-	void SetSize(float);
-	float GetSize() const;*/
-
 	void SetFaceTextureRect(CubeFace face, const CFloatRect & rect);
 
 private:

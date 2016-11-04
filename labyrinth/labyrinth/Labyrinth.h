@@ -1,15 +1,15 @@
 #pragma once
 
-#include "stdafx.h"
 #include "libchapter2.h"
 #include "Blocks.h"
 #include "Factory.h"
 
-class CLabyrinth final : public ISceneObject
+class CLabyrinth final 
+	:public ISceneObject
 {
 public:
 	CLabyrinth();
-	~CLabyrinth();
+	~CLabyrinth() = default;
 
 	void Update(float dt) final;
 	void Draw() const;

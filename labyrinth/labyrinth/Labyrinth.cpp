@@ -46,8 +46,6 @@ CLabyrinth::CLabyrinth()
 	}
 }
 
-CLabyrinth::~CLabyrinth() = default;
-
 void CLabyrinth::Update(float dt)
 {
 	for (auto &row : m_labyrinth)

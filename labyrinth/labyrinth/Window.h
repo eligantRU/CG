@@ -10,18 +10,19 @@
 #include "Player.h"
 #include "Skysphere.h"
 
-class CWindow : public CAbstractInputControlWindow
+class CWindow 
+	:public CAbstractInputControlWindow
 {
 public:
-    CWindow();
+	CWindow();
 
 protected:
-    // CAbstractWindow interface
-    void OnWindowInit(const glm::ivec2 &size) override;
-    void OnUpdateWindow(float deltaSeconds) override;
-    void OnDrawWindow(const glm::ivec2 &size) override;
+	// CAbstractWindow interface
+	void OnWindowInit(const glm::ivec2 &size) override;
+	void OnUpdateWindow(float deltaSeconds) override;
+	void OnDrawWindow(const glm::ivec2 &size) override;
 
-    // IInputEventAcceptor interface
+	// IInputEventAcceptor interface
 	void OnScroll(const int &) override;
 	void OnDragBegin(const glm::vec2 & pos) override;
 	void OnDragMotion(const glm::vec2 & pos) override;
@@ -30,9 +31,9 @@ protected:
 	void OnKeyUp(const SDL_KeyboardEvent & key) override;
 
 private:
-    void SetupView(const glm::ivec2 &size);
+	void SetupView(const glm::ivec2 &size);
 
-    CPhongModelMaterial m_material;
+	CPhongModelMaterial m_material;
 	CDirectedLightSource m_sunlight;
 	CCamera m_camera;
 	glm::vec2 m_dragPosition;

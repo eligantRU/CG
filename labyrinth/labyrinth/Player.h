@@ -1,10 +1,10 @@
 #pragma once
 
-#include "stdafx.h"
 #include "libchapter2.h"
 #include "Camera.h"
 
-class CPlayer : public ISceneObject
+class CPlayer 
+	:public ISceneObject
 {
 public:
 	CPlayer(CCamera & camera);

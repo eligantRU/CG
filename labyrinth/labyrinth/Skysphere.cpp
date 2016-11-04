@@ -1,13 +1,14 @@
 #include "stdafx.h"
 
 #include "Skysphere.h"
+#include "IdentitySphere.h"
 
 namespace
 {
 
 const char EARTH_TEX_PATH[] = "res/sky.jpg";
-const float ROTATION_PERIOD_SEC = 180.f;
-const unsigned SPHERE_PRECISION = 40;
+const float ROTATION_PERIOD_SEC = 1000.f;
+const unsigned SPHERE_PRECISION = 50;
 
 template<class T>
 void DoAtCameraPosition(T && callback)
@@ -15,9 +16,9 @@ void DoAtCameraPosition(T && callback)
 	glm::mat4 modelView;
 	glGetFloatv(GL_MODELVIEW_MATRIX, glm::value_ptr(modelView));
 
-	modelView[3][0] = 0.f;
-	modelView[3][1] = 0.f;
-	modelView[3][2] = 0.f;
+	modelView[3][0] = 0;
+	modelView[3][1] = 0;
+	modelView[3][2] = 0;
 
 	glPushMatrix();
 	glLoadMatrixf(glm::value_ptr(modelView));
@@ -39,7 +40,7 @@ CSkysphere::CSkysphere()
 {
 	m_decoratedSphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3(0, 0, 0)));
 	
-	glm::mat4 rotator = glm::rotate(-360.f, glm::vec3(0, 1, 0));
+	glm::mat4 rotator = glm::rotate(glm::degrees(90.f), glm::vec3(-1, 0, 0));
 	m_decoratedSphere.SetTransform(rotator);
 
 	CTexture2DLoader loader;

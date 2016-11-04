@@ -5,6 +5,8 @@
 namespace
 {
 
+const float BLOCK_SIZE = 2;
+
 const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
 const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
 	{ CubeFace::Front, "cobblestone_block_front.png" },
@@ -72,7 +74,7 @@ bool CBarrierBlock::CheckCollision(const glm::vec3 & position) const
 
 CFreeBlock::CFreeBlock(const glm::vec3 & center, const float size)
 	:m_atlas(CFilesystemUtils::GetResourceAbspath(GRASS_TEXTURE_ATLAS), MakeTextureLoader())
-	,m_cube(glm::vec3(center.x, center.y, center.z - 2), size)
+	,m_cube(glm::vec3(center.x, center.y, center.z - BLOCK_SIZE), size)
 {
 	for (const auto &pair : GRASS_FRAME_MAPPING)
 	{

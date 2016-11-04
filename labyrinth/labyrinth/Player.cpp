@@ -51,6 +51,8 @@ void CPlayer::DispatchKeyboardEvent(const SDL_KeyboardEvent & key)
 	case SDLK_d:
 		m_camera.MoveHorizontal(-MOVEMENT_SPEED);
 		break;
+	default:
+		break;
 	}
 	m_position = m_camera.GetPosition();
 }

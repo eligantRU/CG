@@ -1,11 +1,10 @@
 #pragma once
 
-#include "IdentitySphere.h"
 #include "libchapter2.h"
 #include "Decorators.h"
-#include <boost/noncopyable.hpp>
 
-class CSkysphere final : public ISceneObject
+class CSkysphere final 
+	:public ISceneObject
 {
 public:
 	CSkysphere();

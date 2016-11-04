@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "Cube.h"
 
 namespace
@@ -12,17 +13,6 @@ struct SCubeFace
 	uint16_t vertexIndex4;
 	uint16_t faceIndex;
 };
-
-//const glm::vec3 CUBE_VERTICIES[] = { // NOTE: lie
-//	{ -1, +1, -1 },
-//	{ +1, +1, -1 },
-//	{ +1, -1, -1 },
-//	{ -1, -1, -1 },
-//	{ -1, +1, +1 },
-//	{ +1, +1, +1 },
-//	{ +1, -1, +1 },
-//	{ -1, -1, +1 }
-//};
 
 const SCubeFace CUBE_FACES[] = {
 	{ 2, 3, 0, 1, static_cast<uint16_t>(CubeFace::Front) },
@@ -63,7 +53,7 @@ void CCube::Draw() const
 	m_mesh.Draw();
 }
 
-void CCube::SetFaceTextureRect(CubeFace face, const CFloatRect &rect)
+void CCube::SetFaceTextureRect(CubeFace face, const CFloatRect & rect)
 {
 	const size_t index = static_cast<size_t>(face);
 	m_textureRects[index] = rect;
