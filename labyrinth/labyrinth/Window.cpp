@@ -90,6 +90,7 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
 	m_camera.Update(deltaSeconds);
+	m_player.Update(deltaSeconds);
 
 	auto pos = m_camera.GetPosition();
 	m_player.DispatchKeyboardEvent();
@@ -97,7 +98,9 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 	{
 		m_camera.SetPosition(pos);
 	}
-	m_camera.SetPosition({ m_camera.GetPosition().x, m_camera.GetPosition().y, 0 });
+	
+	m_camera.SetPosition({ m_camera.GetPosition().x, m_camera.GetPosition().y, m_player.GetDeltaHeight() });
+	
 
 	m_labyrinth->Update(deltaSeconds);
 	m_decoratedSphere.Update(deltaSeconds);
@@ -171,7 +174,7 @@ void CWindow::OnKeyDown(const SDL_KeyboardEvent & key)
 void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
 {
 	m_keyboardHandler.OnKeyUp(key.keysym.sym);
-	if (key.keysym.sym == SDLK_SPACE)
+	if (key.keysym.sym == SDLK_TAB)
 	{
 		m_lineMode = !m_lineMode;
 	}
