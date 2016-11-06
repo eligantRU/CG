@@ -22,10 +22,8 @@ CPlayer::CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler)
 
 CPlayer::~CPlayer() = default;
 
-void CPlayer::Update(float dt) // TODO: CCamera::MoveVertical() -- use it!
+void CPlayer::Update(float dt)
 {
-	(void)dt;
-
 	if (m_deltaHeight < 0)
 	{
 		m_deltaHeight = 0;
@@ -41,7 +39,7 @@ void CPlayer::Update(float dt) // TODO: CCamera::MoveVertical() -- use it!
 		m_verticalVelocity -= ACCELERATION;
 		
 		auto pos = m_camera.GetPosition();
-		m_camera.SetPosition({ pos.x, pos.y, pos.z + m_deltaHeight });
+		m_camera.MoveVertical(m_deltaHeight);
 	}
 	else if ((m_verticalVelocity <= 0) && (m_deltaHeight > 0))
 	{
@@ -49,8 +47,9 @@ void CPlayer::Update(float dt) // TODO: CCamera::MoveVertical() -- use it!
 		m_verticalVelocity -= ACCELERATION;
 
 		auto pos = m_camera.GetPosition();
-		m_camera.SetPosition({ pos.x, pos.y, pos.z - m_deltaHeight });
+		m_camera.MoveVertical(-m_deltaHeight);
 	}
+	std::cout << m_deltaHeight << std::endl;
 }
 
 void CPlayer::Draw() const

@@ -62,14 +62,15 @@ void CBarrierBlock::Draw() const
 
 bool CBarrierBlock::CheckCollision(const glm::vec3 & position) const
 {
-	auto eps = 0.8f;
+	auto eps = 0.5f;
+	
 	if (((m_position.first.x + eps <= position.x) && (position.x <= m_position.second.x - eps)) &&
 		((m_position.first.y + eps <= position.y) && (position.y <= m_position.second.y - eps)) &&
 		((m_position.first.z + eps <= position.z) && (position.z <= m_position.second.z - eps)))
 	{
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
 
 CFreeBlock::CFreeBlock(const glm::vec3 & center, const float size)
@@ -98,5 +99,5 @@ void CFreeBlock::Update(float dt)
 bool CFreeBlock::CheckCollision(const glm::vec3 & position) const
 {
 	(void)position;
-	return false;
+	return true;
 }

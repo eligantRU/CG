@@ -68,17 +68,17 @@ void CLabyrinth::Draw() const
 	}
 }
 
-bool CLabyrinth::CheckCollision(glm::vec3 position) const
+bool CLabyrinth::CheckCollision(const glm::vec3 & position) const
 {
 	for (const auto &row : m_labyrinth)
 	{
 		for (const auto &element : row)
 		{
-			if (element->CheckCollision(position))
+			if (!element->CheckCollision(position))
 			{
-				return true;
+				return false;
 			}
 		}
 	}
-	return false;
+	return true;
 }

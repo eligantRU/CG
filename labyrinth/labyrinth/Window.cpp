@@ -89,24 +89,23 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
+	SetupLineMode(m_lineMode);
+
 	m_camera.Update(deltaSeconds);
 	m_player.Update(deltaSeconds);
 
 	auto pos = m_camera.GetPosition();
 	m_player.DispatchKeyboardEvent();
-	if (m_labyrinth->CheckCollision(m_player.GetPosition()))
+	if (!m_labyrinth->CheckCollision(m_camera.GetPosition()))
 	{
 		m_camera.SetPosition(pos);
 	}
 	
 	m_camera.SetPosition({ m_camera.GetPosition().x, m_camera.GetPosition().y, m_player.GetDeltaHeight() });
-	
 
 	m_labyrinth->Update(deltaSeconds);
 	m_decoratedSphere.Update(deltaSeconds);
 	m_pSkysphere->Update(deltaSeconds);
-
-	SetupLineMode(m_lineMode);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 & size)

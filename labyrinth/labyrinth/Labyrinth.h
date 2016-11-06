@@ -14,7 +14,7 @@ public:
 	void Update(float dt) final;
 	void Draw() const;
 
-	bool CheckCollision(glm::vec3 position) const;
+	bool CheckCollision(const glm::vec3 & position) const;
 
 private:
 	std::array<std::array<std::unique_ptr<CBlock>, 16>, 16> m_labyrinth;
