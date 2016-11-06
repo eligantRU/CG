@@ -6,7 +6,7 @@
 namespace
 {
 
-const glm::ivec2 WINDOW_SIZE = { 1080, 720 };
+const glm::ivec2 WINDOW_SIZE = { 1280, 960 };
 const char WINDOW_TITLE[] = "Labyrinth";
 const char ERROR_TITLE[] = "Fatal Error";
 

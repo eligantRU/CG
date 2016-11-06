@@ -62,7 +62,7 @@ void CBarrierBlock::Draw() const
 
 bool CBarrierBlock::CheckCollision(const glm::vec3 & position) const
 {
-	auto eps = 0.5f;
+	auto eps = 0.85f;
 	
 	if (((m_position.first.x + eps <= position.x) && (position.x <= m_position.second.x - eps)) &&
 		((m_position.first.y + eps <= position.y) && (position.y <= m_position.second.y - eps)) &&

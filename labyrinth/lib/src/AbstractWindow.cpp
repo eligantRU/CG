@@ -23,7 +23,13 @@ public:
         // разместить окно в центре монитора по осям x и y.
         // Для использования OpenGL вы ДОЛЖНЫ указать флаг SDL_WINDOW_OPENGL.
         m_pWindow.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                         size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
+                                         size.x, size.y, SDL_WINDOW_OPENGL | 
+                                                         SDL_WINDOW_RESIZABLE | 
+                                                         SDL_WINDOW_MAXIMIZED |
+                                                         SDL_WINDOW_MOUSE_CAPTURE
+                                         )
+                       );
+        SDL_ShowCursor(SDL_DISABLE);
 
         // Создаём контекст OpenGL, связанный с окном.
         m_pGLContext.reset(SDL_GL_CreateContext(m_pWindow.get()));
