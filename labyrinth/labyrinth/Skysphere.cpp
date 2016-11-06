@@ -40,7 +40,7 @@ CSkysphere::CSkysphere()
 {
 	m_decoratedSphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3(0, 0, 0)));
 	
-	glm::mat4 rotator = glm::rotate(glm::degrees(90.f), glm::vec3(-1, 0, 0));
+	glm::mat4 rotator = glm::rotate(glm::radians(-90.f), glm::vec3(-1, 0, 0));
 	m_decoratedSphere.SetTransform(rotator);
 
 	CTexture2DLoader loader;
