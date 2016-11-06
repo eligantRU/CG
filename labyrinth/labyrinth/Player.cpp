@@ -6,7 +6,7 @@ namespace
 {
 
 const glm::vec3 INITIAL_POSITION = { 0, 0, 0 };
-const float MOVEMENT_SPEED = 0.04f;
+const float MOVEMENT_SPEED = 0.03f;
 const float JUMP_VELOCITY = 2.5f;
 const float ACCELERATION = 0.1f;
 
@@ -22,7 +22,7 @@ CPlayer::CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler)
 
 CPlayer::~CPlayer() = default;
 
-void CPlayer::Update(float dt)
+void CPlayer::Update(float dt) // TODO: CCamera::MoveVertical() -- use it!
 {
 	(void)dt;
 

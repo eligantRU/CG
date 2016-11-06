@@ -5,8 +5,8 @@
 namespace
 {
 
-const float MOUSE_LINEAR_MOVE_SPEED = 0.025f;
-const float MOVEMENT_SPEED = 0.1f;
+const float MOUSE_LINEAR_MOVE_SPEED = 0.01f;
+const float MOVEMENT_SPEED = 0.025f;
 const float MIN_DISTANCE = 1.f;
 const float MAX_DISTANCE = 45.f;
 
