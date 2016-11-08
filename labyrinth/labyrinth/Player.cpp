@@ -20,8 +20,6 @@ CPlayer::CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler)
 
 }
 
-CPlayer::~CPlayer() = default;
-
 void CPlayer::Update(float dt)
 {
 	if (m_deltaHeight < 0)

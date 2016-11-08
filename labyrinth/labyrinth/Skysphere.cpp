@@ -62,7 +62,6 @@ void CSkysphere::Draw() const
 	glPushMatrix();
 	glMultMatrixf(glm::value_ptr(matrix));
 	m_pSkyTexture->DoWhileBinded([&] {
-		glDisable(GL_LIGHTING);
 		glDepthMask(GL_FALSE);
 		glFrontFace(GL_CW);
 		DoAtCameraPosition([this] {
@@ -70,7 +69,6 @@ void CSkysphere::Draw() const
 		});
 		glFrontFace(GL_CCW);
 		glDepthMask(GL_TRUE);
-		glEnable(GL_LIGHTING);
 	});
 	glPopMatrix();	
 }

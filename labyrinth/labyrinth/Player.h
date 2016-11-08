@@ -9,7 +9,7 @@ class CPlayer
 {
 public:
 	CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler);
-	~CPlayer();
+	~CPlayer() = default;
 
 	void Update(float dt);
 	void Draw() const;
@@ -22,7 +22,6 @@ public:
 private:
 	CCamera & m_camera;
 	CKeyboardHandler & m_keyboardHandler;
-	std::function<bool(glm::vec3 &)> m_fnCheckCollision;
 	glm::vec3 m_position;
 
 	float m_verticalVelocity = 0;
