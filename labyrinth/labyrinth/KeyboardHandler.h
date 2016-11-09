@@ -13,5 +13,5 @@ public:
 	void OnKeyUp(SDL_Keycode keycode);
 
 private:
-	std::set<SDL_Keycode> m_keyboard;
+	std::set<SDL_Keycode> m_keyboard; // TODO: use unordered_set
 };

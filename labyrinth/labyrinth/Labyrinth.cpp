@@ -8,7 +8,7 @@ namespace
 
 const float BLOCK_SIZE = 2;
 
-const std::vector<std::vector<int>> LABYRINTH = {
+const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
@@ -31,6 +31,7 @@ const std::vector<std::vector<int>> LABYRINTH = {
 
 CLabyrinth::CLabyrinth()
 {
+	// TODO: i? j? 16?
 	for (unsigned i = 0; i < 16; ++i)
 	{
 		for (unsigned j = 0; j < 16; ++j)

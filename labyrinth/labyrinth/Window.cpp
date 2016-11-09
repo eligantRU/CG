@@ -89,19 +89,17 @@ void CWindow::OnWindowInit(const glm::ivec2 & size)
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
-	SetupLineMode(m_lineMode);
-
 	m_camera.Update(deltaSeconds);
 	m_player.Update(deltaSeconds);
 
 	auto pos = m_camera.GetPosition();
 	m_player.DispatchKeyboardEvent();
-	if (!m_labyrinth->CheckCollision(m_camera.GetPosition()))
+	if (!m_labyrinth->CheckCollision(m_player.GetPosition()))
 	{
-		m_camera.SetPosition(pos);
+		m_camera.SetPosition(pos); // TODO: player is not a camera
+		// TODO: learn English & fix previous TODO
 	}
-	
-	m_camera.SetPosition({ m_camera.GetPosition().x, m_camera.GetPosition().y, m_player.GetDeltaHeight() });
+	m_camera.SetPosition({ m_camera.GetPosition().x, m_camera.GetPosition().y, m_player.GetDeltaHeight() }); // TODO: c the last TODO
 
 	m_labyrinth->Update(deltaSeconds);
 	m_decoratedSphere.Update(deltaSeconds);
@@ -110,6 +108,7 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 
 void CWindow::OnDrawWindow(const glm::ivec2 & size)
 {
+	// TODO: fog, shader lighting
 	SetupView(size);
 
 	m_sunlight.Setup();
@@ -177,6 +176,8 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent & key)
 	{
 		m_lineMode = !m_lineMode;
 	}
+	SetupLineMode(m_lineMode);
+
 	if (key.keysym.sym == SDLK_ESCAPE)
 	{
 		std::exit(0);
