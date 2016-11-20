@@ -17,7 +17,7 @@ const float MATERIAL_SHININESS = 30.f;
 const glm::vec4 FADED_WHITE_RGBA = { 0.3f, 0.3f, 0.3f, 1.f };
 const glm::vec3 SUNLIGHT_DIRECTION = { 1, 1, 1 };
 
-const char EARTH_TEX_PATH[] = "res/daily_earth.jpg";
+const char EARTH_TEX_PATH[] = "res/daily_earth.jpg"; // TODO: texture need to be perfect. Not ugly
 const float EARTH_ROTATION_PERIOD_SEC = 60.f;
 const unsigned SPHERE_PRECISION = 40;
 
