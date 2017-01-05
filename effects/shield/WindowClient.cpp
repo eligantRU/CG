@@ -23,6 +23,7 @@ const glm::vec3 SPHERE_POSITION = { 0, 0, 0 };
 const std::string SHIELD_TEX_PATH = "res/shield2.png";
 
 const float MOVEMENT_SPEED = 0.03f;
+const float INTESITY_STEP = 0.05f;
 
 void SetupOpenGLState()
 {
@@ -34,6 +35,11 @@ void SetupOpenGLState()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_TEXTURE_2D);
+
+	glEnable(GL_LIGHTING);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
 
 void SetupLineMode(const bool flag)
@@ -119,7 +125,7 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	m_material.Setup();
 
 	m_programShield.Use();
-
+	m_programShield.FindUniform("intensity") = m_intensity;
 	DoWithTransform(m_sphereTranslateTransform, [&] {
 		m_pTexture->DoWhileBinded([&] {
 			DoWithTransform(glm::scale(glm::vec3(1, 1, 1)), [&] {
@@ -179,6 +185,21 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 		m_lineMode = !m_lineMode;
 	}
 	SetupLineMode(m_lineMode);
+
+	if (event.keysym.sym == SDLK_UP)
+	{
+		if (m_intensity < 1.f)
+		{
+			m_intensity += INTESITY_STEP;
+		}
+	}
+	if (event.keysym.sym == SDLK_DOWN)
+	{
+		if (m_intensity > 0.1f)
+		{
+			m_intensity -= INTESITY_STEP;
+		}
+	}
 
 	if (event.keysym.sym == SDLK_ESCAPE)
 	{

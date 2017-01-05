@@ -42,6 +42,7 @@ private:
 	CTexture2DUniquePtr m_pTexture;
 
 	float m_time = 0;
+	float m_intensity = 0.5f;
 	bool m_lineMode = false;
 	glm::vec2 m_dragPosition;
 };
