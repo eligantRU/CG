@@ -20,7 +20,7 @@ const glm::vec3 SUNLIGHT_DIRECTION = { -1, -1, -1 };
 const float SPHERE_ROTATION_SPEED = 0.2f;
 const unsigned SPHERE_PRECISION = 40;
 const glm::vec3 SPHERE_POSITION = { 0, 0, 0 };
-const std::string SHIELD_TEX_PATH = "res/shield.png";
+const std::string SHIELD_TEX_PATH = "res/shield2.png";
 
 const float MOVEMENT_SPEED = 0.03f;
 
