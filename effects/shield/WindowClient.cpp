@@ -20,16 +20,20 @@ const glm::vec3 SUNLIGHT_DIRECTION = { -1, -1, -1 };
 const float SPHERE_ROTATION_SPEED = 0.2f;
 const unsigned SPHERE_PRECISION = 40;
 const glm::vec3 SPHERE_POSITION = { 0, 0, 0 };
-const std::string SHIELD_TEX_PATH = "res/shield.jpg";
+const std::string SHIELD_TEX_PATH = "res/shield.png";
 
 const float MOVEMENT_SPEED = 0.03f;
 
 void SetupOpenGLState()
 {
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
+	glDepthMask(GL_TRUE);
+	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
-	//glCullFace(GL_BACK);
+	glCullFace(GL_BACK);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void SetupLineMode(const bool flag)
@@ -51,6 +55,13 @@ void DoWithTransform(const glm::mat4 & mat, T && callback)
 	glMultMatrixf(glm::value_ptr(mat));
 	callback();
 	glPopMatrix();
+}
+
+CTexture2DLoader MakeTextureLoader()
+{
+	CTexture2DLoader loader;
+	loader.SetWrapMode(TextureWrapMode::REPEAT);
+	return loader;
 }
 
 void SetShaders(CShaderProgram & program,
@@ -88,11 +99,9 @@ CWindowClient::CWindowClient(CWindow & window)
 
 	m_camera.SetRotationFlag(true);
 	
-	m_sphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3(0, 0, 0)));
+	m_sphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3()));
 	m_sphere.SetTransform(glm::rotate(glm::radians(-90.f), glm::vec3(-1, 0, 0)));
-	CTexture2DLoader loader;
-	loader.SetWrapMode(TextureWrapMode::REPEAT);
-	m_pTexture = loader.Load(SHIELD_TEX_PATH);
+	m_pTexture = MakeTextureLoader().Load(SHIELD_TEX_PATH);
 }
 
 void CWindowClient::OnUpdateWindow(const float dt)
@@ -112,11 +121,16 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	m_programShield.Use();
 
 	DoWithTransform(m_sphereTranslateTransform, [&] {
-		DoWithTransform(m_sphereRotateTransform, [&] {
-			m_pTexture->DoWhileBinded([&] {
-				DoWithTransform(glm::scale(glm::vec3(2, 2, 2)), [&] {
-					m_sphere.Draw();
-				});
+		m_pTexture->DoWhileBinded([&] {
+			DoWithTransform(glm::scale(glm::vec3(1, 1, 1)), [&] {
+				glDepthMask(GL_FALSE);
+
+				m_sphere.Draw();
+				glFrontFace(GL_CW);
+				m_sphere.Draw();
+				glFrontFace(GL_CCW);
+
+				glDepthMask(GL_TRUE);
 			});
 		});
 	});
