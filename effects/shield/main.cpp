@@ -8,7 +8,7 @@ int main(int, char * [])
 	try
 	{
 		CWindow window;
-		window.Show("Effects", { 600, 600 });
+		window.Show("Shield", { 800, 800 });
 		CWindowClient client(window);
 		window.DoMainLoop();
 	}
