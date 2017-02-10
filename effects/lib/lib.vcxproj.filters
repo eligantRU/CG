@@ -63,6 +63,9 @@
     <ClInclude Include="src\ProgramUniform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rd_party\tinyxml2.cpp">

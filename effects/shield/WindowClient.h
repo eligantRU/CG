@@ -4,7 +4,7 @@
 #include "IdentitySphere.h"
 #include "KeyboardHandler.h"
 #include "Camera.h"
-#include "Decorators.h"
+#include "ShieldProgramContext.h"
 
 class CWindowClient 
 	:public CAbstractWindowClient
@@ -24,22 +24,18 @@ protected:
 private:
 	void CheckOpenGLVersion();
 	void SetupView(const glm::ivec2 & size);
+	void SetupLight0();
 
 	void DispatchKeyboardEvent();
 
-	void UpdateRotation(const float dt);
-
-	CShaderProgram m_programShield;
-
-	CPhongModelMaterial m_material;
 	CPositionLightSource m_sunlight;
 	CCamera m_camera;
 	CKeyboardHandler m_keyboardHandler;
 
-	CTransformDecorator m_sphere;
-	glm::mat4 m_sphereRotateTransform;
-	glm::mat4 m_sphereTranslateTransform;
-	CTexture2DUniquePtr m_pTexture;
+	CArrayObject m_defaultVAO;
+
+	CIdentitySphere m_sphereObj;
+	CShieldProgramContext m_programContext;
 
 	float m_time = 0;
 	float m_intensity = 0.5f;

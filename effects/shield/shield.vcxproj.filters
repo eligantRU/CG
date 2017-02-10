@@ -36,7 +36,13 @@
     <ClInclude Include="KeyboardHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Decorators.h">
+    <ClInclude Include="ShieldRenderer3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShieldProgramContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,7 +68,10 @@
     <ClCompile Include="KeyboardHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Decorators.cpp">
+    <ClCompile Include="ShieldRenderer3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShieldProgramContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

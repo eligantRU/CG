@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "WindowClient.h"
+#include "ShieldRenderer3D.h"
 
 namespace
 {
@@ -19,8 +20,6 @@ const glm::vec3 SUNLIGHT_DIRECTION = { -1, -1, -1 };
 
 const float SPHERE_ROTATION_SPEED = 0.2f;
 const unsigned SPHERE_PRECISION = 40;
-const glm::vec3 SPHERE_POSITION = { 0, 0, 0 };
-const std::string SHIELD_TEX_PATH = "res/shield2.png";
 
 const float MOVEMENT_SPEED = 0.03f;
 const float INTESITY_STEP = 0.05f;
@@ -84,8 +83,10 @@ void SetShaders(CShaderProgram & program,
 
 CWindowClient::CWindowClient(CWindow & window)
 	:CAbstractWindowClient(window)
+	,m_defaultVAO(CArrayObject::do_bind_tag())
 	,m_sunlight(GL_LIGHT0)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
+	,m_sphereObj(SPHERE_PRECISION, SPHERE_PRECISION)
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -96,57 +97,29 @@ CWindowClient::CWindowClient(CWindow & window)
 	m_sunlight.SetSpecular(WHITE_RGBA);
 	m_sunlight.SetPosition(INITIAL_EYE_POSITION);
 
-	m_material.SetShininess(MATERIAL_SHININESS);
-	m_material.SetSpecular(WHITE_RGBA);
-	m_material.SetDiffuse(GRAY_RGBA);
-	m_material.SetAmbient(AMBIENT_SCALE * GRAY_RGBA);
-
-	SetShaders(m_programShield, "res/shield.vert", "res/shield.frag");
-
 	m_camera.SetRotationFlag(true);
-	
-	m_sphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3()));
-	m_sphere.SetTransform(glm::rotate(glm::radians(-90.f), glm::vec3(-1, 0, 0)));
-	m_pTexture = MakeTextureLoader().Load(SHIELD_TEX_PATH);
 }
 
 void CWindowClient::OnUpdateWindow(const float dt)
 {
 	m_time += dt;
 	m_camera.Update(dt);
-	UpdateRotation(dt);
-	m_sphere.Update(dt);
 	
 	DispatchKeyboardEvent();
 
 	SetupView(GetWindow().GetWindowSize());
+	SetupLight0();
 
-	m_sunlight.Setup();
-	m_material.Setup();
+	CShieldRenderer3D renderer(m_programContext);
 
-	m_programShield.Use();
-	m_programShield.FindUniform("intensity") = m_intensity;
-	DoWithTransform(m_sphereTranslateTransform, [&] {
-		m_pTexture->DoWhileBinded([&] {
-			DoWithTransform(glm::scale(glm::vec3(1, 1, 1)), [&] {
-				glDepthMask(GL_FALSE);
+	glDepthMask(GL_FALSE);
 
-				m_sphere.Draw();
-				glFrontFace(GL_CW);
-				m_sphere.Draw();
-				glFrontFace(GL_CCW);
+	glFrontFace(GL_CW);
+	m_sphereObj.Draw(renderer);
+	glFrontFace(GL_CCW);
+	m_sphereObj.Draw(renderer);
 
-				glDepthMask(GL_TRUE);
-			});
-		});
-	});
-}
-
-void CWindowClient::UpdateRotation(const float dt)
-{
-	const float deltaRotation = SPHERE_ROTATION_SPEED * dt;
-	m_sphereRotateTransform = glm::rotate(m_sphereRotateTransform, deltaRotation, glm::vec3(0, 0, 1));
-	m_sphereTranslateTransform = glm::translate(SPHERE_POSITION);
+	glDepthMask(GL_TRUE);
 }
 
 void CWindowClient::OnDragBegin(const glm::vec2 & pos)
@@ -191,6 +164,7 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 		if (m_intensity < 1.f)
 		{
 			m_intensity += INTESITY_STEP;
+			m_programContext.SetIntensity(m_intensity);
 		}
 	}
 	if (event.keysym.sym == SDLK_DOWN)
@@ -198,6 +172,7 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 		if (m_intensity > 0.1f)
 		{
 			m_intensity -= INTESITY_STEP;
+			m_programContext.SetIntensity(m_intensity);
 		}
 	}
 
@@ -217,18 +192,17 @@ void CWindowClient::CheckOpenGLVersion()
 
 void CWindowClient::SetupView(const glm::ivec2 & size)
 {
-	glViewport(0, 0, size.x, size.y);
-	const glm::mat4 mv = m_camera.GetViewTransform();
-	glLoadMatrixf(glm::value_ptr(mv));
-
+	const auto view = m_camera.GetViewTransform();
 	const float fieldOfView = glm::radians(70.f);
 	const float aspect = float(size.x) / float(size.y);
 	const float zNear = 0.01f;
 	const float zFar = 100.f;
-	const glm::mat4 proj = glm::perspective(fieldOfView, aspect, zNear, zFar);
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(glm::value_ptr(proj));
-	glMatrixMode(GL_MODELVIEW);
+	const auto proj = glm::perspective(fieldOfView, aspect, zNear, zFar);
+
+	glViewport(0, 0, size.x, size.y);
+
+	m_programContext.SetView(view);
+	m_programContext.SetProjection(proj);
 }
 
 void CWindowClient::DispatchKeyboardEvent()
@@ -254,4 +228,13 @@ void CWindowClient::DispatchKeyboardEvent()
 	{
 		m_camera.MoveHorizontal(-k * MOVEMENT_SPEED);
 	}
+}
+
+void CWindowClient::SetupLight0()
+{
+	CShieldProgramContext::SLightSource light0;
+	light0.specular = m_sunlight.GetSpecular();
+	light0.diffuse = m_sunlight.GetDiffuse();
+	light0.position = m_sunlight.GetUniformPosition();
+	m_programContext.SetLight0(light0);
 }

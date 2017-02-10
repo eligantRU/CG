@@ -4,7 +4,7 @@
 #include "src/Utils.h"
 #include "src/FilesystemUtils.h"
 #include "src/Window.h"
-#include "src/AbstractWindowClient.h" 
+#include "src/AbstractWindowClient.h"
 #include "src/Lights.h"
 #include "src/BufferObject.h"
 #include "src/ArrayObject.h"
@@ -14,5 +14,3 @@
 #include "src/VertexAttribute.h"
 #include "src/ShaderProgram.h"
 #include "src/ProgramInfo.h"
-
-#include "src/ISceneObject.h"
