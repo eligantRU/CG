@@ -2,7 +2,6 @@
 
 #include "libchapter3.h"
 #include "Quad.h"
-#include <vector>
 
 class CWindowClient 
 	:public CAbstractWindowClient
@@ -11,12 +10,14 @@ public:
 	CWindowClient(CWindow & window);
 
 protected:
-	void OnUpdateWindow(float deltaSeconds) override;
+	void OnUpdateWindow(const float dt) override;
 	void OnKeyUp(const SDL_KeyboardEvent &) override;
-
+	
 private:
 	void CheckOpenGLVersion();
 	void SetupView(const glm::ivec2 & size);
+	
+	CArrayObject m_defaultVAO;
 
 	CQuad m_quadObj;
 	CShaderProgram m_programSpiral;
