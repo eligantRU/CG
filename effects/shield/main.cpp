@@ -12,7 +12,7 @@ int main(int, char * [])
 		CWindowClient client(window);
 		window.DoMainLoop();
 	}
-	catch (const std::out_of_range & ex)
+	catch (const std::exception & ex)
 	{
 		const char * title = "Fatal Error";
 		const char * message = ex.what();

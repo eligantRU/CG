@@ -1,19 +1,16 @@
 #pragma once
 
 #include "MeshP3NT2.h"
-#include "libchapter2.h"
+#include "libchapter3.h"
+#include "IRenderer3D.h"
 
-class CIdentitySphere final 
-	:public ISceneObject
+class CIdentitySphere
 {
 public:
-	CIdentitySphere(unsigned slices, unsigned stacks, glm::vec3 & position);
+	CIdentitySphere(unsigned slices, unsigned stacks);
 
-	void Update(float) final {}
-	void Draw() const final;
+	void Draw(IRenderer3D & renderer) const;
 
 private:
-	void Tesselate(unsigned slices, unsigned stacks);
-
-	SMeshP3NT2 m_mesh;
+	CMeshP3NT2 m_mesh;
 };

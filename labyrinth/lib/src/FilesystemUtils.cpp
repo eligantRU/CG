@@ -1,4 +1,4 @@
-#include "libchapter2_private.h"
+#include "libchapter3_private.h"
 #include "FilesystemUtils.h"
 #include <boost/filesystem/operations.hpp>
 #include <fstream>
@@ -99,7 +99,7 @@ std::string CFilesystemUtils::LoadFileAsString(const boost::filesystem::path &pa
     return text;
 }
 
-SDLSurfacePtr CFilesystemUtils::LoadImage(const boost::filesystem::path &path)
+SDLSurfacePtr CFilesystemUtils::LoadFileImage(const boost::filesystem::path &path)
 {
     const std::string pathUtf8 = ConvertPathToUtf8(GetResourceAbspath(path));
     SDLSurfacePtr pSurface(IMG_Load(pathUtf8.c_str()));

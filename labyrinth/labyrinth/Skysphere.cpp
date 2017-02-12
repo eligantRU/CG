@@ -26,10 +26,8 @@ void DoAtCameraPosition(T && callback)
 	glPopMatrix();
 }
 
-/// @param phase - Фаза анимации на отрезке [0..1]
 glm::mat4 GetRotateZTransfrom(float phase)
 {
-	// угол вращения вокруг оси Z лежит в отрезке [0...2*pi].
 	const float angle = float(2 * M_PI) * phase;
 	return glm::rotate(glm::mat4(), angle, { 0, 0, 1 });
 }
@@ -37,11 +35,9 @@ glm::mat4 GetRotateZTransfrom(float phase)
 }
 
 CSkysphere::CSkysphere()
+	:m_sphere(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION))
 {
-	m_decoratedSphere.SetChild(std::make_unique<CIdentitySphere>(SPHERE_PRECISION, SPHERE_PRECISION, glm::vec3(0, 0, 0)));
-	
 	glm::mat4 rotator = glm::rotate(glm::radians(-90.f), glm::vec3(-1, 0, 0));
-	m_decoratedSphere.SetTransform(rotator);
 
 	CTexture2DLoader loader;
 	loader.SetWrapMode(TextureWrapMode::REPEAT);
@@ -50,8 +46,6 @@ CSkysphere::CSkysphere()
 
 void CSkysphere::Update(float dt)
 {
-	m_decoratedSphere.Update(dt);
-
 	m_animationPhase += (dt / ROTATION_PERIOD_SEC);
 	m_animationPhase = fmodf(m_animationPhase, 1.f);
 }
@@ -66,7 +60,7 @@ void CSkysphere::Draw() const
 		glDepthMask(GL_FALSE);
 		glFrontFace(GL_CW);
 		DoAtCameraPosition([this] {
-			m_decoratedSphere.Draw();
+			//m_sphere->Draw();
 		});
 		glFrontFace(GL_CCW);
 		glDepthMask(GL_TRUE);

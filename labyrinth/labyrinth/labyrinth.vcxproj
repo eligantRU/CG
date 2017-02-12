@@ -162,40 +162,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Blocks.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Cube.h" />
-    <ClInclude Include="Decorators.h" />
-    <ClInclude Include="Factory.h" />
     <ClInclude Include="IdentitySphere.h" />
+    <ClInclude Include="IRenderer3D.h" />
     <ClInclude Include="KeyboardHandler.h" />
-    <ClInclude Include="Labyrinth.h" />
-    <ClInclude Include="Lights.h" />
     <ClInclude Include="MeshP3NT2.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Skysphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowClient.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Blocks.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="Decorators.cpp" />
-    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="IdentitySphere.cpp" />
     <ClCompile Include="KeyboardHandler.cpp" />
-    <ClCompile Include="Labyrinth.cpp" />
-    <ClCompile Include="Lights.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshP3NT2.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Skysphere.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WindowClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,18 +1,17 @@
 #pragma once
 
-#include "libchapter2.h"
-#include "Decorators.h"
+#include "libchapter3.h"
+#include "IdentitySphere.h"
 
-class CSkysphere final 
-	:public ISceneObject
+class CSkysphere final
 {
 public:
 	CSkysphere();
-	void Update(float dt) final;
-	void Draw() const final;
+	void Update(const float dt);
+	void Draw() const;
 
 private:
 	CTexture2DUniquePtr m_pSkyTexture;
-	CTransformDecorator m_decoratedSphere;
+	std::unique_ptr<CIdentitySphere> m_sphere;
 	float m_animationPhase = 0;
 };
