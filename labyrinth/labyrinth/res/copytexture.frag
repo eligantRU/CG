@@ -31,9 +31,9 @@ LightFactors GetLight0Factors()
 	vec3 delta = light0.position.w * viewDirection;
 	vec4 lightPosInViewSpace = view * light0.position;
 	vec3 lightDirection = normalize(lightPosInViewSpace.xyz + delta);
-    
+
 	vec3 reflectDirection = normalize(-reflect(lightDirection, fixedNormal));
-    
+
 	LightFactors result;
 	result.diffuse = max(dot(fixedNormal, lightDirection), 0.0);
 	float base = max(dot(reflectDirection, viewDirection), 0.0);
@@ -51,6 +51,6 @@ void main()
 	vec4 color = texture2D(colormap, fragTextureUV.st);
 	vec4 diffuseIntensity = color * light0.diffuse;
 	vec4 specularIntensity = factors.specular * light0.specular; 
-   
+
 	gl_FragColor = diffuseIntensity + specularIntensity;
 }
