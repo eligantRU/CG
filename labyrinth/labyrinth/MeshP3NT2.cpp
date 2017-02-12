@@ -55,7 +55,7 @@ void CMeshP3NT2::Draw(IRenderer3D & renderer) const
 	renderer.SetTexCoord2DOffset(texCoordOffset, stride);
 
 	const GLenum primitive = GetPrimitiveType(m_meshType);
-	const GLvoid *indexOffset = reinterpret_cast<const GLvoid *>(0);
+	const GLvoid * indexOffset = reinterpret_cast<const GLvoid *>(0);
 	const GLuint minIndex = 0;
 	const GLuint maxIndex = GLuint(m_verticiesCount);
 	const GLsizei size = GLsizei(m_indiciesCount);

@@ -35,7 +35,7 @@ public:
 
 	void Copy(const SMeshDataP3NT2 & data);
 
-	void Draw(IRenderer3D & renderer)const;
+	void Draw(IRenderer3D & renderer) const;
 
 private:
 	MeshType m_meshType;
