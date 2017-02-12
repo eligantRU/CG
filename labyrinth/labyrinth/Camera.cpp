@@ -5,29 +5,29 @@
 namespace
 {
 
-const float MOUSE_LINEAR_MOVE_SPEED = 0.01f;
+const float LINEAR_MOVE_SPEED = 0.01f;
 const float MOVEMENT_SPEED = 0.025f;
 const float MIN_DISTANCE = 1.f;
 const float MAX_DISTANCE = 45.f;
 
 }
 
-CCamera::CCamera(glm::vec3 viewDirection, glm::vec3 eye, glm::vec3 up)
-    :m_viewDirection(viewDirection)
+CCamera::CCamera(const glm::vec3 & viewDirection, const glm::vec3 & eye, const glm::vec3 & up)
+	:m_viewDirection(viewDirection)
 	,m_eye(eye)
 	,m_up(up)
 {
 
 }
 
-void CCamera::Update(float deltaSec)
+void CCamera::Update(const float dt)
 {
-	(void)deltaSec;
+	(void)&dt;
 }
 
-void CCamera::OnScale(const int & zoom)
+void CCamera::OnScale(const int zoom)
 { 
-	(void)zoom;
+	(void)&zoom;
 }
 
 glm::mat4 CCamera::GetViewTransform() const
@@ -45,7 +45,7 @@ glm::vec3 CCamera::GetPosition() const
 	return m_eye;
 }
 
-void CCamera::SetRotationFlag(bool flag)
+void CCamera::SetRotationFlag(const bool flag)
 {
 	m_doesRotate = flag;
 }
@@ -55,11 +55,11 @@ bool CCamera::GetRotationFlag() const
 	return m_doesRotate;
 }
 
-void CCamera::Rotate(const glm::vec2 angle)
+void CCamera::Rotate(const glm::vec2 & angle)
 {
 	m_strafeDirection = glm::cross(m_viewDirection, m_up);
-	glm::mat4 rotator = glm::rotate(-angle.x * MOUSE_LINEAR_MOVE_SPEED, m_up)
-						* glm::rotate(-angle.y * MOUSE_LINEAR_MOVE_SPEED, m_strafeDirection); // TODO: issue #11
+	glm::mat4 rotator = glm::rotate(-angle.x * LINEAR_MOVE_SPEED, m_up)
+	                  * glm::rotate(-angle.y * LINEAR_MOVE_SPEED, m_strafeDirection); // TODO: issue #11
 
 	m_viewDirection = glm::mat3(rotator) * m_viewDirection;
 }

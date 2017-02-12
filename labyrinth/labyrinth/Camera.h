@@ -4,25 +4,24 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
-
 class CCamera 
 	:private boost::noncopyable
 {
 public:
-    explicit CCamera(glm::vec3 viewDirection, glm::vec3 eye, glm::vec3 up);
+	explicit CCamera(const glm::vec3 & viewDirection, const glm::vec3 & eye, const glm::vec3 & up);
 
-    void Update(float deltaSec);
-	void OnScale(const int & zoom);
+	void Update(float deltaSec);
+	void OnScale(const int zoom);
 
 	void SetPosition(const glm::vec3 & position);
 	glm::vec3 GetPosition() const;
 
 	glm::mat4 GetViewTransform() const;
 
-	void SetRotationFlag(bool flag);
+	void SetRotationFlag(const bool flag);
 	bool GetRotationFlag() const;
 
-	void Rotate(const glm::vec2);
+	void Rotate(const glm::vec2 & angle);
 
 	void MoveFrontal(const float speed);
 	void MoveHorizontal(const float speed);
