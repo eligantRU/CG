@@ -1,11 +1,13 @@
 #include "stdafx.h"
+
 #include "IdentitySphere.h"
 #include <algorithm>
 
 namespace
 {
 
-struct CSphereTesselator : SMeshDataP3NT2
+struct CSphereTesselator 
+	:SMeshDataP3NT2
 {
 public:
 	static const unsigned MIN_PRECISION = 4;
@@ -20,7 +22,6 @@ public:
 private:
 	void MakeVertexAttributes(unsigned columnCount, unsigned rowCount)
 	{
-		// вычисляем позиции вершин.
 		for (unsigned ci = 0; ci < columnCount; ++ci)
 		{
 			const float u = float(ci) / float(columnCount - 1);
@@ -42,7 +43,7 @@ private:
 	{
 		indicies.clear();
 		indicies.reserve((columnCount - 1) * rowCount * 2);
-		// вычисляем индексы вершин.
+
 		for (unsigned ci = 0; ci < columnCount - 1; ++ci)
 		{
 			if (ci % 2 == 0)
