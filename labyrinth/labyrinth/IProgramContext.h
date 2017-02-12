@@ -12,6 +12,8 @@ public:
 		glm::vec4 specular;
 	};
 
+	virtual ~IProgramContext() = default;
+
 	virtual void Use() = 0;
 	virtual CVertexAttribute GetPositionAttr() const = 0;
 	virtual CVertexAttribute GetNormalAttr() const = 0;

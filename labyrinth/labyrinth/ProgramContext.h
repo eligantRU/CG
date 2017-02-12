@@ -7,6 +7,8 @@ class CProgramContext
 	:public IProgramContext
 {
 public:
+	virtual ~CProgramContext() = default;
+
 	CVertexAttribute GetPositionAttr() const override;
 	CVertexAttribute GetNormalAttr() const override;
 	CVertexAttribute GetTexCoordAttr() const override;
