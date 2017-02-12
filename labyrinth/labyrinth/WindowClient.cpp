@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "WindowClient.h"
+#include "MoonRenderer3D.h"
 
 namespace
 {
@@ -86,7 +87,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_sunlight(GL_LIGHT0)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
-	,m_sphere(SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -108,6 +109,9 @@ void CWindowClient::OnUpdateWindow(const float dt)
 
 	SetupView(GetWindow().GetWindowSize());
 	SetupLight0();
+
+	CMoonRenderer3D renderer(m_moonContext);
+	m_moon.Draw(renderer);
 }
 
 void CWindowClient::OnDragBegin(const glm::vec2 & pos)
@@ -172,8 +176,8 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 
 	glViewport(0, 0, size.x, size.y);
 
-	//m_programContext.SetView(view);
-	//m_programContext.SetProjection(proj);
+	m_moonContext.SetView(view);
+	m_moonContext.SetProjection(proj);
 }
 
 void CWindowClient::DispatchKeyboardEvent()
@@ -203,9 +207,9 @@ void CWindowClient::DispatchKeyboardEvent()
 
 void CWindowClient::SetupLight0()
 {
-	/*CShieldProgramContext::SLightSource light0;
+	CMoonProgramContext::SLightSource light0;
 	light0.specular = m_sunlight.GetSpecular();
 	light0.diffuse = m_sunlight.GetDiffuse();
 	light0.position = m_sunlight.GetUniformPosition();
-	m_programContext.SetLight0(light0);*/
+	m_moonContext.SetLight0(light0);
 }

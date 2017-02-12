@@ -7,6 +7,7 @@
 #include "Player.h"
 //#include "Labyrinth.h"
 #include "Skysphere.h"
+#include "MoonProgramContext.h"
 
 class CWindowClient
 	:public CAbstractWindowClient
@@ -41,7 +42,8 @@ private:
 	CPlayer m_player;
 	CSkysphere m_pSkysphere;
 	CTexture2DUniquePtr m_pEarthTexture;
-	CIdentitySphere m_sphere;
+	CIdentitySphere m_moon;
+	CMoonProgramContext m_moonContext;
 
 	CKeyboardHandler m_keyboardHandler;
 };

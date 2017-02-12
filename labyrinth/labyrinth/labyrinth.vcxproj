@@ -168,6 +168,8 @@
     <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="MeshP3NT2.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="MoonProgramContext.h" />
+    <ClInclude Include="MoonRenderer3D.h" />
     <ClInclude Include="Skysphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -180,6 +182,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshP3NT2.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="MoonProgramContext.cpp" />
+    <ClCompile Include="MoonRenderer3D.cpp" />
     <ClCompile Include="Skysphere.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="WindowClient.cpp" />

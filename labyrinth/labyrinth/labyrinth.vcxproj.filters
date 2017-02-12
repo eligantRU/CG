@@ -45,6 +45,12 @@
     <ClInclude Include="IRenderer3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MoonRenderer3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonProgramContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonRenderer3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonProgramContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
