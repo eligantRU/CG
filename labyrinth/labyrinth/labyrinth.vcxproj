@@ -166,12 +166,14 @@
     <ClInclude Include="BlockRenderer3D.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="IdentitySphere.h" />
+    <ClInclude Include="IProgramContext.h" />
     <ClInclude Include="IRenderer3D.h" />
     <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="MeshP3NT2.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="MoonProgramContext.h" />
     <ClInclude Include="MoonRenderer3D.h" />
+    <ClInclude Include="ProgramContext.h" />
     <ClInclude Include="Skysphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -189,6 +191,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="MoonProgramContext.cpp" />
     <ClCompile Include="MoonRenderer3D.cpp" />
+    <ClCompile Include="ProgramContext.cpp" />
     <ClCompile Include="Skysphere.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="WindowClient.cpp" />

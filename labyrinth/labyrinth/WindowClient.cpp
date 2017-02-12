@@ -55,29 +55,13 @@ void SetupLineMode(const bool flag)
 }
 
 template <class T>
-void DoWithTransform(const glm::mat4 & mat, T && callback)
+void DoWithTransform(IProgramContext & context, const glm::mat4 & mat, T && callback)
 {
-	glPushMatrix();
-	glMultMatrixf(glm::value_ptr(mat));
+	const auto was = context.GetView();
+	context.SetView(was * mat);
+	context.Use();
 	callback();
-	glPopMatrix();
-}
-
-CTexture2DLoader MakeTextureLoader()
-{
-	CTexture2DLoader loader;
-	loader.SetWrapMode(TextureWrapMode::REPEAT);
-	return loader;
-}
-
-void SetShaders(CShaderProgram & program,
-                const std::string & vertexShaderPath, const std::string & fragmentShaderPath)
-{
-	const std::string vertexShader = CFilesystemUtils::LoadFileAsString(vertexShaderPath);
-	const std::string fragmentShader = CFilesystemUtils::LoadFileAsString(fragmentShaderPath);
-	program.CompileShader(vertexShader, ShaderType::Vertex);
-	program.CompileShader(fragmentShader, ShaderType::Fragment);
-	program.Link();
+	context.SetView(was);
 }
 
 }
@@ -114,7 +98,9 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	SetupLight0();
 
 	CMoonRenderer3D renderer(m_moonContext);
-	m_moon.Draw(renderer);
+	DoWithTransform(m_moonContext, glm::translate(glm::vec3(2, 2, 2)), [&] {
+		m_moon.Draw(renderer);
+	});
 	CBlockRenderer3D renderer2(m_cubeContext);
 	m_cube.Draw(renderer2);
 }
