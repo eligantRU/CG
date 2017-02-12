@@ -60,6 +60,12 @@
     <ClInclude Include="BlockRenderer3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProgramContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IProgramContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +108,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlockRenderer3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
