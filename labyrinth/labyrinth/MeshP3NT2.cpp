@@ -32,7 +32,7 @@ CMeshP3NT2::CMeshP3NT2(MeshType meshType)
 
 }
 
-void CMeshP3NT2::Copy(const SMeshDataP3NT2 &data)
+void CMeshP3NT2::Copy(const SMeshDataP3NT2 & data)
 {
 	m_indiciesCount = data.indicies.size();
 	m_indexesBuffer.Copy(data.indicies);
@@ -40,7 +40,7 @@ void CMeshP3NT2::Copy(const SMeshDataP3NT2 &data)
 	m_attributesBuffer.Copy(data.vertices);
 }
 
-void CMeshP3NT2::Draw(IRenderer3D &renderer) const
+void CMeshP3NT2::Draw(IRenderer3D & renderer) const
 {
 	const size_t stride = sizeof(SVertexP3NT2);
 	const size_t positionOffset = size_t(offsetof(SVertexP3NT2, position));
@@ -60,6 +60,5 @@ void CMeshP3NT2::Draw(IRenderer3D &renderer) const
 	const GLuint maxIndex = GLuint(m_verticiesCount);
 	const GLsizei size = GLsizei(m_indiciesCount);
 
-	glDrawRangeElements(primitive, minIndex, maxIndex, size,
-		GL_UNSIGNED_INT, indexOffset);
+	glDrawRangeElements(primitive, minIndex, maxIndex, size, GL_UNSIGNED_INT, indexOffset);
 }
