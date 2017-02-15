@@ -5,23 +5,6 @@
 namespace
 {
 
-const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
-const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
-	{ CubeFace::Front, "cobblestone_block_front.png" },
-	{ CubeFace::Back, "cobblestone_block_back.png" },
-	{ CubeFace::Top, "cobblestone_block_top.png" },
-	{ CubeFace::Bottom, "cobblestone_block_bottom.png" },
-	{ CubeFace::Left, "cobblestone_block_left.png" },
-	{ CubeFace::Right, "cobblestone_block_right.png" }
-};
-
-CTexture2DLoader MakeTextureLoader()
-{
-	CTexture2DLoader loader;
-	loader.SetWrapMode(TextureWrapMode::REPEAT);
-	return loader;
-}
-
 const auto DEFAULT_CUBE_SIZE = 1.f;
 
 struct SCubeFace
@@ -52,7 +35,6 @@ CCube::CCube()
 
 CCube::CCube(const glm::vec3 & center, const float size)
 	:m_mesh(MeshType::Triangles)
-	,m_atlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_TEXTURE_ATLAS), MakeTextureLoader())
 {
 	m_verticies = {
 		glm::vec3(center.x - size / 2, center.y + size / 2, center.z - size / 2),
@@ -64,12 +46,6 @@ CCube::CCube(const glm::vec3 & center, const float size)
 		glm::vec3(center.x + size / 2, center.y - size / 2, center.z + size / 2),
 		glm::vec3(center.x - size / 2, center.y - size / 2, center.z + size / 2)
 	};
-
-	for (const auto & pair : COBBLESTONE_FRAME_MAPPING)
-	{
-		auto texRect = m_atlas.GetFrameRect(pair.second);
-		SetFaceTextureRect(pair.first, texRect);
-	}
 }
 
 void CCube::Update(const float dt)
@@ -85,11 +61,6 @@ void CCube::Update(const float dt)
 void CCube::Draw(IRenderer3D & renderer) const
 {
 	m_mesh.Draw(renderer);
-}
-
-const CTexture2DAtlas & CCube::GetTexture2DAtlas() const
-{
-	return m_atlas;
 }
 
 void CCube::SetFaceTextureRect(CubeFace face, const CFloatRect & rect)

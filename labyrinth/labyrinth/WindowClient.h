@@ -6,10 +6,12 @@
 #include "Camera.h"
 #include "Player.h"
 #include "Cube.h"
-//#include "Labyrinth.h"
+#include "Labyrinth.h"
 #include "Skysphere.h"
 #include "MoonProgramContext.h"
 #include "BlockProgramContext.h"
+#include "SkyProgramContext.h"
+#include "Blocks.h"
 
 class CWindowClient
 	:public CAbstractWindowClient
@@ -40,16 +42,17 @@ private:
 	CCamera m_camera;
 	glm::vec2 m_dragPosition;
 	bool m_lineMode = false;
-	//std::unique_ptr<CLabyrinth> m_labyrinth;
+	CLabyrinth m_labyrinth;
 	CPlayer m_player;
-	CSkysphere m_pSkysphere;
-	CTexture2DUniquePtr m_pEarthTexture;
+	
+	CSkysphere m_skysphere;
+	CSkyProgramContext m_skyContext;
 
 	CIdentitySphere m_moon;
 	CMoonProgramContext m_moonContext;
 
-	CCube m_cube;
-	CBlockProgramContext m_cubeContext;
+	CBarrierBlock m_block;
+	CBlockProgramContext m_blockContext;
 
 	CKeyboardHandler m_keyboardHandler;
 };

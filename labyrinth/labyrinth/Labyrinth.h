@@ -11,11 +11,9 @@ public:
 	~CLabyrinth() = default;
 
 	void Update(const float dt);
-	void Draw() const;
-
-	bool CheckCollision(const glm::vec3 & position) const;
+	void Draw(IRenderer3D & renderer) const;
 
 private:
-	std::array<std::array<std::unique_ptr<CBlock>, 16>, 16> m_labyrinth;
+	std::array<std::array<std::unique_ptr<CBlock>, 32>, 32> m_labyrinth;
 	CFactory m_factory;
 };

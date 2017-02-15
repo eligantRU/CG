@@ -2,7 +2,7 @@
 
 #include "Blocks.h"
 
-class CFactory
+class CFactory // TODO: it is bad factory
 {
 public:
 	CFactory() = default;
@@ -12,5 +12,5 @@ public:
 
 private:
 	std::unique_ptr<CBarrierBlock> CreateBarrierBlock(const glm::vec3 & center, const float size) const;
-	std::unique_ptr<CFreeBlock> CreateFreeBlock(const glm::vec3 & center, const float size) const;
+	//std::unique_ptr<CFreeBlock> CreateFreeBlock(const glm::vec3 & center, const float size) const;
 };

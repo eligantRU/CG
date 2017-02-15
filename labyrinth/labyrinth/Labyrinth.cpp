@@ -31,16 +31,17 @@ const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 
 CLabyrinth::CLabyrinth()
 {
-	// TODO: i? j? 16?
-	for (unsigned i = 0; i < 16; ++i)
+	// TODO: what is 'i'? What is 'j'? 16?
+	for (unsigned i = 0; i < 32; ++i)
 	{
-		for (unsigned j = 0; j < 16; ++j)
+		for (unsigned j = 0; j < 32; ++j)
 		{
 			float x = - float(m_labyrinth.size()) + i * BLOCK_SIZE;
 			float y = - float(m_labyrinth.size()) + j * BLOCK_SIZE;
 			float z = 0;
 
-			auto type = ((LABYRINTH[i][j])) ? BlockType::Barrier : BlockType::Free;
+			//auto type = ((LABYRINTH[i][j])) ? BlockType::Barrier : BlockType::Free;
+			auto type = BlockType::Barrier;
 			auto block = m_factory.CreateBlock(type, glm::vec3(x, y, z), BLOCK_SIZE);
 			m_labyrinth[i][j] = std::move(block);
 		}
@@ -49,27 +50,27 @@ CLabyrinth::CLabyrinth()
 
 void CLabyrinth::Update(const float dt)
 {
-	for (auto &row : m_labyrinth)
+	for (auto & row : m_labyrinth)
 	{
-		for (auto &block : row)
+		for (auto & block : row)
 		{
 			block->Update(dt);
 		}
 	}
 }
 
-void CLabyrinth::Draw() const
+void CLabyrinth::Draw(IRenderer3D & renderer) const
 {
-	for (const auto &row : m_labyrinth)
+	for (const auto & row : m_labyrinth)
 	{
-		for (const auto &element : row)
+		for (const auto & element : row)
 		{
-			element->Draw();
+			element->Draw(renderer);
 		}
 	}
 }
 
-bool CLabyrinth::CheckCollision(const glm::vec3 & position) const
+/*bool CLabyrinth::CheckCollision(const glm::vec3 & position) const
 {
 	for (const auto &row : m_labyrinth)
 	{
@@ -82,4 +83,4 @@ bool CLabyrinth::CheckCollision(const glm::vec3 & position) const
 		}
 	}
 	return true;
-}
+}*/

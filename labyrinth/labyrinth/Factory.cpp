@@ -4,12 +4,12 @@
 
 std::unique_ptr<CBlock> CFactory::CreateBlock(const BlockType type, const glm::vec3 & center, const float size) const
 {
-	switch (type)
+	switch (type) // TODO: fix logic error
 	{
 	case BlockType::Barrier:
-		return CreateBarrierBlock(center, size);
 	case BlockType::Free:
-		return CreateFreeBlock(center, size);
+		return CreateBarrierBlock(center, size);
+		//return CreateFreeBlock(center, size);
 	default:
 		throw std::logic_error("Unexpected BlockType");
 	}
@@ -20,7 +20,7 @@ std::unique_ptr<CBarrierBlock> CFactory::CreateBarrierBlock(const glm::vec3 & ce
 	return std::make_unique<CBarrierBlock>(center, size);
 }
 
-std::unique_ptr<CFreeBlock> CFactory::CreateFreeBlock(const glm::vec3 & center, const float size) const
+/*std::unique_ptr<CFreeBlock> CFactory::CreateFreeBlock(const glm::vec3 & center, const float size) const
 {
 	return std::make_unique<CFreeBlock>(center, size);
-}
+}*/

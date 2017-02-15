@@ -3,6 +3,7 @@
 #include "WindowClient.h"
 #include "MoonRenderer3D.h"
 #include "BlockRenderer3D.h"
+#include "SkyRenderer3D.h"
 
 namespace
 {
@@ -73,7 +74,8 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
-	,m_cubeContext(m_cube.GetTexture2DAtlas())
+	,m_blockContext(m_block.GetTexture2DAtlas())
+	,m_block(glm::vec3(), 1.f)
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -90,19 +92,26 @@ CWindowClient::CWindowClient(CWindow & window)
 void CWindowClient::OnUpdateWindow(const float dt)
 {
 	m_camera.Update(dt);
-	m_cube.Update(dt);
+	m_block.Update(dt);
+	m_block.Update(dt);
+	m_labyrinth.Update(dt);
 	
 	DispatchKeyboardEvent();
 
 	SetupView(GetWindow().GetWindowSize());
 	SetupLight0();
 
+	CSkyRenderer3D renderer0(m_skyContext);
+	m_skysphere.Draw(renderer0);
+
 	CMoonRenderer3D renderer(m_moonContext);
 	DoWithTransform(m_moonContext, glm::translate(glm::vec3(2, 2, 2)), [&] {
 		m_moon.Draw(renderer);
 	});
-	CBlockRenderer3D renderer2(m_cubeContext);
-	m_cube.Draw(renderer2);
+	CBlockRenderer3D renderer2(m_blockContext);
+	m_block.Draw(renderer2);
+
+	m_labyrinth.Draw(renderer2);
 }
 
 void CWindowClient::OnDragBegin(const glm::vec2 & pos)
@@ -169,8 +178,15 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 
 	m_moonContext.SetView(view);
 	m_moonContext.SetProjection(proj);
-	m_cubeContext.SetView(view);
-	m_cubeContext.SetProjection(proj);
+	m_blockContext.SetView(view);
+	m_blockContext.SetProjection(proj);
+
+	auto skyView = view; // TODO: magic code
+	skyView[3][0] = 0;
+	skyView[3][1] = 0;
+	skyView[3][2] = 0;
+	m_skyContext.SetView(skyView);
+	m_skyContext.SetProjection(proj);
 }
 
 void CWindowClient::DispatchKeyboardEvent()
@@ -213,6 +229,14 @@ void CWindowClient::SetupLight0()
 		light0.specular = m_sunlight.GetSpecular();
 		light0.diffuse = m_sunlight.GetDiffuse();
 		light0.position = m_sunlight.GetUniformPosition();
-		m_cubeContext.SetLight0(light0);
+		m_blockContext.SetLight0(light0);
+	}
+
+	{
+		CSkyProgramContext::SLightSource light0;
+		light0.specular = m_sunlight.GetSpecular();
+		light0.diffuse = m_sunlight.GetDiffuse();
+		light0.position = m_sunlight.GetUniformPosition();
+		m_skyContext.SetLight0(light0);
 	}
 }
