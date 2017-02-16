@@ -5,8 +5,6 @@
 namespace
 {
 
-//const float BLOCK_SIZE = 2;
-
 const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
 const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
 	{ CubeFace::Front, "cobblestone_block_front.png" },
@@ -16,16 +14,6 @@ const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
 	{ CubeFace::Left, "cobblestone_block_left.png" },
 	{ CubeFace::Right, "cobblestone_block_right.png" }
 };
-
-/*const char GRASS_TEXTURE_ATLAS[] = "res/grass_block/grass_block.plist";
-const std::pair<CubeFace, const char *> GRASS_FRAME_MAPPING[] = {
-	{ CubeFace::Front, "grass_block_front.png" },
-	{ CubeFace::Back, "grass_block_back.png" },
-	{ CubeFace::Top, "grass_block_top.png" },
-	{ CubeFace::Bottom, "grass_block_bottom.png" },
-	{ CubeFace::Left, "grass_block_left.png" },
-	{ CubeFace::Right, "grass_block_right.png" }
-};*/
 
 CTexture2DLoader MakeTextureLoader()
 {
@@ -62,45 +50,3 @@ const CTexture2DAtlas & CBarrierBlock::GetTexture2DAtlas() const
 {
 	return m_atlas;
 }
-
-/*bool CBarrierBlock::CheckCollision(const glm::vec3 & position) const
-{
-	auto eps = 0.85f;
-	
-	if (((m_position.first.x + eps <= position.x) && (position.x <= m_position.second.x - eps)) &&
-		((m_position.first.y + eps <= position.y) && (position.y <= m_position.second.y - eps)) &&
-		((m_position.first.z + eps <= position.z) && (position.z <= m_position.second.z - eps)))
-	{
-		return false;
-	}
-	return true;
-}*/
-
-/*CFreeBlock::CFreeBlock(const glm::vec3 & center, const float size)
-	:m_atlas(CFilesystemUtils::GetResourceAbspath(GRASS_TEXTURE_ATLAS), MakeTextureLoader())
-	,m_cube(glm::vec3(center.x, center.y, center.z - BLOCK_SIZE), size)
-{
-	for (const auto &pair : GRASS_FRAME_MAPPING)
-	{
-		CFloatRect texRect = m_atlas.GetFrameRect(pair.second);
-		m_cube.SetFaceTextureRect(pair.first, texRect);
-	}
-}
-
-void CFreeBlock::Draw() const
-{
-	m_atlas.GetTexture().DoWhileBinded([this] {
-		m_cube.Draw();
-	});
-}
-
-void CFreeBlock::Update(float dt)
-{
-	m_cube.Update(dt);
-}
-
-bool CFreeBlock::CheckCollision(const glm::vec3 & position) const
-{
-	(void)position;
-	return true;
-}*/

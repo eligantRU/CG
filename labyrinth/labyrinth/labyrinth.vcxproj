@@ -167,7 +167,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BlockProgramContext.h" />
-    <ClInclude Include="BlockRenderer3D.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="IdentitySphere.h" />
     <ClInclude Include="IProgramContext.h" />
@@ -176,10 +175,9 @@
     <ClInclude Include="MeshP3NT2.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="MoonProgramContext.h" />
-    <ClInclude Include="MoonRenderer3D.h" />
     <ClInclude Include="ProgramContext.h" />
+    <ClInclude Include="Renderer3D.h" />
     <ClInclude Include="SkyProgramContext.h" />
-    <ClInclude Include="SkyRenderer3D.h" />
     <ClInclude Include="Skysphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -191,7 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlockProgramContext.cpp" />
-    <ClCompile Include="BlockRenderer3D.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="IdentitySphere.cpp" />
     <ClCompile Include="KeyboardHandler.cpp" />
@@ -199,10 +196,9 @@
     <ClCompile Include="MeshP3NT2.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="MoonProgramContext.cpp" />
-    <ClCompile Include="MoonRenderer3D.cpp" />
     <ClCompile Include="ProgramContext.cpp" />
+    <ClCompile Include="Renderer3D.cpp" />
     <ClCompile Include="SkyProgramContext.cpp" />
-    <ClCompile Include="SkyRenderer3D.cpp" />
     <ClCompile Include="Skysphere.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="WindowClient.cpp" />

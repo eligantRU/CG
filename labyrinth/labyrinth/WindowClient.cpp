@@ -1,9 +1,7 @@
 #include "stdafx.h"
 
 #include "WindowClient.h"
-#include "MoonRenderer3D.h"
-#include "BlockRenderer3D.h"
-#include "SkyRenderer3D.h"
+#include "Renderer3D.h"
 
 namespace
 {
@@ -101,14 +99,16 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	SetupView(GetWindow().GetWindowSize());
 	SetupLight0();
 
-	CSkyRenderer3D renderer0(m_skyContext);
-	m_skysphere.Draw(renderer0);
+	CRenderer3D skyRenderer(m_skyContext);
+	DoWithTransform(m_skyContext, glm::rotate(glm::radians(90.f), glm::vec3(1, 0, 0)), [&] {
+		m_skysphere.Draw(skyRenderer);
+	});
 
-	CMoonRenderer3D renderer(m_moonContext);
+	CRenderer3D renderer(m_moonContext);
 	DoWithTransform(m_moonContext, glm::translate(glm::vec3(2, 2, 2)), [&] {
 		m_moon.Draw(renderer);
 	});
-	CBlockRenderer3D renderer2(m_blockContext);
+	CRenderer3D renderer2(m_blockContext);
 	m_block.Draw(renderer2);
 
 	m_labyrinth.Draw(renderer2);

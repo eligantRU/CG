@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "SkyRenderer3D.h"
-#include "SkyProgramContext.h"
+#include "Renderer3D.h"
+#include "ProgramContext.h"
 
-CSkyRenderer3D::CSkyRenderer3D(CSkyProgramContext & context)
+CRenderer3D::CRenderer3D(CProgramContext & context)
 	:m_context(context)
 	,m_vertexAttr(m_context.GetPositionAttr())
 	,m_normalAttr(m_context.GetNormalAttr())
@@ -15,24 +15,24 @@ CSkyRenderer3D::CSkyRenderer3D(CSkyProgramContext & context)
 	m_texCoordAttr.EnablePointer();
 }
 
-CSkyRenderer3D::~CSkyRenderer3D()
+CRenderer3D::~CRenderer3D()
 {
 	m_vertexAttr.DisablePointer();
 	m_normalAttr.DisablePointer();
 	m_texCoordAttr.DisablePointer();
 }
 
-void CSkyRenderer3D::SetTexCoord2DOffset(size_t offset, size_t stride)
+void CRenderer3D::SetTexCoord2DOffset(size_t offset, size_t stride)
 {
 	m_texCoordAttr.SetVec2Offset(offset, stride);
 }
 
-void CSkyRenderer3D::SetPosition3DOffset(size_t offset, size_t stride)
+void CRenderer3D::SetPosition3DOffset(size_t offset, size_t stride)
 {
 	m_vertexAttr.SetVec3Offset(offset, stride, false);
 }
 
-void CSkyRenderer3D::SetNormalOffset(size_t offset, size_t stride)
+void CRenderer3D::SetNormalOffset(size_t offset, size_t stride)
 {
 	m_normalAttr.SetVec3Offset(offset, stride, false);
 }

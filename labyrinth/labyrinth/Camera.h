@@ -10,7 +10,7 @@ class CCamera
 public:
 	explicit CCamera(const glm::vec3 & viewDirection, const glm::vec3 & eye, const glm::vec3 & up);
 
-	void Update(float deltaSec);
+	void Update(const float dt);
 	void OnScale(const int zoom);
 
 	void SetPosition(const glm::vec3 & position);

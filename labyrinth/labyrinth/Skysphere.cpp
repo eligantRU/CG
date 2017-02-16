@@ -10,22 +10,6 @@ const char EARTH_TEX_PATH[] = "res/sky.jpg";
 const float ROTATION_PERIOD_SEC = 1000.f;
 const unsigned SPHERE_PRECISION = 50;
 
-template<class T>
-void DoAtCameraPosition(T && callback) // deprecated
-{
-	glm::mat4 modelView;
-	glGetFloatv(GL_MODELVIEW_MATRIX, glm::value_ptr(modelView));
-
-	modelView[3][0] = 0;
-	modelView[3][1] = 0;
-	modelView[3][2] = 0;
-
-	glPushMatrix();
-	glLoadMatrixf(glm::value_ptr(modelView));
-	callback();
-	glPopMatrix();
-}
-
 glm::mat4 GetRotateZTransfrom(float phase)
 {
 	const float angle = float(2 * M_PI) * phase;
