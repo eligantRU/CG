@@ -2,6 +2,7 @@
 
 #include "Labyrinth.h"
 #include "Blocks.h"
+#include "Renderer3D.h"
 
 namespace
 {
@@ -27,6 +28,16 @@ const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 };
 
+template <class T>
+void DoWithTransform(IProgramContext & context, const glm::mat4 & mat, T && callback)
+{
+	const auto was = context.GetView();
+	context.SetView(was * mat);
+	context.Use();
+	callback();
+	context.SetView(was);
+}
+
 }
 
 CLabyrinth::CLabyrinth()
@@ -35,12 +46,15 @@ CLabyrinth::CLabyrinth()
 	{
 		for (unsigned j = 0; j < m_labyrinth[i].size(); ++j)
 		{
-			float x = - float(m_labyrinth.size()) + i * BLOCK_SIZE;
-			float y = - float(m_labyrinth.size()) + j * BLOCK_SIZE;
-			float z = 0;
+			if (LABYRINTH[i][j] == 1)
+			{
+				float y = -float(m_labyrinth.size()) + i * BLOCK_SIZE;
+				float z = -float(m_labyrinth.size()) + j * BLOCK_SIZE;
+				float x = 0;
 
-			auto block = m_factory.CreateBlock(BlockType::Barrier, glm::vec3(x, y, z), BLOCK_SIZE);
-			m_labyrinth[i][j] = std::move(block);
+				auto block = m_factory.CreateBlock(BlockType::Barrier, glm::vec3(x, y, z), BLOCK_SIZE);
+				m_labyrinth[i][j] = std::move(block);
+			}
 		}
 	}
 }
@@ -51,19 +65,45 @@ void CLabyrinth::Update(const float dt)
 	{
 		for (auto & block : row)
 		{
-			block->Update(dt);
+			if (block != nullptr)
+			{
+				block->Update(dt);
+			}
 		}
 	}
 }
 
-void CLabyrinth::Draw(IRenderer3D & renderer) const
+void CLabyrinth::Draw() // TODO: why non-const?
 {
+	CRenderer3D renderer(m_blockContext);
 	for (const auto & row : m_labyrinth)
 	{
-		for (const auto & element : row)
+		for (const auto & block : row)
 		{
-			element->Draw(renderer);
+			if (block != nullptr)
+			{
+				block->Draw(renderer);
+			}
 		}
 	}
 }
 
+void CLabyrinth::SetModel(const glm::mat4 & value)
+{
+	m_blockContext.SetModel(value);
+}
+
+void CLabyrinth::SetView(const glm::mat4 & value)
+{
+	m_blockContext.SetView(value);
+}
+
+void CLabyrinth::SetProjection(const glm::mat4 & value)
+{
+	m_blockContext.SetProjection(value);
+}
+
+void CLabyrinth::SetLight0(const SLightSource & source)
+{
+	m_blockContext.SetLight0(source);
+}

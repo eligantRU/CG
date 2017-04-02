@@ -7,10 +7,10 @@ class CBlockProgramContext
 	:public CProgramContext
 {
 public:
-	CBlockProgramContext(const CTexture2DAtlas & m_atlas);
+	CBlockProgramContext();
 
 	void Use();
 
 private:
-	const CTexture2DAtlas & m_atlas;
+	CTexture2DAtlas m_atlas;
 };

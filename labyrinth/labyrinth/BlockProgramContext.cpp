@@ -1,9 +1,27 @@
 #include "stdafx.h"
 
+#include "Cube.h"
 #include "BlockProgramContext.h"
 
 namespace
 {
+
+const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
+const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
+	{ CubeFace::Front, "cobblestone_block_front.png" },
+	{ CubeFace::Back, "cobblestone_block_back.png" },
+	{ CubeFace::Top, "cobblestone_block_top.png" },
+	{ CubeFace::Bottom, "cobblestone_block_bottom.png" },
+	{ CubeFace::Left, "cobblestone_block_left.png" },
+	{ CubeFace::Right, "cobblestone_block_right.png" }
+};
+
+CTexture2DLoader MakeTextureLoader()
+{
+	CTexture2DLoader loader;
+	loader.SetWrapMode(TextureWrapMode::CLAMP_TO_EDGE);
+	return loader;
+}
 
 glm::mat4 GetNormalMatrix(const glm::mat4 & modelView)
 {
@@ -12,8 +30,8 @@ glm::mat4 GetNormalMatrix(const glm::mat4 & modelView)
 
 }
 
-CBlockProgramContext::CBlockProgramContext(const CTexture2DAtlas & atlas)
-	:m_atlas(atlas)
+CBlockProgramContext::CBlockProgramContext()
+	:m_atlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_TEXTURE_ATLAS), MakeTextureLoader())
 {
 	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/copytexture.vert");
 	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/copytexture.frag");

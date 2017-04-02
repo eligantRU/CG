@@ -11,7 +11,9 @@
 #include "MoonProgramContext.h"
 #include "BlockProgramContext.h"
 #include "SkyProgramContext.h"
+#include "GrassProgramContext.h"
 #include "Blocks.h"
+#include "Rectangle.h"
 
 class CWindowClient
 	:public CAbstractWindowClient
@@ -51,8 +53,8 @@ private:
 	CIdentitySphere m_moon;
 	CMoonProgramContext m_moonContext;
 
-	CBarrierBlock m_block;
-	CBlockProgramContext m_blockContext;
+	CRectangle m_grass;
+	CGrassProgramContext m_grassContext;
 
 	CKeyboardHandler m_keyboardHandler;
 };

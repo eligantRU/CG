@@ -14,8 +14,6 @@ public:
 
 	virtual void Update(const float dt) = 0;
 	virtual void Draw(IRenderer3D & renderer) const = 0;
-
-	virtual const CTexture2DAtlas & GetTexture2DAtlas() const = 0;
 };
 
 enum class BlockType
@@ -34,10 +32,7 @@ public:
 	void Update(const float dt) override;
 	void Draw(IRenderer3D & renderer) const override;
 
-	const CTexture2DAtlas & GetTexture2DAtlas() const override;
-
 private:
 	CCube m_cube;
-	CTexture2DAtlas m_atlas;
 	std::pair<glm::vec3, glm::vec3> m_position;
 };

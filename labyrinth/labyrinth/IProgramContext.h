@@ -2,16 +2,16 @@
 
 #include "libchapter3.h"
 
+struct SLightSource
+{
+	glm::vec4 position;
+	glm::vec4 diffuse;
+	glm::vec4 specular;
+};
+
 class IProgramContext
 {
 public:
-	struct SLightSource
-	{
-		glm::vec4 position;
-		glm::vec4 diffuse;
-		glm::vec4 specular;
-	};
-
 	virtual ~IProgramContext() = default;
 
 	virtual void Use() = 0;

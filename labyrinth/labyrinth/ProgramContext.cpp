@@ -42,7 +42,7 @@ const glm::mat4 & CProgramContext::GetProjection() const
 	return m_projection;
 }
 
-const CProgramContext::SLightSource & CProgramContext::GetLight0() const
+const SLightSource & CProgramContext::GetLight0() const
 {
 	return m_light0;
 }
@@ -62,7 +62,7 @@ void CProgramContext::SetProjection(const glm::mat4 & value)
 	m_projection = value;
 }
 
-void CProgramContext::SetLight0(const CProgramContext::SLightSource & source)
+void CProgramContext::SetLight0(const SLightSource & source)
 {
 	m_light0 = source;
 }

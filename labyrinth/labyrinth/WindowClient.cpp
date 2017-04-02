@@ -2,13 +2,14 @@
 
 #include "WindowClient.h"
 #include "Renderer3D.h"
+#include "Rectangle.h"
 
 namespace
 {
 
-const glm::vec3 INITIAL_VIEW_DIRECTION = { -1, 0, 0 };
-const glm::vec3 INITIAL_EYE_POSITION = { 8, 2, 0 };
-const glm::vec3 INITIAL_UP_DIRECTION = { 0, 0, 1 };
+const glm::vec3 INITIAL_VIEW_DIRECTION = { 0, -1, 0 };
+const glm::vec3 INITIAL_EYE_POSITION = { 0, 8, 2 };
+const glm::vec3 INITIAL_UP_DIRECTION = { 1, 0, 0 };
 
 const glm::vec4 BLACK_RGBA = { 0, 0, 0, 1 };
 const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
@@ -72,8 +73,6 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
-	,m_blockContext(m_block.GetTexture2DAtlas())
-	,m_block(glm::vec3(), 1.f)
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -90,9 +89,9 @@ CWindowClient::CWindowClient(CWindow & window)
 void CWindowClient::OnUpdateWindow(const float dt)
 {
 	m_camera.Update(dt);
-	m_block.Update(dt);
-	m_block.Update(dt);
+	m_skysphere.Update(dt);
 	m_labyrinth.Update(dt);
+	m_grass.Update(dt);
 	
 	DispatchKeyboardEvent();
 
@@ -100,18 +99,28 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	SetupLight0();
 
 	CRenderer3D skyRenderer(m_skyContext);
-	DoWithTransform(m_skyContext, glm::rotate(glm::radians(90.f), glm::vec3(1, 0, 0)), [&] {
+
+	DoWithTransform(m_skyContext, glm::rotate(glm::radians(90.f), glm::vec3(0, 0, -1)),
+	                              [&] {
 		m_skysphere.Draw(skyRenderer);
 	});
 
-	CRenderer3D renderer(m_moonContext);
-	DoWithTransform(m_moonContext, glm::translate(glm::vec3(2, 2, 2)), [&] {
-		m_moon.Draw(renderer);
+	CRenderer3D moonRenderer(m_moonContext);
+	DoWithTransform(m_moonContext, glm::translate(glm::vec3(2, 2, 2))
+	                             * glm::rotate(glm::radians(90.f), glm::vec3(0, 0, 1)),
+	                               [&] {
+		m_moon.Draw(moonRenderer);
 	});
-	CRenderer3D renderer2(m_blockContext);
-	m_block.Draw(renderer2);
 
-	m_labyrinth.Draw(renderer2);
+	CRenderer3D grassRenderer(m_grassContext);
+	DoWithTransform(m_grassContext, glm::translate(glm::vec3(-1, 0, 0))
+	                              * glm::rotate(glm::mat4(), glm::radians(90.f), glm::vec3(0, 1, 0))
+	                              * glm::scale(glm::vec3(16, 16, 16)),
+	                              [&]() {
+		m_grass.Draw(grassRenderer);
+	});
+
+	m_labyrinth.Draw();
 }
 
 void CWindowClient::OnDragBegin(const glm::vec2 & pos)
@@ -178,8 +187,6 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 
 	m_moonContext.SetView(view);
 	m_moonContext.SetProjection(proj);
-	m_blockContext.SetView(view);
-	m_blockContext.SetProjection(proj);
 
 	auto skyView = view; // TODO: magic code
 	skyView[3][0] = 0;
@@ -187,6 +194,12 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 	skyView[3][2] = 0;
 	m_skyContext.SetView(skyView);
 	m_skyContext.SetProjection(proj);
+
+	m_grassContext.SetView(view);
+	m_grassContext.SetProjection(proj);
+
+	m_labyrinth.SetView(view);
+	m_labyrinth.SetProjection(proj);
 }
 
 void CWindowClient::DispatchKeyboardEvent()
@@ -216,27 +229,12 @@ void CWindowClient::DispatchKeyboardEvent()
 
 void CWindowClient::SetupLight0()
 {
-	{
-		CMoonProgramContext::SLightSource light0;
-		light0.specular = m_sunlight.GetSpecular();
-		light0.diffuse = m_sunlight.GetDiffuse();
-		light0.position = m_sunlight.GetUniformPosition();
-		m_moonContext.SetLight0(light0);
-	}
-
-	{
-		CBlockProgramContext::SLightSource light0;
-		light0.specular = m_sunlight.GetSpecular();
-		light0.diffuse = m_sunlight.GetDiffuse();
-		light0.position = m_sunlight.GetUniformPosition();
-		m_blockContext.SetLight0(light0);
-	}
-
-	{
-		CSkyProgramContext::SLightSource light0;
-		light0.specular = m_sunlight.GetSpecular();
-		light0.diffuse = m_sunlight.GetDiffuse();
-		light0.position = m_sunlight.GetUniformPosition();
-		m_skyContext.SetLight0(light0);
-	}
+	SLightSource light0;
+	light0.specular = m_sunlight.GetSpecular();
+	light0.diffuse = m_sunlight.GetDiffuse();
+	light0.position = m_sunlight.GetUniformPosition();
+	m_moonContext.SetLight0(light0);
+	m_skyContext.SetLight0(light0);
+	m_grassContext.SetLight0(light0);
+	m_labyrinth.SetLight0(light0);
 }

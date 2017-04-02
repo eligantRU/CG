@@ -104,6 +104,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32.lib;glut32.lib;glut.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;SDL2_image.lib;SDL2_ttf.lib;GLU32.lib;OpenGL32.lib;lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -120,6 +123,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32.lib;glut32.lib;glut.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;SDL2_image.lib;SDL2_ttf.lib;GLU32.lib;OpenGL32.lib;lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -142,6 +148,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>glew32.lib;glut32.lib;glut.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;SDL2_image.lib;SDL2_ttf.lib;GLU32.lib;OpenGL32.lib;lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -164,10 +173,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>glew32.lib;glut32.lib;glut.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;SDL2_image.lib;SDL2_ttf.lib;GLU32.lib;OpenGL32.lib;lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BlockProgramContext.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="GrassProgramContext.h" />
     <ClInclude Include="IdentitySphere.h" />
     <ClInclude Include="IProgramContext.h" />
     <ClInclude Include="IRenderer3D.h" />
@@ -176,6 +189,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="MoonProgramContext.h" />
     <ClInclude Include="ProgramContext.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer3D.h" />
     <ClInclude Include="SkyProgramContext.h" />
     <ClInclude Include="Skysphere.h" />
@@ -190,6 +204,7 @@
   <ItemGroup>
     <ClCompile Include="BlockProgramContext.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="GrassProgramContext.cpp" />
     <ClCompile Include="IdentitySphere.cpp" />
     <ClCompile Include="KeyboardHandler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -197,6 +212,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="MoonProgramContext.cpp" />
     <ClCompile Include="ProgramContext.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer3D.cpp" />
     <ClCompile Include="SkyProgramContext.cpp" />
     <ClCompile Include="Skysphere.cpp" />

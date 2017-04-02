@@ -14,4 +14,3 @@ public:
 private:
 	CTexture2DUniquePtr m_pTexture;
 };
-

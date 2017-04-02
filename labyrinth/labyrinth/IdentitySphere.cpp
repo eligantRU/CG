@@ -71,12 +71,12 @@ private:
 	{
 		const float radius = 1.f;
 		const float latitude = float(M_PI) * (1.f - v);
-		const float longitude = float(2.0 * M_PI) * u;
+		const float longitude = float(2 * M_PI) * u;
 		const float latitudeRadius = radius * sinf(latitude);
 
-		return{ cosf(longitude) * latitudeRadius,
-			cosf(latitude) * radius,
-			sinf(longitude) * latitudeRadius };
+		return { cosf(longitude) * latitudeRadius,
+		         cosf(latitude) * radius,
+		         sinf(longitude) * latitudeRadius };
 	}
 };
 

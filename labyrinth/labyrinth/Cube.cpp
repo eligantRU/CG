@@ -82,10 +82,11 @@ void CCube::Triangulate()
 		const glm::vec3 & coord4 = m_verticies[face.vertexIndex4];
 		const glm::vec3 normal = glm::normalize(glm::cross(coord2 - coord1, coord3 - coord1));
 
-		const SVertexP3NT2 v1 = { coord1, texRect.GetTopLeft(), normal };
-		const SVertexP3NT2 v2 = { coord2, texRect.GetTopRight(), normal };
-		const SVertexP3NT2 v3 = { coord3, texRect.GetBottomRight(), normal };
-		const SVertexP3NT2 v4 = { coord4, texRect.GetBottomLeft(), normal };
+		// TODO: fix these crutches
+		const SVertexP3NT2 v1 = { coord1, {0.f, 0.f}/*texRect.GetTopLeft()*/, normal };
+		const SVertexP3NT2 v2 = { coord2, {0.f, 0.5f}/*texRect.GetTopRight()*/, normal };
+		const SVertexP3NT2 v3 = { coord3, {0.5f, 0.5f}/*texRect.GetBottomRight()*/, normal };
+		const SVertexP3NT2 v4 = { coord4, {0.5f, 0.f}/*texRect.GetBottomLeft()*/, normal };
 
 		const uint32_t fromIndex = uint32_t(mesh.vertices.size());
 		mesh.vertices.push_back(v1);
