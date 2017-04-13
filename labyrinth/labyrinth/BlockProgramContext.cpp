@@ -7,14 +7,8 @@ namespace
 {
 
 const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
-const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
-	{ CubeFace::Front, "cobblestone_block_front.png" },
-	{ CubeFace::Back, "cobblestone_block_back.png" },
-	{ CubeFace::Top, "cobblestone_block_top.png" },
-	{ CubeFace::Bottom, "cobblestone_block_bottom.png" },
-	{ CubeFace::Left, "cobblestone_block_left.png" },
-	{ CubeFace::Right, "cobblestone_block_right.png" }
-};
+
+const char COBBLESTONE_NORMAL_ATLAS[] = "res/cobblestone_block/cobblestone_normal.plist";
 
 CTexture2DLoader MakeTextureLoader()
 {
@@ -32,9 +26,10 @@ glm::mat4 GetNormalMatrix(const glm::mat4 & modelView)
 
 CBlockProgramContext::CBlockProgramContext()
 	:m_atlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_TEXTURE_ATLAS), MakeTextureLoader())
+	,m_normalAtlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_NORMAL_ATLAS), MakeTextureLoader())
 {
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/copytexture.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/copytexture.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/normalmapping.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/normalmapping.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();
@@ -44,9 +39,13 @@ void CBlockProgramContext::Use()
 {
 	glActiveTexture(GL_TEXTURE0);
 	m_atlas.GetTexture().Bind();
-
+	
+	glActiveTexture(GL_TEXTURE1);
+	m_normalAtlas.GetTexture().Bind();
+	
 	m_program.Use();
 	m_program.FindUniform("colormap") = 0;
+	m_program.FindUniform("normalmap") = 1;
 
 	const glm::mat4 mv = m_view * m_model;
 	m_program.FindUniform("view") = m_view;

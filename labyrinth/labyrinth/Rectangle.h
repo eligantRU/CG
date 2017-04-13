@@ -23,8 +23,6 @@ public:
 	void Update(const float dt);
 	void Draw(IRenderer3D & renderer) const;
 
-	void SetFaceTextureRect(RectangleFace face, const CFloatRect & rect);
-
 private:
 	void Triangulate();
 

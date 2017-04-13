@@ -73,6 +73,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_grass(glm::vec2(-4, +4), glm::vec2(+4, -4))
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -115,7 +116,7 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	CRenderer3D grassRenderer(m_grassContext);
 	DoWithTransform(m_grassContext, glm::translate(glm::vec3(-1, 0, 0))
 	                              * glm::rotate(glm::mat4(), glm::radians(90.f), glm::vec3(0, 1, 0))
-	                              * glm::scale(glm::vec3(16, 16, 16)),
+	                              * glm::scale(glm::vec3(4, 4, 4)),
 	                              [&]() {
 		m_grass.Draw(grassRenderer);
 	});

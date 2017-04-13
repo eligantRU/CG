@@ -54,13 +54,6 @@ void CRectangle::Draw(IRenderer3D & renderer) const
 	m_mesh.Draw(renderer);
 }
 
-void CRectangle::SetFaceTextureRect(RectangleFace face, const CFloatRect & rect)
-{
-	const size_t index = static_cast<size_t>(face);
-	m_textureRects[index] = rect;
-	m_isDirty = true;
-}
-
 void CRectangle::Triangulate()
 {
 	SMeshDataP3NT2 mesh;
@@ -92,4 +85,3 @@ void CRectangle::Triangulate()
 	}
 	m_mesh.Copy(mesh);
 }
-

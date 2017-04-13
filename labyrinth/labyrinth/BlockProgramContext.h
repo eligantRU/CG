@@ -13,4 +13,5 @@ public:
 
 private:
 	CTexture2DAtlas m_atlas;
+	CTexture2DAtlas m_normalAtlas;
 };

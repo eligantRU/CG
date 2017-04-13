@@ -17,9 +17,10 @@ CMoonProgramContext::CMoonProgramContext()
 	CTexture2DLoader loader;
 
 	m_pTexture = loader.Load("res/moon.jpg");
+	m_pNormalTexture = loader.Load("res/normalmoon.jpg");
 
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/copytexture.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/copytexture.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/normalmapping.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/normalmapping.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();
@@ -30,8 +31,12 @@ void CMoonProgramContext::Use()
 	glActiveTexture(GL_TEXTURE0);
 	m_pTexture->Bind();
 
+	glActiveTexture(GL_TEXTURE1);
+	m_pNormalTexture->Bind();
+
 	m_program.Use();
 	m_program.FindUniform("colormap") = 0;
+	m_program.FindUniform("normalmap") = 1;
 
 	const glm::mat4 mv = m_view * m_model;
 	m_program.FindUniform("view") = m_view;
