@@ -63,13 +63,6 @@ void CCube::Draw(IRenderer3D & renderer) const
 	m_mesh.Draw(renderer);
 }
 
-void CCube::SetFaceTextureRect(CubeFace face, const CFloatRect & rect)
-{
-	const size_t index = static_cast<size_t>(face);
-	m_textureRects[index] = rect;
-	m_isDirty = true;
-}
-
 void CCube::Triangulate()
 {
 	SMeshDataP3NT2 mesh;
@@ -83,10 +76,10 @@ void CCube::Triangulate()
 		const glm::vec3 normal = glm::normalize(glm::cross(coord2 - coord1, coord3 - coord1));
 
 		// TODO: fix these crutches
-		const SVertexP3NT2 v1 = { coord1, {0.f, 0.f}/*texRect.GetTopLeft()*/, normal };
-		const SVertexP3NT2 v2 = { coord2, {0.f, 0.5f}/*texRect.GetTopRight()*/, normal };
-		const SVertexP3NT2 v3 = { coord3, {0.5f, 0.5f}/*texRect.GetBottomRight()*/, normal };
-		const SVertexP3NT2 v4 = { coord4, {0.5f, 0.f}/*texRect.GetBottomLeft()*/, normal };
+		const SVertexP3NT2 v1 = { coord1, {0, 0}/*texRect.GetTopLeft()*/, normal };
+		const SVertexP3NT2 v2 = { coord2, {0, 1}/*texRect.GetTopRight()*/, normal };
+		const SVertexP3NT2 v3 = { coord3, {1, 1}/*texRect.GetBottomRight()*/, normal };
+		const SVertexP3NT2 v4 = { coord4, {1, 0}/*texRect.GetBottomLeft()*/, normal };
 
 		const uint32_t fromIndex = uint32_t(mesh.vertices.size());
 		mesh.vertices.push_back(v1);
