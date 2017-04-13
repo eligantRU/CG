@@ -189,7 +189,7 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 	m_moonContext.SetView(view);
 	m_moonContext.SetProjection(proj);
 
-	auto skyView = view; // TODO: magic code
+	auto skyView = view; // TODO: move to the function
 	skyView[3][0] = 0;
 	skyView[3][1] = 0;
 	skyView[3][2] = 0;
