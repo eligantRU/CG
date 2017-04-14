@@ -4,7 +4,7 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>brick_block_right.png</key>
+			<key>brick_block_right.jpg</key>
 			<dict>
 				<key>width</key>
 				<integer>256</integer>
@@ -23,7 +23,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>brick_block_left.png</key>
+			<key>brick_block_left.jpg</key>
 			<dict>
 				<key>width</key>
 				<integer>256</integer>
@@ -42,7 +42,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>brick_block_top.png</key>
+			<key>brick_block_top.jpg</key>
 			<dict>
 				<key>width</key>
 				<integer>256</integer>
@@ -61,7 +61,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>brick_block_front.png</key>
+			<key>brick_block_front.jpg</key>
 			<dict>
 				<key>width</key>
 				<integer>256</integer>
@@ -80,7 +80,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>brick_block_back.png</key>
+			<key>brick_block_back.jpg</key>
 			<dict>
 				<key>width</key>
 				<integer>256</integer>
@@ -99,7 +99,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>brick_block_bottom.png</key>
+			<key>brick_block_bottom.jpg</key>
 			<dict>
 				<key>width</key>
 				<integer>256</integer>
@@ -124,9 +124,9 @@
 			<key>format</key>
 			<integer>0</integer>
 			<key>textureFileName</key>
-            <string>brick_block.png</string>
+            <string>brick_block.jpg</string>
 			<key>realTextureFileName</key>
-            <string>brick_block.png</string>
+            <string>brick_block.jpg</string>
 			<key>size</key>
 			<string>{512,512}</string>
 		</dict>
