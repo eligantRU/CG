@@ -16,11 +16,11 @@ CMoonProgramContext::CMoonProgramContext()
 {
 	CTexture2DLoader loader;
 
-	m_pTexture = loader.Load("res/moon.jpg");
-	m_pNormalTexture = loader.Load("res/normal_moon.jpg");
+	m_pTexture = loader.Load("res/moon/moon.jpg");
+	m_pNormalTexture = loader.Load("res/moon/normal_moon.jpg");
 	
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/moon.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/moon.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/moon/moon.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/moon/moon.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();

@@ -16,11 +16,11 @@ CFloorProgramContext::CFloorProgramContext()
 {
 	CTexture2DLoader loader;
 	
-	m_pTexture = loader.Load("res/floor.jpg");
-	m_pNormalTexture = loader.Load("res/normal_floor.jpg");
+	m_pTexture = loader.Load("res/floor/floor.jpg");
+	m_pNormalTexture = loader.Load("res/floor/normal_floor.jpg");
 
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/floor.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/floor.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/floor/floor.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/floor/floor.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();

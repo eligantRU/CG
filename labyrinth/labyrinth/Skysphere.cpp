@@ -6,7 +6,6 @@
 namespace
 {
 
-const char EARTH_TEX_PATH[] = "res/sky.jpg";
 const float ROTATION_PERIOD_SEC = 1000.f;
 const unsigned SPHERE_PRECISION = 50;
 
@@ -22,10 +21,6 @@ CSkysphere::CSkysphere()
 	:m_sphere(SPHERE_PRECISION, SPHERE_PRECISION)
 {
 	glm::mat4 rotator = glm::rotate(glm::radians(-90.f), glm::vec3(-1, 0, 0));
-
-	CTexture2DLoader loader;
-	loader.SetWrapMode(TextureWrapMode::REPEAT);
-	m_pSkyTexture = loader.Load(EARTH_TEX_PATH);
 }
 
 void CSkysphere::Update(const float dt)

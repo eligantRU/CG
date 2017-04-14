@@ -16,10 +16,10 @@ CSkyProgramContext::CSkyProgramContext()
 {
 	CTexture2DLoader loader;
 
-	m_pTexture = loader.Load("res/sky.jpg");
+	m_pTexture = loader.Load("res/sky/sky.jpg");
 
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/sky.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/sky.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/sky/sky.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/sky/sky.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();

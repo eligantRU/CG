@@ -28,8 +28,8 @@ CBlockProgramContext::CBlockProgramContext()
 	:m_atlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_TEXTURE_ATLAS), MakeTextureLoader())
 	,m_normalAtlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_NORMAL_ATLAS), MakeTextureLoader())
 {
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/brick.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/brick.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/brick_block/brick.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/brick_block/brick.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();
