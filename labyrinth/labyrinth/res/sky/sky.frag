@@ -52,5 +52,5 @@ void main()
 	vec4 diffuseIntensity = color * light0.diffuse;
 	vec4 specularIntensity = factors.specular * light0.specular; 
 
-	gl_FragColor = diffuseIntensity + specularIntensity;
+	gl_FragColor = 0.8 * diffuseIntensity + 0.2 * specularIntensity;
 }
