@@ -180,7 +180,7 @@
   <ItemGroup>
     <ClInclude Include="BlockProgramContext.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="GrassProgramContext.h" />
+    <ClInclude Include="FloorProgramContext.h" />
     <ClInclude Include="IdentitySphere.h" />
     <ClInclude Include="IProgramContext.h" />
     <ClInclude Include="IRenderer3D.h" />
@@ -204,7 +204,7 @@
   <ItemGroup>
     <ClCompile Include="BlockProgramContext.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="GrassProgramContext.cpp" />
+    <ClCompile Include="FloorProgramContext.cpp" />
     <ClCompile Include="IdentitySphere.cpp" />
     <ClCompile Include="KeyboardHandler.cpp" />
     <ClCompile Include="main.cpp" />

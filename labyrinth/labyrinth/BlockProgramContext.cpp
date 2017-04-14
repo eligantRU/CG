@@ -6,9 +6,9 @@
 namespace
 {
 
-const char COBBLESTONE_TEXTURE_ATLAS[] = "res/cobblestone_block/cobblestone_block.plist";
+const char COBBLESTONE_TEXTURE_ATLAS[] = "res/brick_block/brick_block.plist";
 
-const char COBBLESTONE_NORMAL_ATLAS[] = "res/cobblestone_block/cobblestone_normal.plist";
+const char COBBLESTONE_NORMAL_ATLAS[] = "res/brick_block/brick_normal.plist";
 
 CTexture2DLoader MakeTextureLoader()
 {
@@ -28,8 +28,8 @@ CBlockProgramContext::CBlockProgramContext()
 	:m_atlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_TEXTURE_ATLAS), MakeTextureLoader())
 	,m_normalAtlas(CFilesystemUtils::GetResourceAbspath(COBBLESTONE_NORMAL_ATLAS), MakeTextureLoader())
 {
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/normalmapping.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/normalmapping.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/brick.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/brick.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();

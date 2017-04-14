@@ -78,7 +78,7 @@
     <ClInclude Include="Rectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GrassProgramContext.h">
+    <ClInclude Include="FloorProgramContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,7 +140,7 @@
     <ClCompile Include="Rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GrassProgramContext.cpp">
+    <ClCompile Include="FloorProgramContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

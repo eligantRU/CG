@@ -11,7 +11,7 @@
 #include "MoonProgramContext.h"
 #include "BlockProgramContext.h"
 #include "SkyProgramContext.h"
-#include "GrassProgramContext.h"
+#include "FloorProgramContext.h"
 #include "Blocks.h"
 #include "Rectangle.h"
 
@@ -54,7 +54,7 @@ private:
 	CMoonProgramContext m_moonContext;
 
 	CRectangle m_grass;
-	CGrassProgramContext m_grassContext;
+	CFloorProgramContext m_grassContext;
 
 	CKeyboardHandler m_keyboardHandler;
 };

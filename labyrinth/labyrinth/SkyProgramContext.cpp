@@ -18,9 +18,8 @@ CSkyProgramContext::CSkyProgramContext()
 
 	m_pTexture = loader.Load("res/sky.jpg");
 
-	// NOTE: use another shaders
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/copytexture.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/copytexture.frag");
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/sky.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/sky.frag");
 	m_program.CompileShader(vertShader, ShaderType::Vertex);
 	m_program.CompileShader(fragShader, ShaderType::Fragment);
 	m_program.Link();
