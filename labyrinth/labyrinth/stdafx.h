@@ -17,6 +17,10 @@
 #include <glm/gtx/rotate_vector.hpp>
 
 #include <SDL_events.h>
+#include <SDL_mixer.h>
+
+#include <al.h>
+#include <alc.h>
 
 #include <boost/noncopyable.hpp>
 
