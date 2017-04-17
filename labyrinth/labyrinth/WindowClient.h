@@ -2,7 +2,7 @@
 
 #include "libchapter3.h"
 #include "IdentitySphere.h"
-#include "KeyboardHandler.h"
+#include "KeyboardController.h"
 #include "Camera.h"
 #include "Player.h"
 #include "Cube.h"
@@ -56,5 +56,5 @@ private:
 	CRectangle m_grass;
 	CFloorProgramContext m_grassContext;
 
-	CKeyboardHandler m_keyboardHandler;
+	CKeyboardController m_keyboardHandler;
 };

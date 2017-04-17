@@ -10,7 +10,7 @@ const float MOVEMENT_SPEED = 0.03f;
 
 }
 
-CPlayer::CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler)
+CPlayer::CPlayer(CCamera & camera, CKeyboardController & keyboardHandler)
 	:m_position(INITIAL_POSITION)
 	,m_camera(camera)
 	,m_keyboardHandler(keyboardHandler)

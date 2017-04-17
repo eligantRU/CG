@@ -184,7 +184,7 @@
     <ClInclude Include="IdentitySphere.h" />
     <ClInclude Include="IProgramContext.h" />
     <ClInclude Include="IRenderer3D.h" />
-    <ClInclude Include="KeyboardHandler.h" />
+    <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="MeshP3NT2.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="MoonProgramContext.h" />
@@ -206,7 +206,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FloorProgramContext.cpp" />
     <ClCompile Include="IdentitySphere.cpp" />
-    <ClCompile Include="KeyboardHandler.cpp" />
+    <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshP3NT2.cpp" />
     <ClCompile Include="Player.cpp" />

@@ -2,12 +2,12 @@
 
 #include "libchapter3.h"
 #include "Camera.h"
-#include "KeyboardHandler.h"
+#include "KeyboardController.h"
 
 class CPlayer
 {
 public:
-	CPlayer(CCamera & camera, CKeyboardHandler & keyboardHandler);
+	CPlayer(CCamera & camera, CKeyboardController & keyboardHandler);
 	~CPlayer() = default;
 
 	void Update(const float dt);
@@ -18,6 +18,6 @@ public:
 
 private:
 	CCamera & m_camera;
-	CKeyboardHandler & m_keyboardHandler;
+	CKeyboardController & m_keyboardHandler;
 	glm::vec3 m_position;
 };
