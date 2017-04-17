@@ -178,6 +178,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
+    <ClInclude Include="AudioController.h" />
     <ClInclude Include="BlockProgramContext.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FloorProgramContext.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="Labyrinth.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="BlockProgramContext.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FloorProgramContext.cpp" />

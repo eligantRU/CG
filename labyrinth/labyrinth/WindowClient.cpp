@@ -74,6 +74,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_grass(glm::vec2(-4, +4), glm::vec2(+4, -4))
+	,m_audio("res/test.mp3")
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -157,6 +158,7 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 	m_keyboardHandler.OnKeyUp(event.keysym.sym);
 	if (event.keysym.sym == SDLK_TAB)
 	{
+		m_audioController.Play(m_audio);
 		m_lineMode = !m_lineMode;
 	}
 	SetupLineMode(m_lineMode);

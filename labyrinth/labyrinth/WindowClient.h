@@ -3,6 +3,7 @@
 #include "libchapter3.h"
 #include "IdentitySphere.h"
 #include "KeyboardController.h"
+#include "AudioController.h"
 #include "Camera.h"
 #include "Player.h"
 #include "Cube.h"
@@ -57,4 +58,7 @@ private:
 	CFloorProgramContext m_grassContext;
 
 	CKeyboardController m_keyboardHandler;
+	CAudioController m_audioController;
+
+	CAudio m_audio;
 };
