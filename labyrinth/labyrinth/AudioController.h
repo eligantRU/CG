@@ -1,22 +1,31 @@
 #pragma once
 
-#include <SDL.h>
-#include <SDL_mixer.h>
-
 #include "Audio.h"
 
+// NOTE: more than a half of these methods were never called
+// NOTE: do not use mp3, use wav for sounds & ogg for musics
+// NOTE: do not use russian in paths
 class CAudioController
 {
 public:
 	CAudioController();
 	~CAudioController();
 
-	void Play(const CAudio & audio);
-	void Stop();
-	void Pause();
-	void Resume();
+	void PlayNoise(const CSound & audio); // PlaySound() is fucking Microsoft API
+	void PlayMusic(const CMusic & audio);
+	void StopNoise();
+	void StopMusic();
+	void PauseNoise();
+	void PauseMusic();
+	void ResumeNoise();
+	void ResumeMusic();
 
-	void SetVolume(const unsigned volume);
+	void RewindMusic();
+
+	bool IsPlayingMusic() const;
+
+	void SetNoiseVolume(const unsigned volume);
+	void SetMusicVolume(const unsigned volume);
 
 private:
 };

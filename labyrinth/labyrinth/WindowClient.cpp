@@ -74,7 +74,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_grass(glm::vec2(-4, +4), glm::vec2(+4, -4))
-	,m_audio("res/test.mp3")
+	,m_audio("res/push.wav")
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -86,10 +86,21 @@ CWindowClient::CWindowClient(CWindow & window)
 	m_sunlight.SetSpecular(WHITE_RGBA);
 
 	m_camera.SetRotationFlag(true);
+
+	m_trackList.push_back(std::make_unique<CMusic>("res/Vite nado vyiti.ogg"));
+	m_trackList.push_back(std::make_unique<CMusic>("res/ClaviculaNox.ogg"));
+
+	m_audioController.PlayMusic(*m_trackList.front());
 }
 
 void CWindowClient::OnUpdateWindow(const float dt)
 {
+	if (m_audioController.IsPlayingMusic())
+	{
+		std::rotate(m_trackList.begin(), m_trackList.begin() + 1, m_trackList.end());
+		m_audioController.PlayMusic(*m_trackList.front());
+	}
+
 	m_camera.Update(dt);
 	m_skysphere.Update(dt);
 	m_labyrinth.Update(dt);
@@ -158,8 +169,8 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 	m_keyboardHandler.OnKeyUp(event.keysym.sym);
 	if (event.keysym.sym == SDLK_TAB)
 	{
-		m_audioController.Play(m_audio);
 		m_lineMode = !m_lineMode;
+		m_audioController.PlayNoise(m_audio);
 	}
 	SetupLineMode(m_lineMode);
 

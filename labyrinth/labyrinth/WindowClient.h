@@ -60,5 +60,6 @@ private:
 	CKeyboardController m_keyboardHandler;
 	CAudioController m_audioController;
 
-	CAudio m_audio;
+	CSound m_audio;
+	std::vector<std::unique_ptr<CMusic>> m_trackList;
 };
