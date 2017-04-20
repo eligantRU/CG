@@ -25,6 +25,9 @@ const unsigned SPHERE_PRECISION = 40;
 const float MOVEMENT_SPEED = 0.03f;
 const float INTESITY_STEP = 0.05f;
 
+const std::string MUSIC_PATH = "res/audio/music/";
+const std::string MUSIC_EXTENSION = ".ogg";
+
 void SetupOpenGLState()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -64,6 +67,23 @@ void DoWithTransform(IProgramContext & context, const glm::mat4 & mat, T && call
 	context.SetView(was);
 }
 
+std::vector<std::string> FindFilesByExtension(const std::string & root, const std::string & extension)
+{
+	std::vector<std::string> result;
+	// boost::filesystem::recursive_directory_iterator for recursive search
+	for (boost::filesystem::directory_iterator it(root), end; it != end; ++it)
+	{
+		if (it->path().extension() == extension)
+		{
+			std::ostringstream stream;
+			stream << *it;
+			auto path = stream.str();
+			result.push_back(path.substr(1, path.length() - 2));
+		}
+	}
+	return result;
+}
+
 }
 
 CWindowClient::CWindowClient(CWindow & window)
@@ -74,7 +94,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_grass(glm::vec2(-4, +4), glm::vec2(+4, -4))
-	,m_audio("res/push.wav")
+	,m_audio("res/audio/noise/push.wav")
 {
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -87,10 +107,14 @@ CWindowClient::CWindowClient(CWindow & window)
 
 	m_camera.SetRotationFlag(true);
 
-	m_trackList.push_back(std::make_unique<CMusic>("res/Vite nado vyiti.ogg"));
-	m_trackList.push_back(std::make_unique<CMusic>("res/ClaviculaNox.ogg"));
-
+	const auto trackPaths = FindFilesByExtension(MUSIC_PATH, MUSIC_EXTENSION);
+	for (const auto & trackPath : trackPaths)
+	{
+		m_trackList.push_back(std::make_unique<CMusic>(trackPath));
+	}
 	m_audioController.PlayMusic(*m_trackList.front());
+	m_audioController.SetMusicVolume(m_volume);
+	m_audioController.SetNoiseVolume(m_volume);
 }
 
 void CWindowClient::OnUpdateWindow(const float dt)
@@ -170,9 +194,37 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 	if (event.keysym.sym == SDLK_TAB)
 	{
 		m_lineMode = !m_lineMode;
+		SetupLineMode(m_lineMode);
 		m_audioController.PlayNoise(m_audio);
 	}
-	SetupLineMode(m_lineMode);
+
+	if (event.keysym.sym == SDLK_UP)
+	{
+		if ((0 <= m_volume) && (m_volume < 100))
+		{
+			m_audioController.SetNoiseVolume(++m_volume);
+			m_audioController.SetMusicVolume(++m_volume);
+		}
+	}
+	if (event.keysym.sym == SDLK_DOWN)
+	{
+		if ((0 < m_volume) && (m_volume <= 100))
+		{
+			m_audioController.SetNoiseVolume(--m_volume);
+			m_audioController.SetMusicVolume(--m_volume);
+		}
+	}
+
+	if (event.keysym.sym == SDLK_LEFT)
+	{
+		std::rotate(m_trackList.rbegin(), m_trackList.rbegin() + 1, m_trackList.rend());
+		m_audioController.PlayMusic(*m_trackList.front());
+	}
+	if (event.keysym.sym == SDLK_RIGHT)
+	{
+		std::rotate(m_trackList.begin(), m_trackList.begin() + 1, m_trackList.end());
+		m_audioController.PlayMusic(*m_trackList.front());
+	}
 
 	if (event.keysym.sym == SDLK_ESCAPE)
 	{

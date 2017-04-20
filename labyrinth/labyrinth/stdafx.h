@@ -23,6 +23,7 @@
 #include <alc.h>
 
 #include <boost/noncopyable.hpp>
+#include <boost/filesystem.hpp>
 
 #pragma warning(pop)
 
@@ -35,3 +36,4 @@
 #include <vector>
 #include <cstdint>
 #include <algorithm>
+#include <sstream>
