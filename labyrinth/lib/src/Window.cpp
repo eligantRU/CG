@@ -149,7 +149,11 @@ public:
         // разместить окно в центре монитора по осям x и y.
         // Для использования OpenGL вы ДОЛЖНЫ указать флаг SDL_WINDOW_OPENGL.
         m_pWindow.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                         size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
+                                         size.x, size.y, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
+                                                       | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_ALLOW_HIGHDPI
+                                                       | SDL_WINDOW_FULLSCREEN));
+        // SDL_WINDOW_BORDERLESS - для записей видео, SDL_WINDOW_FULLSCREEN - для всего остального
+
         if (!m_pWindow)
         {
             const std::string reason = SDL_GetError();

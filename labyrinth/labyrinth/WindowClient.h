@@ -43,7 +43,6 @@ private:
 	CPhongModelMaterial m_material;
 	CDirectedLightSource m_sunlight;
 	CCamera m_camera;
-	glm::vec2 m_dragPosition;
 	bool m_lineMode = false;
 	CLabyrinth m_labyrinth;
 	CPlayer m_player;

@@ -95,10 +95,15 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_grass(glm::vec2(-4, +4), glm::vec2(+4, -4))
 	,m_audio("res/audio/noise/push.wav")
-{
+{	
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
 	SetupOpenGLState();
+
+	auto * win = SDL_GL_GetCurrentWindow();
+	auto windowSize = GetWindow().GetWindowSize();
+	SDL_ShowCursor(SDL_DISABLE);
+	SDL_WarpMouseInWindow(win, windowSize.x / 2, windowSize.y / 2);
 
 	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
 	m_sunlight.SetDiffuse(WHITE_RGBA);
@@ -162,20 +167,18 @@ void CWindowClient::OnUpdateWindow(const float dt)
 
 void CWindowClient::OnDragBegin(const glm::vec2 & pos)
 {
-	m_dragPosition = pos;
+	(void)&pos;
 }
 
 void CWindowClient::OnDragMotion(const glm::vec2 & pos)
 {
 	if (m_camera.GetRotationFlag())
 	{
-		auto lastPos = m_dragPosition;
-		if (lastPos.x && lastPos.y)
-		{
-			m_camera.Rotate(pos - lastPos);
-		}
-		m_dragPosition = pos;
+		auto delta = pos - glm::vec2(GetWindow().GetWindowSize() / 2);
+		m_camera.Rotate(delta);
 	}
+	auto * win = SDL_GL_GetCurrentWindow();
+	SDL_WarpMouseInWindow(win, GetWindow().GetWindowSize().x / 2, GetWindow().GetWindowSize().y / 2);
 }
 
 void CWindowClient::OnDragEnd(const glm::vec2 & pos)
