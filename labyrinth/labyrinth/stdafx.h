@@ -16,6 +16,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
+#include <SDL.h>
 #include <SDL_events.h>
 #include <SDL_mixer.h>
 
@@ -24,6 +25,8 @@
 
 #include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
+
+#include <btBulletDynamicsCommon.h>
 
 #pragma warning(pop)
 

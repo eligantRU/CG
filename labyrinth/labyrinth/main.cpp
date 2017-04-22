@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include "WindowClient.h"
-#include <SDL.h>
 
 int main(int, char * [])
 {
