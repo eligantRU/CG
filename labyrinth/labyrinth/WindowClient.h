@@ -65,5 +65,5 @@ private:
 
 	CSound m_audio;
 	std::vector<std::unique_ptr<CMusic>> m_trackList;
-	unsigned m_volume = 0;
+	unsigned m_volume = 5;
 };
