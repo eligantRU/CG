@@ -1,13 +1,14 @@
 #include "stdafx.h"
 
 #include "Labyrinth.h"
-#include "Blocks.h"
 #include "Renderer3D.h"
 
 namespace
 {
 
-const float BLOCK_SIZE = 2;
+const float BLOCK_SIZE = 2.f;
+
+const float BLOCK_MASS = 0.f;
 
 const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -40,7 +41,8 @@ void DoWithTransform(IProgramContext & context, const glm::mat4 & mat, T && call
 
 }
 
-CLabyrinth::CLabyrinth()
+CLabyrinth::CLabyrinth(CPhysWorld & world)
+	:m_world(world)
 {
 	for (unsigned i = 0; i < m_labyrinth.size(); ++i)
 	{
@@ -50,9 +52,9 @@ CLabyrinth::CLabyrinth()
 			{
 				float y = -float(m_labyrinth.size()) + i * BLOCK_SIZE;
 				float z = -float(m_labyrinth.size()) + j * BLOCK_SIZE;
-				float x = 0;
+				float x = 1.f;
 
-				auto block = m_factory.CreateBlock(BlockType::Barrier, glm::vec3(x, y, z), BLOCK_SIZE);
+				auto block = std::make_unique<CBlaCube>(m_world, glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), glm::vec3(x, y, z), BLOCK_MASS);
 				m_labyrinth[i][j] = std::move(block);
 			}
 		}

@@ -5,7 +5,7 @@
 #include <Windows.h>
 #endif
 
-#pragma warning(push, 3)
+#pragma warning(push, 0)
 
 #define GLM_FORCE_RADIANS
 #include <glm/vec2.hpp>

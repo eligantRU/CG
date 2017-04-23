@@ -16,7 +16,7 @@ enum class CubeFace
 	NumFaces
 };
 
-class CCube final
+class CCube
 {
 public:
 	CCube();

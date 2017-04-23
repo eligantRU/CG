@@ -1,14 +1,13 @@
 #pragma once
 
 #include "libchapter3.h"
-#include "Blocks.h"
-#include "Factory.h"
 #include "BlockProgramContext.h"
+#include "PhysWorld.h"
 
 class CLabyrinth final
 {
 public:
-	CLabyrinth();
+	CLabyrinth(CPhysWorld & world);
 	~CLabyrinth() = default;
 
 	void Update(const float dt);
@@ -20,8 +19,9 @@ public:
 	void SetLight0(const SLightSource & source);
 
 private:
+	CPhysWorld & m_world;
+
 	CBlockProgramContext m_blockContext;
 
-	std::array<std::array<std::unique_ptr<CBlock>, 16>, 16> m_labyrinth;
-	CFactory m_factory;
+	std::array<std::array<std::unique_ptr<CBlaCube>, 16>, 16> m_labyrinth;
 };

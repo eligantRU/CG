@@ -8,7 +8,7 @@ namespace
 {
 
 const glm::vec3 INITIAL_VIEW_DIRECTION = { 0, -1, 0 };
-const glm::vec3 INITIAL_EYE_POSITION = { 0, 8, 2 };
+const glm::vec3 INITIAL_EYE_POSITION = { 1, 8, 2 };
 const glm::vec3 INITIAL_UP_DIRECTION = { 1, 0, 0 };
 
 const glm::vec4 BLACK_RGBA = { 0, 0, 0, 1 };
@@ -28,6 +28,11 @@ const float INTESITY_STEP = 0.05f;
 const std::string MUSIC_PATH = "res/audio/music/";
 const std::string MUSIC_EXTENSION = ".ogg";
 
+const glm::vec3 MOON_POSITION = { 4, -1, 0 };
+
+const int PHYS_PRECISION = 5;
+const glm::vec3 GRAVITY = { -5, 0, 0 };
+
 void SetupOpenGLState()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -42,7 +47,7 @@ void SetupOpenGLState()
 	glEnable(GL_TEXTURE_2D);
 
 	glEnable(GL_LIGHTING);
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	// glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
 
 void SetupLineMode(const bool flag)
@@ -92,8 +97,11 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_sunlight(GL_LIGHT0)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
-	,m_moon(SPHERE_PRECISION, SPHERE_PRECISION)
-	,m_grass(glm::vec2(-4, +4), glm::vec2(+4, -4))
+	,m_physWorld(GRAVITY)
+	,m_floor(m_physWorld, glm::vec3(32, 32, 32), glm::vec3(-16, -1, -1), 0.f)
+	,m_moon(m_physWorld, 1.f, MOON_POSITION, 0.f, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 0, 0), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_labyrinth(m_physWorld)
 	,m_audio("res/audio/noise/push.wav")
 {	
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
@@ -130,11 +138,13 @@ void CWindowClient::OnUpdateWindow(const float dt)
 		m_audioController.PlayMusic(*m_trackList.front());
 	}
 
+	m_floor.Update(dt);
 	m_camera.Update(dt);
 	m_skysphere.Update(dt);
 	m_labyrinth.Update(dt);
-	m_grass.Update(dt);
 	
+	m_physWorld.StepSimulation(dt, PHYS_PRECISION);
+
 	DispatchKeyboardEvent();
 
 	SetupView(GetWindow().GetWindowSize());
@@ -148,19 +158,18 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	});
 
 	CRenderer3D moonRenderer(m_moonContext);
-	DoWithTransform(m_moonContext, glm::translate(glm::vec3(2, 2, 2))
+	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_moon.GetWorldIndex()))
 	                             * glm::rotate(glm::radians(90.f), glm::vec3(0, 0, 1)),
 	                               [&] {
 		m_moon.Draw(moonRenderer);
 	});
-
-	CRenderer3D grassRenderer(m_grassContext);
-	DoWithTransform(m_grassContext, glm::translate(glm::vec3(-1, 0, 0))
-	                              * glm::rotate(glm::mat4(), glm::radians(90.f), glm::vec3(0, 1, 0))
-	                              * glm::scale(glm::vec3(4, 4, 4)),
-	                              [&]() {
-		m_grass.Draw(grassRenderer);
+	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_sphere.GetWorldIndex())),
+	                               [&] {
+		m_sphere.Draw(moonRenderer);
 	});
+
+	CRenderer3D grassRenderer(m_floorContext);
+	m_floor.Draw(grassRenderer);
 
 	m_labyrinth.Draw();
 }
@@ -264,8 +273,8 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 	m_skyContext.SetView(skyView);
 	m_skyContext.SetProjection(proj);
 
-	m_grassContext.SetView(view);
-	m_grassContext.SetProjection(proj);
+	m_floorContext.SetView(view);
+	m_floorContext.SetProjection(proj);
 
 	m_labyrinth.SetView(view);
 	m_labyrinth.SetProjection(proj);
@@ -304,6 +313,6 @@ void CWindowClient::SetupLight0()
 	light0.position = m_sunlight.GetUniformPosition();
 	m_moonContext.SetLight0(light0);
 	m_skyContext.SetLight0(light0);
-	m_grassContext.SetLight0(light0);
+	m_floorContext.SetLight0(light0);
 	m_labyrinth.SetLight0(light0);
 }

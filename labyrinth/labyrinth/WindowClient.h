@@ -13,8 +13,8 @@
 #include "BlockProgramContext.h"
 #include "SkyProgramContext.h"
 #include "FloorProgramContext.h"
-#include "Blocks.h"
 #include "Rectangle.h"
+#include "PhysWorld.h"
 
 class CWindowClient
 	:public CAbstractWindowClient
@@ -44,22 +44,26 @@ private:
 	CDirectedLightSource m_sunlight;
 	CCamera m_camera;
 	bool m_lineMode = false;
-	CLabyrinth m_labyrinth;
 	CPlayer m_player;
 	
 	CSkysphere m_skysphere;
 	CSkyProgramContext m_skyContext;
 
-	CIdentitySphere m_moon;
+	CPhysWorld m_physWorld;
+	CBlaSphere m_sphere;
+
+	CBlaSphere m_moon;
 	CMoonProgramContext m_moonContext;
 
-	CRectangle m_grass;
-	CFloorProgramContext m_grassContext;
+	CBlaCube m_floor;
+	CFloorProgramContext m_floorContext;
+
+	CLabyrinth m_labyrinth;
 
 	CKeyboardController m_keyboardHandler;
 	CAudioController m_audioController;
 
 	CSound m_audio;
 	std::vector<std::unique_ptr<CMusic>> m_trackList;
-	unsigned m_volume = 50;
+	unsigned m_volume = 0;
 };

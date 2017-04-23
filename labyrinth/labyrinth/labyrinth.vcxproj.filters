@@ -57,16 +57,10 @@
     <ClInclude Include="IProgramContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Blocks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SkyProgramContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Labyrinth.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderer3D.h">
@@ -85,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,13 +122,7 @@
     <ClCompile Include="ProgramContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Blocks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SkyProgramContext.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Labyrinth.cpp">
@@ -150,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

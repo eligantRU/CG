@@ -192,6 +192,7 @@
     <ClInclude Include="IRenderer3D.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="MeshP3NT2.h" />
+    <ClInclude Include="PhysWorld.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="MoonProgramContext.h" />
     <ClInclude Include="ProgramContext.h" />
@@ -203,8 +204,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WindowClient.h" />
     <ClInclude Include="Cube.h" />
-    <ClInclude Include="Blocks.h" />
-    <ClInclude Include="Factory.h" />
     <ClInclude Include="Labyrinth.h" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +215,7 @@
     <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshP3NT2.cpp" />
+    <ClCompile Include="PhysWorld.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="MoonProgramContext.cpp" />
     <ClCompile Include="ProgramContext.cpp" />
@@ -226,8 +226,6 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="WindowClient.cpp" />
     <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="Blocks.cpp" />
-    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="Labyrinth.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
