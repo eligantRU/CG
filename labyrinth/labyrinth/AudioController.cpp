@@ -13,7 +13,7 @@ CAudioController::~CAudioController()
 	Mix_CloseAudio();
 }
 
-void CAudioController::PlayNoise(const CSound & audio)
+void CAudioController::PlaySound(const CSound & audio)
 {
 	Mix_PlayChannel(-1, audio.GetSource(), 0);
 }
@@ -23,7 +23,7 @@ void CAudioController::PlayMusic(const CMusic & music)
 	Mix_PlayMusic(music.GetSource(), 0);
 }
 
-void CAudioController::StopNoise()
+void CAudioController::StopSound()
 {
 	Mix_HaltChannel(-1);
 }
@@ -33,7 +33,7 @@ void CAudioController::StopMusic()
 	Mix_HaltMusic();
 }
 
-void CAudioController::PauseNoise()
+void CAudioController::PauseSound()
 {
 	Mix_Pause(-1);
 }
@@ -43,7 +43,7 @@ void CAudioController::PauseMusic()
 	Mix_PauseMusic();
 }
 
-void CAudioController::ResumeNoise()
+void CAudioController::ResumeSound()
 {
 	Mix_Resume(-1);
 }
@@ -64,7 +64,7 @@ bool CAudioController::IsPlayingMusic() const
 }
 
 /// volume is in 0..100
-void CAudioController::SetNoiseVolume(const unsigned volume) // TODO: need to validate volume
+void CAudioController::SetSoundVolume(const unsigned volume) // TODO: need to validate volume
 {
 	Mix_Volume(-1, MIX_MAX_VOLUME * volume / 100);
 }

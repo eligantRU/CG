@@ -11,20 +11,20 @@ public:
 	CAudioController();
 	~CAudioController();
 
-	void PlayNoise(const CSound & audio); // PlaySound() is fucking Microsoft API
+	void PlaySound(const CSound & audio);
 	void PlayMusic(const CMusic & audio);
-	void StopNoise();
+	void StopSound();
 	void StopMusic();
-	void PauseNoise();
+	void PauseSound();
 	void PauseMusic();
-	void ResumeNoise();
+	void ResumeSound();
 	void ResumeMusic();
 
 	void RewindMusic();
 
 	bool IsPlayingMusic() const;
 
-	void SetNoiseVolume(const unsigned volume);
+	void SetSoundVolume(const unsigned volume);
 	void SetMusicVolume(const unsigned volume);
 
 private:

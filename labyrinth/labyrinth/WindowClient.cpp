@@ -102,7 +102,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_moon(m_physWorld, 1.f, MOON_POSITION, 0.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 0, 0), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_labyrinth(m_physWorld)
-	,m_audio("res/audio/noise/push.wav")
+	,m_audio("res/audio/sound/push.wav")
 {	
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -127,7 +127,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	}
 	m_audioController.PlayMusic(*m_trackList.front());
 	m_audioController.SetMusicVolume(m_volume);
-	m_audioController.SetNoiseVolume(m_volume);
+	m_audioController.SetSoundVolume(m_volume);
 }
 
 void CWindowClient::OnUpdateWindow(const float dt)
@@ -207,14 +207,14 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 	{
 		m_lineMode = !m_lineMode;
 		SetupLineMode(m_lineMode);
-		m_audioController.PlayNoise(m_audio);
+		m_audioController.PlaySound(m_audio);
 	}
 
 	if (event.keysym.sym == SDLK_UP)
 	{
 		if ((0 <= m_volume) && (m_volume < 100))
 		{
-			m_audioController.SetNoiseVolume(++m_volume);
+			m_audioController.SetSoundVolume(++m_volume);
 			m_audioController.SetMusicVolume(++m_volume);
 		}
 	}
@@ -222,7 +222,7 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 	{
 		if ((0 < m_volume) && (m_volume <= 100))
 		{
-			m_audioController.SetNoiseVolume(--m_volume);
+			m_audioController.SetSoundVolume(--m_volume);
 			m_audioController.SetMusicVolume(--m_volume);
 		}
 	}
