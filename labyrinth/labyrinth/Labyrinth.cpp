@@ -8,7 +8,7 @@ namespace
 
 const float BLOCK_SIZE = 2.f;
 
-const float BLOCK_MASS = 0.f;
+const float BLOCK_MASS = 0.001f;
 
 const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -54,6 +54,7 @@ CLabyrinth::CLabyrinth(CPhysWorld & world)
 				float z = -float(m_labyrinth.size()) + j * BLOCK_SIZE;
 				float x = 1.f;
 
+				m_bla[i][j] = glm::vec3(x, y, z);
 				auto block = std::make_unique<CBlaCube>(m_world, glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), glm::vec3(x, y, z), BLOCK_MASS);
 				m_labyrinth[i][j] = std::move(block);
 			}
@@ -78,13 +79,17 @@ void CLabyrinth::Update(const float dt)
 void CLabyrinth::Draw() // TODO: why non-const?
 {
 	CRenderer3D renderer(m_blockContext);
-	for (const auto & row : m_labyrinth)
+	for (unsigned i = 0; i < m_labyrinth.size(); ++i)
 	{
-		for (const auto & block : row)
+		for (unsigned j = 0; j < m_labyrinth[i].size(); ++j)
 		{
-			if (block != nullptr)
+			if (m_labyrinth[i][j] != nullptr)
 			{
-				block->Draw(renderer);
+				DoWithTransform(m_blockContext, glm::translate(-m_bla[i][j]) *
+				                                glm::translate(m_world.GetPosition(m_labyrinth[i][j]->GetWorldIndex())),
+				                                [&] {
+					m_labyrinth[i][j]->Draw(renderer);
+				});
 			}
 		}
 	}

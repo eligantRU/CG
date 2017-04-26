@@ -24,4 +24,5 @@ private:
 	CBlockProgramContext m_blockContext;
 
 	std::array<std::array<std::unique_ptr<CBlaCube>, 16>, 16> m_labyrinth;
+	std::array<std::array<glm::vec3, 16>, 16> m_bla;
 };

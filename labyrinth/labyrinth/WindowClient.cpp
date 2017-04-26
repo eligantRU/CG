@@ -100,7 +100,8 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_physWorld(GRAVITY)
 	,m_floor(m_physWorld, glm::vec3(32, 32, 32), glm::vec3(-16, -1, -1), 0.f)
 	,m_moon(m_physWorld, 1.f, MOON_POSITION, 0.f, SPHERE_PRECISION, SPHERE_PRECISION)
-	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 0, 0), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 1, 1), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_sphere1(m_physWorld, 5.f, glm::vec3(150, 0, 1), 1000000.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_labyrinth(m_physWorld)
 	,m_audio("res/audio/sound/push.wav")
 {	
@@ -166,6 +167,11 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_sphere.GetWorldIndex())),
 	                               [&] {
 		m_sphere.Draw(moonRenderer);
+	});
+	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_sphere1.GetWorldIndex()))
+	                             * glm::scale(glm::vec3(5, 5, 5)),
+		[&] {
+		m_sphere1.Draw(moonRenderer);
 	});
 
 	CRenderer3D grassRenderer(m_floorContext);

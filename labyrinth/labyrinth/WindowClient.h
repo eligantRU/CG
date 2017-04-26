@@ -51,6 +51,7 @@ private:
 
 	CPhysWorld m_physWorld;
 	CBlaSphere m_sphere;
+	CBlaSphere m_sphere1;
 
 	CBlaSphere m_moon;
 	CMoonProgramContext m_moonContext;
