@@ -18,7 +18,7 @@ Left/Right - change track
 ./res/audio/music - put your music(in *.ogg format) here
 Do not use nonLatin alphabets!
 ```
-
+## About
 
 ```
 Created by Yegorov Nick, Lacyem 'InfoTech', 2016-2017
