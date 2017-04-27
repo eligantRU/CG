@@ -34,7 +34,7 @@ public:
 	CPhysBox(CPhysWorld & world, const glm::vec3 & size, const glm::vec3 & pos, float mass)
 		:m_world(world)
 	{
-		m_shape = new btBoxShape(btVector3(btScalar(size.x), btScalar(size.y), btScalar(size.z)));
+		m_shape = new btBoxShape(btVector3(size.x, size.y, size.z));
 		m_worldIndex = m_world.AddShape(m_shape);
 
 		btTransform transform;
@@ -113,12 +113,12 @@ private:
 	int m_worldIndex = -1;
 };
 
-class CBlaSphere
+class CSphereEntity
 	:public CPhysSphere
 	,public CIdentitySphere
 {
 public:
-	CBlaSphere(CPhysWorld & world, float radius, const glm::vec3 & pos, float mass, unsigned slices, unsigned stacks)
+	CSphereEntity(CPhysWorld & world, float radius, const glm::vec3 & pos, float mass, unsigned slices, unsigned stacks)
 		:CIdentitySphere(slices, stacks)
 		,CPhysSphere(world, radius, pos, mass)
 	{
@@ -126,12 +126,12 @@ public:
 	}
 };
 
-class CBlaCube
+class CCubeEntity
 	:public CPhysBox
 	,public CCube
 {
 public:
-	CBlaCube(CPhysWorld & world, const glm::vec3 & size, const glm::vec3 & pos, float mass)
+	CCubeEntity(CPhysWorld & world, const glm::vec3 & size, const glm::vec3 & pos, float mass)
 		:CPhysBox(world, 0.5f * size, pos, mass)
 		,CCube(pos, size.x)
 	{

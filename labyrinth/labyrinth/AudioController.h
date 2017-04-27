@@ -26,6 +26,4 @@ public:
 
 	void SetSoundVolume(const unsigned volume);
 	void SetMusicVolume(const unsigned volume);
-
-private:
 };

@@ -54,8 +54,8 @@ CLabyrinth::CLabyrinth(CPhysWorld & world)
 				float z = -float(m_labyrinth.size()) + j * BLOCK_SIZE;
 				float x = 1.f;
 
-				m_bla[i][j] = glm::vec3(x, y, z);
-				auto block = std::make_unique<CBlaCube>(m_world, glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), glm::vec3(x, y, z), BLOCK_MASS);
+				m_blockLocalCoord[i][j] = glm::vec3(x, y, z);
+				auto block = std::make_unique<CCubeEntity>(m_world, glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), glm::vec3(x, y, z), BLOCK_MASS);
 				m_labyrinth[i][j] = std::move(block);
 			}
 		}
@@ -76,19 +76,19 @@ void CLabyrinth::Update(const float dt)
 	}
 }
 
-void CLabyrinth::Draw() // TODO: why non-const?
+void CLabyrinth::Draw() const
 {
 	CRenderer3D renderer(m_blockContext);
-	for (unsigned i = 0; i < m_labyrinth.size(); ++i)
+	for (unsigned row = 0; row < m_labyrinth.size(); ++row)
 	{
-		for (unsigned j = 0; j < m_labyrinth[i].size(); ++j)
+		for (unsigned column = 0; column < m_labyrinth[row].size(); ++column)
 		{
-			if (m_labyrinth[i][j] != nullptr)
+			if (m_labyrinth[row][column] != nullptr)
 			{
-				DoWithTransform(m_blockContext, glm::translate(-m_bla[i][j]) *
-				                                glm::translate(m_world.GetPosition(m_labyrinth[i][j]->GetWorldIndex())),
-				                                [&] {
-					m_labyrinth[i][j]->Draw(renderer);
+				const auto trans = glm::translate(-m_blockLocalCoord[row][column])
+				                 * glm::translate(m_world.GetPosition(m_labyrinth[row][column]->GetWorldIndex()));
+				DoWithTransform(m_blockContext, trans, [&] {
+					m_labyrinth[row][column]->Draw(renderer);
 				});
 			}
 		}

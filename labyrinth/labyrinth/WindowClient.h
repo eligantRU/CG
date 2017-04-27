@@ -50,10 +50,10 @@ private:
 	CSkyProgramContext m_skyContext;
 
 	CPhysWorld m_physWorld;
-	CBlaSphere m_sphere;
-	CBlaSphere m_sphere1;
+	CSphereEntity m_sphere;
+	CSphereEntity m_sphere1;
 
-	CBlaSphere m_moon;
+	CSphereEntity m_moon;
 	CMoonProgramContext m_moonContext;
 
 	CBlaCube m_floor;
