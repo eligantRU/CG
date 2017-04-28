@@ -76,3 +76,22 @@ glm::vec3 CPhysWorld::GetPosition(int shapeIndex)
 		trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ()
 	};
 }
+
+glm::quat CPhysWorld::GetOrientation(int shapeIndex)
+{
+	btCollisionObject * obj = m_world->getCollisionObjectArray()[shapeIndex];
+	btRigidBody * body = btRigidBody::upcast(obj);
+	btTransform trans;
+	if (body && body->getMotionState())
+	{
+		body->getMotionState()->getWorldTransform(trans);
+	}
+	else
+	{
+		trans = obj->getWorldTransform();
+	}
+	const auto quat = trans.getRotation();
+	return {
+		quat.getW(), quat.getX(), quat.getY(), quat.getZ()
+	};
+}

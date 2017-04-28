@@ -51,7 +51,7 @@ private:
 
 	CPhysWorld m_physWorld;
 	CSphereEntity m_sphere;
-	CSphereEntity m_sphere1;
+	CSphereEntity m_largeSphere;
 
 	CSphereEntity m_moon;
 	CMoonProgramContext m_moonContext;

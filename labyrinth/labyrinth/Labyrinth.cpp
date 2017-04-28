@@ -39,6 +39,18 @@ void DoWithTransform(IProgramContext & context, const glm::mat4 & mat, T && call
 	context.SetView(was);
 }
 
+template <class T, class TT>
+void UpdateAndDraw(T & object, const glm::vec3 & size, CPhysWorld & world, TT & context, CRenderer3D & renderer)
+{
+	object->SetSizeScale(size);
+	object->SetPosition(world.GetPosition(object->GetWorldIndex()));
+	object->SetOrientation(world.GetOrientation(object->GetWorldIndex()));
+	auto trans = object->ToMat4();
+	DoWithTransform(context, trans, [&] {
+		object->Draw(renderer);
+	});
+}
+
 }
 
 CLabyrinth::CLabyrinth(CPhysWorld & world)
@@ -84,11 +96,7 @@ void CLabyrinth::Draw() const
 		{
 			if (block != nullptr)
 			{
-				const auto trans = glm::translate(m_world.GetPosition(block->GetWorldIndex()))
-				                 * glm::scale(2.f * glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE));
-				DoWithTransform(m_blockContext, trans, [&] {
-					block->Draw(renderer);
-				});
+				UpdateAndDraw(block, 2.f * glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), m_world, m_blockContext, renderer);
 			}
 		}
 	}

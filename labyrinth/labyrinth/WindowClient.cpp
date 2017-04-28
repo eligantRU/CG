@@ -22,16 +22,31 @@ const glm::vec3 SUNLIGHT_DIRECTION = { -1, -1, -1 };
 const float SPHERE_ROTATION_SPEED = 0.2f;
 const unsigned SPHERE_PRECISION = 40;
 
-const float MOVEMENT_SPEED = 0.03f;
-const float INTESITY_STEP = 0.05f;
+const auto MOVEMENT_SPEED = 0.03f;
+const auto INTESITY_STEP = 0.05f;
 
 const std::string MUSIC_PATH = "res/audio/music/";
 const std::string MUSIC_EXTENSION = ".ogg";
 
 const glm::vec3 MOON_POSITION = { 4, -1, 0 };
+const auto MOON_MASS = 0.f;
+const auto MOON_RADIUS = 1.f;
+const glm::vec3 MOON_SIZE = { MOON_RADIUS, MOON_RADIUS, MOON_RADIUS };
 
 const glm::vec3 FLOOR_POSITION = { -8.5f, 7.5f, 7.5f };
-const float FLOOR_SIZE = 16.f;
+const auto FLOOR_MASS = 0.f;
+const float FLOOR_SIDE = 16.f;
+const glm::vec3 FLOOR_SIZE = { FLOOR_SIDE, FLOOR_SIDE, FLOOR_SIDE };
+
+const glm::vec3 SPHERE_POSITION = { 100, 1, 1 };
+const auto SPHERE_MASS = 1.f;
+const auto SPHERE_RADIUS = 1.f;
+const glm::vec3 SPHERE_SIZE = { SPHERE_RADIUS, SPHERE_RADIUS, SPHERE_RADIUS };
+
+const glm::vec3 LARGE_SPHERE_POSITION = { 150, 1, 1 };
+const auto LARGE_SPHERE_MASS = 1'000'000.f;
+const auto LARGE_SPHERE_RADIUS = 5.f;
+const glm::vec3 LARGE_SPHERE_SIZE = { LARGE_SPHERE_RADIUS, LARGE_SPHERE_RADIUS, LARGE_SPHERE_RADIUS };
 
 const int PHYS_PRECISION = 5;
 const glm::vec3 GRAVITY = { -5, 0, 0 };
@@ -92,6 +107,18 @@ std::vector<std::string> FindFilesByExtension(const std::string & root, const st
 	return result;
 }
 
+template <class T, class TT>
+void UpdateAndDraw(T & object, const glm::vec3 & size, CPhysWorld & world, TT & context, CRenderer3D & renderer)
+{
+	object.SetSizeScale(size);
+	object.SetPosition(world.GetPosition(object.GetWorldIndex()));
+	object.SetOrientation(world.GetOrientation(object.GetWorldIndex()));
+	auto trans = object.ToMat4();
+	DoWithTransform(context, trans, [&] {
+		object.Draw(renderer);
+	});
+}
+
 }
 
 CWindowClient::CWindowClient(CWindow & window)
@@ -101,10 +128,10 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_physWorld(GRAVITY)
-	,m_floor(m_physWorld, 0.5f * FLOOR_SIZE, FLOOR_POSITION, 0.f)
-	,m_moon(m_physWorld, 1.f, MOON_POSITION, 0.f, SPHERE_PRECISION, SPHERE_PRECISION)
-	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 1, 1), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
-	,m_sphere1(m_physWorld, 5.f, glm::vec3(150, 0, 1), 1000000.f, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_floor(m_physWorld, 0.5f * FLOOR_SIDE, FLOOR_POSITION, FLOOR_MASS)
+	,m_moon(m_physWorld, MOON_RADIUS, MOON_POSITION, MOON_MASS, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_sphere(m_physWorld, SPHERE_RADIUS, SPHERE_POSITION, SPHERE_MASS, SPHERE_PRECISION, SPHERE_PRECISION)
+	,m_largeSphere(m_physWorld, LARGE_SPHERE_RADIUS, LARGE_SPHERE_POSITION, LARGE_SPHERE_MASS, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_labyrinth(m_physWorld)
 	,m_audio("res/audio/sound/push.wav")
 {	
@@ -155,7 +182,6 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	SetupLight0();
 
 	CRenderer3D skyRenderer(m_skyContext);
-
 	DoWithTransform(m_skyContext, glm::rotate(glm::radians(90.f), glm::vec3(0, 0, -1)),
 	                              [&] {
 		m_skysphere.Draw(skyRenderer);
@@ -167,22 +193,13 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	                               [&] {
 		m_moon.Draw(moonRenderer);
 	});
-	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_sphere.GetWorldIndex())),
-	                               [&] {
-		m_sphere.Draw(moonRenderer);
-	});
-	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_sphere1.GetWorldIndex()))
-	                             * glm::scale(glm::vec3(5, 5, 5)),
-	                               [&] {
-		m_sphere1.Draw(moonRenderer);
-	});
+	
+	UpdateAndDraw(m_sphere, SPHERE_SIZE, m_physWorld, m_moonContext, moonRenderer);
+
+	UpdateAndDraw(m_largeSphere, LARGE_SPHERE_SIZE, m_physWorld , m_moonContext, moonRenderer);
 
 	CRenderer3D grassRenderer(m_floorContext);
-	DoWithTransform(m_floorContext, glm::translate(m_physWorld.GetPosition(m_floor.GetWorldIndex()))
-	                              * glm::scale(2.f * glm::vec3(FLOOR_SIZE, FLOOR_SIZE, FLOOR_SIZE)),
-	                               [&] {
-		m_floor.Draw(grassRenderer);
-	});
+	UpdateAndDraw(m_floor, 2.f * FLOOR_SIZE, m_physWorld, m_floorContext, grassRenderer);
 
 	m_labyrinth.Draw();
 }
