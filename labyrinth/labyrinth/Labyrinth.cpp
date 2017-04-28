@@ -9,7 +9,7 @@ namespace
 const auto BLOCK_SIDE = 1.f;
 const glm::vec3 BLOCK_SIZE = { BLOCK_SIDE, BLOCK_SIDE, BLOCK_SIDE };
 
-const float BLOCK_MASS = 1.f;
+const auto BLOCK_MASS = 1.f;
 
 const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
