@@ -15,11 +15,11 @@ const glm::vec4 BLACK_RGBA = { 0, 0, 0, 1 };
 const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
 const glm::vec4 GRAY_RGBA = { 0.5f, 0.5f, 0.5f, 1.f };
 
-const float AMBIENT_SCALE = 0.5f;
-const float MATERIAL_SHININESS = 50.f;
+const auto AMBIENT_SCALE = 0.5f;
+const auto MATERIAL_SHININESS = 50.f;
 const glm::vec3 SUNLIGHT_DIRECTION = { -1, -1, -1 };
 
-const float SPHERE_ROTATION_SPEED = 0.2f;
+const auto SPHERE_ROTATION_SPEED = 0.2f;
 const unsigned SPHERE_PRECISION = 40;
 
 const auto MOVEMENT_SPEED = 0.03f;
@@ -35,11 +35,11 @@ const glm::vec3 MOON_SIZE = { MOON_RADIUS, MOON_RADIUS, MOON_RADIUS };
 
 const glm::vec3 FLOOR_POSITION = { -8.5f, 7.5f, 7.5f };
 const auto FLOOR_MASS = 0.f;
-const float FLOOR_SIDE = 16.f;
+const auto FLOOR_SIDE = 16.f;
 const glm::vec3 FLOOR_SIZE = { FLOOR_SIDE, FLOOR_SIDE, FLOOR_SIDE };
 
 const glm::vec3 SPHERE_POSITION = { 100, 1, 1 };
-const auto SPHERE_MASS = 1.f;
+const auto SPHERE_MASS = 25.f;
 const auto SPHERE_RADIUS = 1.f;
 const glm::vec3 SPHERE_SIZE = { SPHERE_RADIUS, SPHERE_RADIUS, SPHERE_RADIUS };
 
