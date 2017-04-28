@@ -112,6 +112,7 @@ private:
 	int m_worldIndex = -1;
 };
 
+// TODO: move to individual *.cpp
 class CTransform3D
 {
 public:
@@ -150,6 +151,7 @@ private:
 	glm::vec3 m_position;
 };
 
+// TODO: move to individual *.cpp
 class CSphereEntity
 	:public CPhysSphere
 	,public CIdentitySphere
@@ -166,6 +168,7 @@ public:
 	}
 };
 
+// TODO: move to individual *.cpp
 class CCubeEntity
 	:public CPhysBox
 	,public CIdentityCube

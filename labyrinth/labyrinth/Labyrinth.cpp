@@ -6,7 +6,8 @@
 namespace
 {
 
-const float BLOCK_SIZE = 1.f;
+const auto BLOCK_SIDE = 1.f;
+const glm::vec3 BLOCK_SIZE = { BLOCK_SIDE, BLOCK_SIDE, BLOCK_SIDE };
 
 const float BLOCK_MASS = 1.f;
 
@@ -62,12 +63,11 @@ CLabyrinth::CLabyrinth(CPhysWorld & world)
 		{
 			if (LABYRINTH[i][j] == 1)
 			{
-				float y = i * BLOCK_SIZE;
-				float z = j * BLOCK_SIZE;
+				float y = i * BLOCK_SIDE;
+				float z = j * BLOCK_SIDE;
 				float x = 0.f;
 
-				auto block = std::make_unique<CCubeEntity>(m_world, 0.5f * BLOCK_SIZE, glm::vec3(x, y, z), BLOCK_MASS);
-				m_labyrinth[i][j] = std::move(block);
+				m_labyrinth[i][j] = std::make_unique<CCubeEntity>(m_world, 0.5f * BLOCK_SIDE, glm::vec3(x, y, z), BLOCK_MASS);
 			}
 		}
 	}
@@ -96,7 +96,7 @@ void CLabyrinth::Draw() const
 		{
 			if (block != nullptr)
 			{
-				UpdateAndDraw(block, 2.f * glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), m_world, m_blockContext, renderer);
+				UpdateAndDraw(block, 2.f * BLOCK_SIZE, m_world, m_blockContext, renderer);
 			}
 		}
 	}
