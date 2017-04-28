@@ -30,7 +30,8 @@ const std::string MUSIC_EXTENSION = ".ogg";
 
 const glm::vec3 MOON_POSITION = { 4, -1, 0 };
 
-const glm::vec3 FLOOR_POSITION = { -8.f, 7.5f, 7.5f }; 
+const glm::vec3 FLOOR_POSITION = { -8.5f, 7.5f, 7.5f };
+const float FLOOR_SIZE = 16.f;
 
 const int PHYS_PRECISION = 5;
 const glm::vec3 GRAVITY = { -5, 0, 0 };
@@ -100,7 +101,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_physWorld(GRAVITY)
-	,m_floor(m_physWorld, 8.f, FLOOR_POSITION, 0.f)
+	,m_floor(m_physWorld, 0.5f * FLOOR_SIZE, FLOOR_POSITION, 0.f)
 	,m_moon(m_physWorld, 1.f, MOON_POSITION, 0.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 1, 1), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_sphere1(m_physWorld, 5.f, glm::vec3(150, 0, 1), 1000000.f, SPHERE_PRECISION, SPHERE_PRECISION)
@@ -178,7 +179,7 @@ void CWindowClient::OnUpdateWindow(const float dt)
 
 	CRenderer3D grassRenderer(m_floorContext);
 	DoWithTransform(m_floorContext, glm::translate(m_physWorld.GetPosition(m_floor.GetWorldIndex()))
-	                              * glm::scale(glm::vec3(32, 32, 32)),
+	                              * glm::scale(2.f * glm::vec3(FLOOR_SIZE, FLOOR_SIZE, FLOOR_SIZE)),
 	                               [&] {
 		m_floor.Draw(grassRenderer);
 	});
