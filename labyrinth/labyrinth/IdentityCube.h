@@ -16,12 +16,11 @@ enum class CubeFace
 	NumFaces
 };
 
-class CCube
+class CIdentityCube
 {
 public:
-	CCube();
-	CCube(const glm::vec3 & center, const float size);
-	~CCube() = default;
+	CIdentityCube();
+	~CIdentityCube() = default;
 	
 	void Update(const float dt);
 	void Draw(IRenderer3D & renderer) const;

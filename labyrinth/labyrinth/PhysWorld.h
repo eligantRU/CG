@@ -1,9 +1,7 @@
 #pragma once
- 
-#include <btBulletDynamicsCommon.h>
 
 #include "IdentitySphere.h"
-#include "Cube.h"
+#include "IdentityCube.h"
 
 class CPhysWorld
 {
@@ -128,12 +126,11 @@ public:
 
 class CCubeEntity
 	:public CPhysBox
-	,public CCube
+	,public CIdentityCube
 {
 public:
-	CCubeEntity(CPhysWorld & world, const glm::vec3 & size, const glm::vec3 & pos, float mass)
-		:CPhysBox(world, 0.5f * size, pos, mass)
-		,CCube(pos, size.x)
+	CCubeEntity(CPhysWorld & world, float size, const glm::vec3 & pos, float mass)
+		:CPhysBox(world, glm::vec3(size, size, size), pos, mass)
 	{
 	
 	}

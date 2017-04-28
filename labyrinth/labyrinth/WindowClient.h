@@ -6,7 +6,7 @@
 #include "AudioController.h"
 #include "Camera.h"
 #include "Player.h"
-#include "Cube.h"
+#include "IdentityCube.h"
 #include "Labyrinth.h"
 #include "Skysphere.h"
 #include "MoonProgramContext.h"
@@ -56,7 +56,7 @@ private:
 	CSphereEntity m_moon;
 	CMoonProgramContext m_moonContext;
 
-	CBlaCube m_floor;
+	CCubeEntity m_floor;
 	CFloorProgramContext m_floorContext;
 
 	CLabyrinth m_labyrinth;

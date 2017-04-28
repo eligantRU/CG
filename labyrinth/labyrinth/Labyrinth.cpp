@@ -6,9 +6,9 @@
 namespace
 {
 
-const float BLOCK_SIZE = 2.f;
+const float BLOCK_SIZE = 0.5f;
 
-const float BLOCK_MASS = 0.001f;
+const float BLOCK_MASS = 1.f;
 
 const std::vector<std::vector<int>> LABYRINTH = { // TODO: load from image-file
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -50,12 +50,11 @@ CLabyrinth::CLabyrinth(CPhysWorld & world)
 		{
 			if (LABYRINTH[i][j] == 1)
 			{
-				float y = -float(m_labyrinth.size()) + i * BLOCK_SIZE;
-				float z = -float(m_labyrinth.size()) + j * BLOCK_SIZE;
-				float x = 1.f;
+				float y = 2 * i * BLOCK_SIZE;
+				float z = 2 * j * BLOCK_SIZE;
+				float x = BLOCK_SIZE;
 
-				m_blockLocalCoord[i][j] = glm::vec3(x, y, z);
-				auto block = std::make_unique<CCubeEntity>(m_world, glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), glm::vec3(x, y, z), BLOCK_MASS);
+				auto block = std::make_unique<CCubeEntity>(m_world, BLOCK_SIZE, glm::vec3(x, y, z), BLOCK_MASS);
 				m_labyrinth[i][j] = std::move(block);
 			}
 		}
@@ -79,16 +78,16 @@ void CLabyrinth::Update(const float dt)
 void CLabyrinth::Draw() const
 {
 	CRenderer3D renderer(m_blockContext);
-	for (unsigned row = 0; row < m_labyrinth.size(); ++row)
+	for (const auto & row : m_labyrinth)
 	{
-		for (unsigned column = 0; column < m_labyrinth[row].size(); ++column)
+		for (const auto & block : row)
 		{
-			if (m_labyrinth[row][column] != nullptr)
+			if (block != nullptr)
 			{
-				const auto trans = glm::translate(-m_blockLocalCoord[row][column])
-				                 * glm::translate(m_world.GetPosition(m_labyrinth[row][column]->GetWorldIndex()));
+				const auto trans = glm::translate(m_world.GetPosition(block->GetWorldIndex()))
+				                 * glm::scale(4.f * glm::vec3(BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE));
 				DoWithTransform(m_blockContext, trans, [&] {
-					m_labyrinth[row][column]->Draw(renderer);
+					block->Draw(renderer);
 				});
 			}
 		}

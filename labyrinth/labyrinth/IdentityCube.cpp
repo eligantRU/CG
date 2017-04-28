@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "Cube.h"
+#include "IdentityCube.h"
 
 namespace
 {
 
-const auto DEFAULT_CUBE_SIZE = 1.f;
+const auto CUBE_SIZE = 0.5f;
 
 struct SCubeFace
 {
@@ -27,28 +27,22 @@ const SCubeFace CUBE_FACES[] = {
 
 }
 
-CCube::CCube()
-	:CCube(glm::vec3(), DEFAULT_CUBE_SIZE)
-{
-
-}
-
-CCube::CCube(const glm::vec3 & center, const float size)
+CIdentityCube::CIdentityCube()
 	:m_mesh(MeshType::Triangles)
 {
 	m_verticies = {
-		glm::vec3(center.x - size / 2, center.y + size / 2, center.z - size / 2),
-		glm::vec3(center.x + size / 2, center.y + size / 2, center.z - size / 2),
-		glm::vec3(center.x + size / 2, center.y - size / 2, center.z - size / 2),
-		glm::vec3(center.x - size / 2, center.y - size / 2, center.z - size / 2),
-		glm::vec3(center.x - size / 2, center.y + size / 2, center.z + size / 2),
-		glm::vec3(center.x + size / 2, center.y + size / 2, center.z + size / 2),
-		glm::vec3(center.x + size / 2, center.y - size / 2, center.z + size / 2),
-		glm::vec3(center.x - size / 2, center.y - size / 2, center.z + size / 2)
+		glm::vec3(-CUBE_SIZE / 2, +CUBE_SIZE / 2, -CUBE_SIZE / 2),
+		glm::vec3(+CUBE_SIZE / 2, +CUBE_SIZE / 2, -CUBE_SIZE / 2),
+		glm::vec3(+CUBE_SIZE / 2, -CUBE_SIZE / 2, -CUBE_SIZE / 2),
+		glm::vec3(-CUBE_SIZE / 2, -CUBE_SIZE / 2, -CUBE_SIZE / 2),
+		glm::vec3(-CUBE_SIZE / 2, +CUBE_SIZE / 2, +CUBE_SIZE / 2),
+		glm::vec3(+CUBE_SIZE / 2, +CUBE_SIZE / 2, +CUBE_SIZE / 2),
+		glm::vec3(+CUBE_SIZE / 2, -CUBE_SIZE / 2, +CUBE_SIZE / 2),
+		glm::vec3(-CUBE_SIZE / 2, -CUBE_SIZE / 2, +CUBE_SIZE / 2)
 	};
 }
 
-void CCube::Update(const float dt)
+void CIdentityCube::Update(const float dt)
 {
 	(void)&dt;
 	if (m_isDirty)
@@ -58,12 +52,12 @@ void CCube::Update(const float dt)
 	}
 }
 
-void CCube::Draw(IRenderer3D & renderer) const
+void CIdentityCube::Draw(IRenderer3D & renderer) const
 {
 	m_mesh.Draw(renderer);
 }
 
-void CCube::Triangulate()
+void CIdentityCube::Triangulate()
 {
 	SMeshDataP3NT2 mesh;
 	for (const SCubeFace & face : CUBE_FACES)

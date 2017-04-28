@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Cube.h"
+#include "IdentityCube.h"
 #include "BlockProgramContext.h"
 
 namespace

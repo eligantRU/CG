@@ -8,7 +8,7 @@ namespace
 {
 
 const glm::vec3 INITIAL_VIEW_DIRECTION = { 0, -1, 0 };
-const glm::vec3 INITIAL_EYE_POSITION = { 1, 8, 2 };
+const glm::vec3 INITIAL_EYE_POSITION = { 0.5f, 8, 2 };
 const glm::vec3 INITIAL_UP_DIRECTION = { 1, 0, 0 };
 
 const glm::vec4 BLACK_RGBA = { 0, 0, 0, 1 };
@@ -29,6 +29,8 @@ const std::string MUSIC_PATH = "res/audio/music/";
 const std::string MUSIC_EXTENSION = ".ogg";
 
 const glm::vec3 MOON_POSITION = { 4, -1, 0 };
+
+const glm::vec3 FLOOR_POSITION = { -8.f, 7.5f, 7.5f }; 
 
 const int PHYS_PRECISION = 5;
 const glm::vec3 GRAVITY = { -5, 0, 0 };
@@ -98,7 +100,7 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_camera(INITIAL_VIEW_DIRECTION, INITIAL_EYE_POSITION, INITIAL_UP_DIRECTION)
 	,m_player(m_camera, m_keyboardHandler)
 	,m_physWorld(GRAVITY)
-	,m_floor(m_physWorld, glm::vec3(32, 32, 32), glm::vec3(-16, -1, -1), 0.f)
+	,m_floor(m_physWorld, 8.f, FLOOR_POSITION, 0.f)
 	,m_moon(m_physWorld, 1.f, MOON_POSITION, 0.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_sphere(m_physWorld, 1.f, glm::vec3(100, 1, 1), 1.f, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_sphere1(m_physWorld, 5.f, glm::vec3(150, 0, 1), 1000000.f, SPHERE_PRECISION, SPHERE_PRECISION)
@@ -170,12 +172,16 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	});
 	DoWithTransform(m_moonContext, glm::translate(m_physWorld.GetPosition(m_sphere1.GetWorldIndex()))
 	                             * glm::scale(glm::vec3(5, 5, 5)),
-		[&] {
+	                               [&] {
 		m_sphere1.Draw(moonRenderer);
 	});
 
 	CRenderer3D grassRenderer(m_floorContext);
-	m_floor.Draw(grassRenderer);
+	DoWithTransform(m_floorContext, glm::translate(m_physWorld.GetPosition(m_floor.GetWorldIndex()))
+	                              * glm::scale(glm::vec3(32, 32, 32)),
+	                               [&] {
+		m_floor.Draw(grassRenderer);
+	});
 
 	m_labyrinth.Draw();
 }
