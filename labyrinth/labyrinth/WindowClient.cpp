@@ -244,16 +244,18 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 	{
 		if ((0 <= m_volume) && (m_volume < 100))
 		{
-			m_audioController.SetSoundVolume(++m_volume);
-			m_audioController.SetMusicVolume(++m_volume);
+			++m_volume;
+			m_audioController.SetSoundVolume(m_volume);
+			m_audioController.SetMusicVolume(m_volume);
 		}
 	}
 	if (event.keysym.sym == SDLK_DOWN)
 	{
 		if ((0 < m_volume) && (m_volume <= 100))
 		{
-			m_audioController.SetSoundVolume(--m_volume);
-			m_audioController.SetMusicVolume(--m_volume);
+			--m_volume;
+			m_audioController.SetSoundVolume(m_volume);
+			m_audioController.SetMusicVolume(m_volume);
 		}
 	}
 
