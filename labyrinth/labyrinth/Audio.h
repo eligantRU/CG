@@ -3,14 +3,8 @@
 #include <string>
 
 // TODO: move to *.cpp
-class IAudio
-{
-public:
-	virtual ~IAudio() = default;
-};
 
 class CSound
-	:public IAudio
 {
 public:
 	CSound() = delete;
@@ -30,12 +24,17 @@ public:
 		return m_source;
 	}
 
+	/// volume is in 0..100
+	void SetVolume(const unsigned volume) // TODO: need to validate volume
+	{
+		Mix_VolumeChunk(m_source, MIX_MAX_VOLUME * volume / 100);
+	}
+
 private:
 	Mix_Chunk * m_source = nullptr;
 };
 
 class CMusic
-	:public IAudio
 {
 public:
 	CMusic() = delete;

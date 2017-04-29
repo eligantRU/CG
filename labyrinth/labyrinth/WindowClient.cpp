@@ -163,7 +163,7 @@ CWindowClient::CWindowClient(CWindow & window)
 
 void CWindowClient::OnUpdateWindow(const float dt)
 {
-	if (m_audioController.IsPlayingMusic())
+	if (m_audioController.IsMusicPlaying())
 	{
 		std::rotate(m_trackList.begin(), m_trackList.begin() + 1, m_trackList.end());
 		m_audioController.PlayMusic(*m_trackList.front());
