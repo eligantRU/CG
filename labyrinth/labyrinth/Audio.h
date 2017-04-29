@@ -25,8 +25,12 @@ public:
 	}
 
 	/// volume is in 0..100
-	void SetVolume(const unsigned volume) // TODO: need to validate volume
+	void SetVolume(const unsigned volume) 
 	{
+		if (!((0 <= volume) && (volume <= 100)))
+		{
+			throw std::invalid_argument("Volume must be in 0..100");
+		}
 		Mix_VolumeChunk(m_source, MIX_MAX_VOLUME * volume / 100);
 	}
 

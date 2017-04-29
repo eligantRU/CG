@@ -83,8 +83,12 @@ std::string CAudioController::GetError() const
 }
 
 /// volume is in 0..100
-void CAudioController::SetSoundVolume(const unsigned volume) // TODO: need to validate volume
+void CAudioController::SetSoundVolume(const unsigned volume)
 {
+	if (!((0 <= volume) && (volume <= 100)))
+	{
+		throw std::invalid_argument("Volume must be in 0..100");
+	}
 	Mix_Volume(-1, MIX_MAX_VOLUME * volume / 100);
 }
 
@@ -99,7 +103,11 @@ void CAudioController::HookSoundsFinished(void(*callback)(int channel))
 }
 
 /// volume is in 0..100
-void CAudioController::SetMusicVolume(const unsigned volume) // TODO: need to validate volume
+void CAudioController::SetMusicVolume(const unsigned volume)
 {
+	if (!((0 <= volume) && (volume <= 100)))
+	{
+		throw std::invalid_argument("Volume must be in 0..100");
+	}
 	Mix_VolumeMusic(MIX_MAX_VOLUME * volume / 100);
 }
