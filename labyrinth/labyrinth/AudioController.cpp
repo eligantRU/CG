@@ -4,7 +4,10 @@
 
 CAudioController::CAudioController()
 {
-	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+	{
+		throw std::runtime_error(Mix_GetError());
+	}
 	Mix_Volume(-1, MIX_MAX_VOLUME);
 	Mix_AllocateChannels(16);
 }
@@ -16,12 +19,18 @@ CAudioController::~CAudioController()
 
 void CAudioController::PlaySound(const CSound & audio)
 {
-	Mix_PlayChannel(-1, audio.GetSource(), 0);
+	if (Mix_PlayChannel(-1, audio.GetSource(), 0) == -1)
+	{
+		throw std::runtime_error(Mix_GetError());
+	}
 }
 
 void CAudioController::PlayMusic(const CMusic & music)
 {
-	Mix_PlayMusic(music.GetSource(), 0);
+	if (Mix_PlayMusic(music.GetSource(), 0) == -1)
+	{
+		throw std::runtime_error(Mix_GetError());
+	}
 }
 
 void CAudioController::StopSound()

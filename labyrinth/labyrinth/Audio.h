@@ -11,7 +11,10 @@ public:
 	CSound(const std::string & path)
 		:m_source(Mix_LoadWAV(path.c_str()))
 	{
-
+		if (m_source == nullptr)
+		{
+			throw std::runtime_error(Mix_GetError());
+		}
 	}
 
 	~CSound()
@@ -34,6 +37,11 @@ public:
 		Mix_VolumeChunk(m_source, MIX_MAX_VOLUME * volume / 100);
 	}
 
+	unsigned GetVolume() const
+	{
+		return Mix_VolumeChunk(m_source, -1);
+	}
+
 private:
 	Mix_Chunk * m_source = nullptr;
 };
@@ -45,7 +53,10 @@ public:
 	CMusic(const std::string & path)
 		:m_source(Mix_LoadMUS(path.c_str()))
 	{
-
+		if (m_source == nullptr)
+		{
+			throw std::runtime_error(Mix_GetError());
+		}
 	}
 
 	~CMusic()
