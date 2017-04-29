@@ -106,8 +106,12 @@
       <AdditionalDependencies>lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\dll\$(Configuration)" $(TargetDir)
+xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rd /S /Q $(TargetDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -126,8 +130,12 @@
       <AdditionalDependencies>lib.lib;lib.libglew32.lib;glut32.lib;glut.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;SDL2_image.lib;SDL2_ttf.lib;GLU32.lib;OpenGL32.lib;lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\dll\$(Configuration)" $(TargetDir)
+xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rd /S /Q $(TargetDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -152,8 +160,12 @@
       <AdditionalDependencies>lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\dll\$(Configuration)" $(TargetDir)
+xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rd /S /Q $(TargetDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -178,8 +190,12 @@
       <AdditionalDependencies>lib.lib;lib.liblib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
+      <Command>xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\dll\$(Configuration)" $(TargetDir)
+xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rd /S /Q $(TargetDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
