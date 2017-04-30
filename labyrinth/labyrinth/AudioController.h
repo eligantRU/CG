@@ -26,6 +26,7 @@ public:
 	void ResumeMusic();
 	void RewindMusic();
 	void SetMusicVolume(const unsigned volume);
+	unsigned GetMusicVolume() const;
 	bool IsMusicPlaying() const;
 	bool IsMusicPaused() const;
 	void HookMusicFinished(void(*callback)());

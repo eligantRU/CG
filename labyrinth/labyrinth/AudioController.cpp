@@ -120,3 +120,8 @@ void CAudioController::SetMusicVolume(const unsigned volume)
 	}
 	Mix_VolumeMusic(MIX_MAX_VOLUME * volume / 100);
 }
+
+unsigned CAudioController::GetMusicVolume() const
+{
+	return Mix_VolumeMusic(-1);
+}
