@@ -1,5 +1,8 @@
 #version 130
 
+precision mediump float; 
+precision mediump int;
+
 in vec3 vertex;
 in vec3 normal;
 in vec2 textureUV;

@@ -1,5 +1,8 @@
 #version 130
 
+precision mediump float; 
+precision mediump int;
+
 struct LightSource
 {
 	vec4 position;
