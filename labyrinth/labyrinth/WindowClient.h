@@ -15,6 +15,7 @@
 #include "FloorProgramContext.h"
 #include "Rectangle.h"
 #include "PhysWorld.h"
+#include "MusicPlayer.h"
 
 class CWindowClient
 	:public CAbstractWindowClient
@@ -62,9 +63,8 @@ private:
 	CLabyrinth m_labyrinth;
 
 	CKeyboardController m_keyboardHandler;
-	CAudioController m_audioController;
+	CAudioController & m_audioController;
 
 	CSound m_audio;
-	std::vector<std::unique_ptr<CMusic>> m_trackList;
-	unsigned m_volume = 5;
+	CMusicPlayer m_musicPlayer;
 };

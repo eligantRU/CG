@@ -17,6 +17,12 @@ CAudioController::~CAudioController()
 	Mix_CloseAudio();
 }
 
+CAudioController & CAudioController::GetInstance()
+{
+	static CAudioController instance;
+	return instance;
+}
+
 void CAudioController::PlaySound(const CSound & audio)
 {
 	if (Mix_PlayChannel(-1, audio.GetSource(), 0) == -1)
@@ -70,12 +76,12 @@ void CAudioController::RewindMusic()
 
 bool CAudioController::IsMusicPlaying() const
 {
-	return ((Mix_PlayingMusic()) ? (false) : (true));
+	return ((Mix_PlayingMusic()) ? (true) : (false));
 }
 
 bool CAudioController::IsMusicPaused() const
 {
-	return ((Mix_PausedMusic()) ? (false) : (true));
+	return ((Mix_PausedMusic()) ? (true) : (false));
 }
 
 /// NOTE: never call SDL functions in callback

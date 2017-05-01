@@ -9,8 +9,11 @@
 class CAudioController
 {
 public:
-	CAudioController();
+	CAudioController(const CAudioController &) = delete;
+	CAudioController & operator=(const CAudioController &) = delete;
 	~CAudioController();
+
+	static CAudioController & GetInstance();
 
 	void PlaySound(const CSound & audio);
 	void StopSound();
@@ -32,5 +35,7 @@ public:
 	void HookMusicFinished(void(*callback)());
 
 private:
+	CAudioController();
+
 	std::string GetError() const;
 };

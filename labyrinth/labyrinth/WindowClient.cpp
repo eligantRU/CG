@@ -26,7 +26,6 @@ const auto MOVEMENT_SPEED = 0.03f;
 const auto INTESITY_STEP = 0.05f;
 
 const std::string MUSIC_PATH = "res/audio/music/";
-const std::string MUSIC_EXTENSION = ".ogg";
 
 const glm::vec3 MOON_POSITION = { 4, -1, 0 };
 const auto MOON_MASS = 0.f;
@@ -90,23 +89,6 @@ void DoWithTransform(IProgramContext & context, const glm::mat4 & mat, T && call
 	context.SetView(was);
 }
 
-std::vector<std::string> FindFilesByExtension(const std::string & root, const std::string & extension)
-{
-	std::vector<std::string> result;
-	// boost::filesystem::recursive_directory_iterator for recursive search
-	for (boost::filesystem::directory_iterator it(root), end; it != end; ++it)
-	{
-		if (it->path().extension() == extension)
-		{
-			std::ostringstream stream;
-			stream << *it;
-			auto path = stream.str();
-			result.push_back(path.substr(1, path.length() - 2));
-		}
-	}
-	return result;
-}
-
 template <class T, class TT>
 void UpdateAndDraw(T & object, const glm::vec3 & size, CPhysWorld & world, TT & context, CRenderer3D & renderer)
 {
@@ -133,7 +115,9 @@ CWindowClient::CWindowClient(CWindow & window)
 	,m_sphere(m_physWorld, SPHERE_RADIUS, SPHERE_POSITION, SPHERE_MASS, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_largeSphere(m_physWorld, LARGE_SPHERE_RADIUS, LARGE_SPHERE_POSITION, LARGE_SPHERE_MASS, SPHERE_PRECISION, SPHERE_PRECISION)
 	,m_labyrinth(m_physWorld)
+	,m_audioController(CAudioController::GetInstance())
 	,m_audio("res/audio/sound/push.wav")
+	,m_musicPlayer(MUSIC_PATH)
 {	
 	GetWindow().SetBackgroundColor(BLACK_RGBA);
 	CheckOpenGLVersion();
@@ -151,23 +135,12 @@ CWindowClient::CWindowClient(CWindow & window)
 
 	m_camera.SetRotationFlag(true);
 
-	const auto trackPaths = FindFilesByExtension(MUSIC_PATH, MUSIC_EXTENSION);
-	for (const auto & trackPath : trackPaths)
-	{
-		m_trackList.push_back(std::make_unique<CMusic>(trackPath));
-	}
-	m_audioController.PlayMusic(*m_trackList.front());
-	m_audioController.SetMusicVolume(m_volume);
-	m_audioController.SetSoundVolume(m_volume);
+	m_musicPlayer.Play();
 }
 
 void CWindowClient::OnUpdateWindow(const float dt)
 {
-	if (m_audioController.IsMusicPlaying())
-	{
-		std::rotate(m_trackList.begin(), m_trackList.begin() + 1, m_trackList.end());
-		m_audioController.PlayMusic(*m_trackList.front());
-	}
+	m_musicPlayer.Update(dt);
 
 	m_floor.Update(dt);
 	m_camera.Update(dt);
@@ -242,32 +215,20 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent & event)
 
 	if (event.keysym.sym == SDLK_UP)
 	{
-		if ((0 <= m_volume) && (m_volume < 100))
-		{
-			++m_volume;
-			m_audioController.SetSoundVolume(m_volume);
-			m_audioController.SetMusicVolume(m_volume);
-		}
+		m_musicPlayer.TurnUpVolume();
 	}
 	if (event.keysym.sym == SDLK_DOWN)
 	{
-		if ((0 < m_volume) && (m_volume <= 100))
-		{
-			--m_volume;
-			m_audioController.SetSoundVolume(m_volume);
-			m_audioController.SetMusicVolume(m_volume);
-		}
+		m_musicPlayer.TurnDownVolume();
 	}
 
 	if (event.keysym.sym == SDLK_LEFT)
 	{
-		std::rotate(m_trackList.rbegin(), m_trackList.rbegin() + 1, m_trackList.rend());
-		m_audioController.PlayMusic(*m_trackList.front());
+		m_musicPlayer.PlayPrevTrack();
 	}
 	if (event.keysym.sym == SDLK_RIGHT)
 	{
-		std::rotate(m_trackList.begin(), m_trackList.begin() + 1, m_trackList.end());
-		m_audioController.PlayMusic(*m_trackList.front());
+		m_musicPlayer.PlayNextTrack();
 	}
 
 	if (event.keysym.sym == SDLK_ESCAPE)

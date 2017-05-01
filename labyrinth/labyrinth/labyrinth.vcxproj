@@ -208,6 +208,7 @@ xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     <ClInclude Include="IRenderer3D.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="MeshP3NT2.h" />
+    <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="PhysWorld.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="MoonProgramContext.h" />
@@ -232,6 +233,7 @@ xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     <ClCompile Include="KeyboardController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshP3NT2.cpp" />
+    <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="PhysWorld.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="MoonProgramContext.cpp" />
