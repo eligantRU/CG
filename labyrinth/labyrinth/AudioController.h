@@ -2,7 +2,6 @@
 
 #include "Audio.h"
 
-// NOTE: more than a half of these methods were never called
 // NOTE: do not use mp3, use wav for sounds & ogg for musics
 // NOTE: only Latin in paths
 // NOTE: think about translation paths to UTF8
