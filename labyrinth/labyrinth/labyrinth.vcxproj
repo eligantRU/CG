@@ -223,6 +223,7 @@ xcopy /Y  /E /I "E:\!git\!CG\labyrinth\labyrinth\res" $(TargetDir)res</Command>
     <ClInclude Include="Labyrinth.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="BlockProgramContext.cpp" />
     <ClCompile Include="Camera.cpp" />
