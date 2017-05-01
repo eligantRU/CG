@@ -4,7 +4,6 @@
 
 // NOTE: do not use mp3, use wav for sounds & ogg for musics
 // NOTE: only Latin in paths
-// NOTE: think about translation paths to UTF8
 class CAudioController
 {
 public:
