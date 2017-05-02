@@ -70,10 +70,14 @@ void CIdentityCube::Triangulate()
 		const glm::vec3 normal = glm::normalize(glm::cross(coord2 - coord1, coord3 - coord1));
 
 		// TODO: fix these crutches
-		const SVertexP3NT2 v1 = { coord1, {0, 0}/*texRect.GetTopLeft()*/, normal };
-		const SVertexP3NT2 v2 = { coord2, {0, 1}/*texRect.GetTopRight()*/, normal };
-		const SVertexP3NT2 v3 = { coord3, {1, 1}/*texRect.GetBottomRight()*/, normal };
-		const SVertexP3NT2 v4 = { coord4, {1, 0}/*texRect.GetBottomLeft()*/, normal };
+		const SVertexP3NT2 v1 = { coord1, {0, 0}, normal };
+		const SVertexP3NT2 v2 = { coord2, {0, 1}, normal };
+		const SVertexP3NT2 v3 = { coord3, {1, 1}, normal };
+		const SVertexP3NT2 v4 = { coord4, {1, 0}, normal };
+		/*const SVertexP3NT2 v1 = { coord1, texRect.GetTopLeft(), normal };
+		const SVertexP3NT2 v2 = { coord2, texRect.GetTopRight(), normal };
+		const SVertexP3NT2 v3 = { coord3, texRect.GetBottomRight(), normal };
+		const SVertexP3NT2 v4 = { coord4, texRect.GetBottomLeft(), normal };*/
 
 		const uint32_t fromIndex = uint32_t(mesh.vertices.size());
 		mesh.vertices.push_back(v1);

@@ -7,8 +7,24 @@ namespace
 {
 
 const char COBBLESTONE_TEXTURE_ATLAS[] = "res/brick_block/brick_block.plist";
+const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
+	{ CubeFace::Front, "brick_block_front.png" },
+	{ CubeFace::Back, "brick_block_back.png" },
+	{ CubeFace::Top, "brick_block_top.png" },
+	{ CubeFace::Bottom, "brick_block_bottom.png" },
+	{ CubeFace::Left, "brick_block_left.png" },
+	{ CubeFace::Right, "brick_block_right.png" }
+};
 
 const char COBBLESTONE_NORMAL_ATLAS[] = "res/brick_block/brick_normal.plist";
+const std::pair<CubeFace, const char *> COBBLESTONE_NORMAL_MAPPING[] = {
+	{ CubeFace::Front, "brick_normal_front.png" },
+	{ CubeFace::Back, "brick_normal_back.png" },
+	{ CubeFace::Top, "brick_normal_top.png" },
+	{ CubeFace::Bottom, "brick_normal_bottom.png" },
+	{ CubeFace::Left, "brick_normal_left.png" },
+	{ CubeFace::Right, "brick_normal_right.png" }
+};
 
 CTexture2DLoader MakeTextureLoader()
 {
