@@ -275,26 +275,34 @@ void CWindowClient::SetupView(const glm::ivec2 & size)
 
 void CWindowClient::DispatchKeyboardEvent()
 {
-	auto k = 1.f;
+	auto speedFactor = 1.f;
 	if (m_keyboardHandler.IsKeyPressed(SDLK_LSHIFT))
 	{
-		k *= 2;
+		speedFactor *= 2;
 	}
+
+	glm::vec2 velocity = { 0, 0 };
 	if (m_keyboardHandler.IsKeyPressed(SDLK_w))
 	{
-		m_camera.MoveFrontal(k * MOVEMENT_SPEED);
+		velocity.x += MOVEMENT_SPEED;
 	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_s))
 	{
-		m_camera.MoveFrontal(-k * MOVEMENT_SPEED);
+		velocity.x -= MOVEMENT_SPEED;
 	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_a))
 	{
-		m_camera.MoveHorizontal(k * MOVEMENT_SPEED);
+		velocity.y += MOVEMENT_SPEED;
 	}
 	if (m_keyboardHandler.IsKeyPressed(SDLK_d))
 	{
-		m_camera.MoveHorizontal(-k * MOVEMENT_SPEED);
+		velocity.y -= MOVEMENT_SPEED;
+	}
+	if (glm::length(velocity) > 0.f)
+	{
+		velocity = glm::normalize(velocity);
+		m_camera.MoveFrontal(speedFactor * MOVEMENT_SPEED * velocity.x);
+		m_camera.MoveHorizontal(speedFactor * MOVEMENT_SPEED * velocity.y);
 	}
 }
 
