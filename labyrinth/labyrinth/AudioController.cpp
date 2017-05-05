@@ -2,14 +2,24 @@
 
 #include "AudioController.h"
 
+namespace
+{
+
+const unsigned DEFAULT_FREQUENCY = 44100;
+const unsigned DEFAULT_CHANNELS_COUNT = 2;
+const unsigned DEFAULT_CHUNK_SIZE = 4096;
+const unsigned DEFAULT_ALLOCATED_CHANNELS_COUNT = 32;
+
+}
+
 CAudioController::CAudioController()
 {
-	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+	if (Mix_OpenAudio(DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, DEFAULT_CHANNELS_COUNT, DEFAULT_CHUNK_SIZE) == -1)
 	{
 		throw std::runtime_error(Mix_GetError());
 	}
 	Mix_Volume(-1, MIX_MAX_VOLUME);
-	Mix_AllocateChannels(16);
+	Mix_AllocateChannels(DEFAULT_ALLOCATED_CHANNELS_COUNT);
 }
 
 CAudioController::~CAudioController()
