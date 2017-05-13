@@ -96,7 +96,7 @@ void CLabyrinth::Draw() const
 		{
 			if (block != nullptr)
 			{
-				UpdateAndDraw(block, 2.f * BLOCK_SIZE, m_world, m_blockContext, renderer);
+				UpdateAndDraw(block, BLOCK_SIZE, m_world, m_blockContext, renderer);
 			}
 		}
 	}

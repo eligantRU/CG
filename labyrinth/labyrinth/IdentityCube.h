@@ -33,5 +33,4 @@ private:
 	CMeshP3NT2 m_mesh;
 	std::array<CFloatRect, FACES_COUNT> m_textureRects;
 	bool m_isDirty = true;
-	std::array<glm::vec3, 8> m_verticies;
 };

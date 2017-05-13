@@ -172,7 +172,7 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	UpdateAndDraw(m_largeSphere, LARGE_SPHERE_SIZE, m_physWorld , m_moonContext, moonRenderer);
 
 	CRenderer3D grassRenderer(m_floorContext);
-	UpdateAndDraw(m_floor, 2.f * FLOOR_SIZE, m_physWorld, m_floorContext, grassRenderer);
+	UpdateAndDraw(m_floor, FLOOR_SIZE, m_physWorld, m_floorContext, grassRenderer);
 
 	m_labyrinth.Draw();
 }

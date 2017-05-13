@@ -5,8 +5,6 @@
 namespace
 {
 
-const auto CUBE_SIZE = 0.5f;
-
 struct SCubeFace
 {
 	uint16_t vertexIndex1;
@@ -14,6 +12,17 @@ struct SCubeFace
 	uint16_t vertexIndex3;
 	uint16_t vertexIndex4;
 	uint16_t faceIndex;
+};
+
+const glm::vec3 CUBE_VERTICIES[] = {
+	{ -0.5f, +0.5f, -0.5f },
+	{ +0.5f, +0.5f, -0.5f },
+	{ +0.5f, -0.5f, -0.5f },
+	{ -0.5f, -0.5f, -0.5f },
+	{ -0.5f, +0.5f, +0.5f },
+	{ +0.5f, +0.5f, +0.5f },
+	{ +0.5f, -0.5f, +0.5f },
+	{ -0.5f, -0.5f, +0.5f }
 };
 
 const SCubeFace CUBE_FACES[] = {
@@ -30,16 +39,7 @@ const SCubeFace CUBE_FACES[] = {
 CIdentityCube::CIdentityCube()
 	:m_mesh(MeshType::Triangles)
 {
-	m_verticies = {
-		glm::vec3(-CUBE_SIZE / 2, +CUBE_SIZE / 2, -CUBE_SIZE / 2),
-		glm::vec3(+CUBE_SIZE / 2, +CUBE_SIZE / 2, -CUBE_SIZE / 2),
-		glm::vec3(+CUBE_SIZE / 2, -CUBE_SIZE / 2, -CUBE_SIZE / 2),
-		glm::vec3(-CUBE_SIZE / 2, -CUBE_SIZE / 2, -CUBE_SIZE / 2),
-		glm::vec3(-CUBE_SIZE / 2, +CUBE_SIZE / 2, +CUBE_SIZE / 2),
-		glm::vec3(+CUBE_SIZE / 2, +CUBE_SIZE / 2, +CUBE_SIZE / 2),
-		glm::vec3(+CUBE_SIZE / 2, -CUBE_SIZE / 2, +CUBE_SIZE / 2),
-		glm::vec3(-CUBE_SIZE / 2, -CUBE_SIZE / 2, +CUBE_SIZE / 2)
-	};
+
 }
 
 void CIdentityCube::Update(const float dt)
@@ -63,10 +63,10 @@ void CIdentityCube::Triangulate()
 	for (const SCubeFace & face : CUBE_FACES)
 	{
 		const CFloatRect texRect = m_textureRects[face.faceIndex];
-		const glm::vec3 & coord1 = m_verticies[face.vertexIndex1];
-		const glm::vec3 & coord2 = m_verticies[face.vertexIndex2];
-		const glm::vec3 & coord3 = m_verticies[face.vertexIndex3];
-		const glm::vec3 & coord4 = m_verticies[face.vertexIndex4];
+		const glm::vec3 & coord1 = CUBE_VERTICIES[face.vertexIndex1];
+		const glm::vec3 & coord2 = CUBE_VERTICIES[face.vertexIndex2];
+		const glm::vec3 & coord3 = CUBE_VERTICIES[face.vertexIndex3];
+		const glm::vec3 & coord4 = CUBE_VERTICIES[face.vertexIndex4];
 		const glm::vec3 normal = glm::normalize(glm::cross(coord2 - coord1, coord3 - coord1));
 
 		// TODO: fix these crutches
