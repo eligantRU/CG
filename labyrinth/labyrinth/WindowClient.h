@@ -58,6 +58,7 @@ private:
 	CMoonProgramContext m_moonContext;
 
 	CCubeEntity m_floor;
+	CRectangle m_floorView;
 	CFloorProgramContext m_floorContext;
 
 	CLabyrinth m_labyrinth;

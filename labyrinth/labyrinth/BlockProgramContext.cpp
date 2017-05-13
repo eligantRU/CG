@@ -73,3 +73,8 @@ void CBlockProgramContext::Use()
 	m_program.FindUniform("light0.diffuse") = m_light0.diffuse;
 	m_program.FindUniform("light0.specular") = m_light0.specular;
 }
+
+const CTexture2DAtlas & CBlockProgramContext::GetAtlas() const
+{
+	return m_atlas;
+}

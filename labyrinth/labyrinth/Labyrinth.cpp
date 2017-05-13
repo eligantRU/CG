@@ -6,6 +6,17 @@
 namespace
 {
 
+// TODO: why it is not in BlockProgramContext only?
+const char COBBLESTONE_TEXTURE_ATLAS[] = "res/brick_block/brick_block.plist";
+const std::pair<CubeFace, const char *> COBBLESTONE_FRAME_MAPPING[] = {
+	{ CubeFace::Front, "brick_block_front.png" },
+	{ CubeFace::Back, "brick_block_back.png" },
+	{ CubeFace::Top, "brick_block_top.png" },
+	{ CubeFace::Bottom, "brick_block_bottom.png" },
+	{ CubeFace::Left, "brick_block_left.png" },
+	{ CubeFace::Right, "brick_block_right.png" }
+};
+
 const auto BLOCK_SIDE = 1.f;
 const glm::vec3 BLOCK_SIZE = { BLOCK_SIDE, BLOCK_SIDE, BLOCK_SIDE };
 
@@ -57,6 +68,7 @@ void UpdateAndDraw(T & object, const glm::vec3 & size, CPhysWorld & world, TT & 
 CLabyrinth::CLabyrinth(CPhysWorld & world)
 	:m_world(world)
 {
+	const auto & atlas = m_blockContext.GetAtlas();
 	for (unsigned i = 0; i < m_labyrinth.size(); ++i)
 	{
 		for (unsigned j = 0; j < m_labyrinth[i].size(); ++j)
@@ -67,7 +79,14 @@ CLabyrinth::CLabyrinth(CPhysWorld & world)
 				float z = j * BLOCK_SIDE;
 				float x = 0.f;
 
-				m_labyrinth[i][j] = std::make_unique<CCubeEntity>(m_world, 0.5f * BLOCK_SIDE, glm::vec3(x, y, z), BLOCK_MASS);
+				auto block = std::make_unique<CCubeEntity>(m_world, 0.5f * BLOCK_SIDE, glm::vec3(x, y, z), BLOCK_MASS);
+				for (const auto & pair : COBBLESTONE_FRAME_MAPPING)
+				{
+					CFloatRect texRect = atlas.GetFrameRect(pair.second);
+					block->SetFaceTextureRect(pair.first, texRect);
+				}
+
+				m_labyrinth[i][j] = std::move(block);
 			}
 		}
 	}

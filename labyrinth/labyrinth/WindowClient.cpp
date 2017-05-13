@@ -142,7 +142,7 @@ void CWindowClient::OnUpdateWindow(const float dt)
 {
 	m_musicPlayer.Update(dt);
 
-	m_floor.Update(dt);
+	m_floorView.Update(dt);
 	m_camera.Update(dt);
 	m_skysphere.Update(dt);
 	m_labyrinth.Update(dt);
@@ -172,7 +172,12 @@ void CWindowClient::OnUpdateWindow(const float dt)
 	UpdateAndDraw(m_largeSphere, LARGE_SPHERE_SIZE, m_physWorld , m_moonContext, moonRenderer);
 
 	CRenderer3D grassRenderer(m_floorContext);
-	UpdateAndDraw(m_floor, FLOOR_SIZE, m_physWorld, m_floorContext, grassRenderer);
+	DoWithTransform(m_floorContext, glm::translate(glm::vec3(FLOOR_POSITION.x + 0.5f * FLOOR_SIZE.x, FLOOR_POSITION.y, FLOOR_POSITION.z))
+	                              * glm::rotate(glm::radians(90.f), glm::vec3(0, 1, 0))
+	                              * glm::scale(0.5f * FLOOR_SIZE),
+	                                [&] {
+		m_floorView.Draw(grassRenderer);
+	});
 
 	m_labyrinth.Draw();
 }
