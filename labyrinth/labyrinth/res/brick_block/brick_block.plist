@@ -4,16 +4,16 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>brick_block_right.jpg</key>
+			<key>brick_block_back.png</key>
 			<dict>
 				<key>width</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>height</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalWidth</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalHeight</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
@@ -22,101 +22,113 @@
 				<real>0</real>
 				<key>offsetY</key>
 				<real>0</real>
+				<key>rotated</key>
+				<false/>
 			</dict>
-			<key>brick_block_left.jpg</key>
+			<key>brick_block_bottom.png</key>
 			<dict>
 				<key>width</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>height</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalWidth</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalHeight</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>x</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
 				<real>0</real>
+				<key>rotated</key>
+				<false/>
 			</dict>
-			<key>brick_block_top.jpg</key>
+			<key>brick_block_front.png</key>
 			<dict>
 				<key>width</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>height</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalWidth</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalHeight</key>
-				<integer>256</integer>
-				<key>x</key>
-				<integer>256</integer>
-				<key>y</key>
-				<integer>0</integer>
-				<key>offsetX</key>
-				<real>0</real>
-				<key>offsetY</key>
-				<real>0</real>
-			</dict>
-			<key>brick_block_front.jpg</key>
-			<dict>
-				<key>width</key>
-				<integer>256</integer>
-				<key>height</key>
-				<integer>256</integer>
-				<key>originalWidth</key>
-				<integer>256</integer>
-				<key>originalHeight</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
 				<real>0</real>
+				<key>rotated</key>
+				<false/>
 			</dict>
-			<key>brick_block_back.jpg</key>
+			<key>brick_block_left.png</key>
 			<dict>
 				<key>width</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>height</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalWidth</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalHeight</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>x</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>y</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
 				<real>0</real>
+				<key>rotated</key>
+				<false/>
 			</dict>
-			<key>brick_block_bottom.jpg</key>
+			<key>brick_block_right.png</key>
 			<dict>
 				<key>width</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>height</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalWidth</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>originalHeight</key>
-				<integer>256</integer>
+				<integer>1024</integer>
 				<key>x</key>
-				<integer>256</integer>
+				<integer>0</integer>
 				<key>y</key>
-				<integer>256</integer>
+				<integer>2048</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
 				<real>0</real>
+				<key>rotated</key>
+				<false/>
+			</dict>
+			<key>brick_block_top.png</key>
+			<dict>
+				<key>width</key>
+				<integer>1024</integer>
+				<key>height</key>
+				<integer>1024</integer>
+				<key>originalWidth</key>
+				<integer>1024</integer>
+				<key>originalHeight</key>
+				<integer>1024</integer>
+				<key>x</key>
+				<integer>1024</integer>
+				<key>y</key>
+				<integer>2048</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+				<key>rotated</key>
+				<false/>
 			</dict>
 		</dict>
 		<key>metadata</key>
@@ -124,18 +136,18 @@
 			<key>format</key>
 			<integer>0</integer>
 			<key>textureFileName</key>
-            <string>brick_block.jpg</string>
+			<string>brick_block.png</string>
 			<key>realTextureFileName</key>
-            <string>brick_block.jpg</string>
+			<string>brick_block.png</string>
 			<key>size</key>
-			<string>{512,512}</string>
+			<string>{2048,3072}</string>
 		</dict>
 		<key>texture</key>
 		<dict>
 			<key>width</key>
-			<integer>512</integer>
+			<integer>2048</integer>
 			<key>height</key>
-			<integer>512</integer>
+			<integer>3072</integer>
 		</dict>
 	</dict>
 </plist>

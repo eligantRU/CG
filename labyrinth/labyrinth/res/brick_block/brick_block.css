@@ -1,0 +1,36 @@
+.brick_block_right
+{
+    width: 1024px;
+    height: 1024px;
+    background: url('brick_block.png') 0 0;
+}
+.brick_block_left
+{
+    width: 1024px;
+    height: 1024px;
+    background: url('brick_block.png') 1024px 0;
+}
+.brick_block_top
+{
+    width: 1024px;
+    height: 1024px;
+    background: url('brick_block.png') 0 1024px;
+}
+.brick_block_front
+{
+    width: 1024px;
+    height: 1024px;
+    background: url('brick_block.png') 1024px 1024px;
+}
+.brick_block_back
+{
+    width: 1024px;
+    height: 1024px;
+    background: url('brick_block.png') 0 2048px;
+}
+.brick_block_bottom
+{
+    width: 1024px;
+    height: 1024px;
+    background: url('brick_block.png') 1024px 2048px;
+}
